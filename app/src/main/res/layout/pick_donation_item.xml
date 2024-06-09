@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp"
+    android:background="?attr/selectableItemBackground">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/TXT_PCK_Donator_Name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Donator Name"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/TXT_PCK_Donator_Location" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/TXT_PCK_Donator_Location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Donator Location"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/TXT_PCK_Donator_Name"
+            app:layout_constraintBottom_toTopOf="@+id/TXT_PCK_Food_Items" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/TXT_PCK_Food_Items"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            tools:text="items\nsdf\nfsdf\nsfsdfs\nsfsdf"
+            app:layout_constraintWidth_percent="0.4"
+            android:paddingStart="8dp"
+            android:lines="3"
+            android:scrollbars="vertical"
+            android:scrollbarStyle="insideInset"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/TXT_PCK_Donator_Location"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/TXT_PCK_Date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="Date"
+            app:layout_constraintBottom_toTopOf="@+id/TXT_PCK_Time"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/TXT_PCK_Time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="Time"
+            app:layout_constraintBottom_toTopOf="@+id/BTN_PCK_Start"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/BTN_PCK_Start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="12dp"
+            app:icon="@drawable/ic_donation_box"
+            android:text="Pick"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>
