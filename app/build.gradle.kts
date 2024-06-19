@@ -43,6 +43,7 @@ dependencies {
     implementation(libs.navigation.ui)
     implementation("com.github.huynn109:increase_decrease_button:1.0.1")
     implementation("com.cepheuen.elegant-number-button:lib:1.0.2")
+    implementation(libs.legacy.support.v4)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
@@ -52,5 +53,11 @@ dependencies {
     implementation(libs.spring.android.rest.template)
     //Gson
     implementation(libs.gson)
+    //Retrofit
+    implementation(libs.retrofit)
+    //converter-gson
+    implementation(libs.converter.gson)
+    //OkHttp
+    implementation(libs.okhttp)
 
 }

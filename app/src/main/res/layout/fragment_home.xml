@@ -5,14 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.home.HomeFragment">
-    <RelativeLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+
 
         <TextView
             android:id="@+id/TXT_Ongoing_Order"
@@ -28,64 +21,7 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Orders" />
 
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/switch1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:text="Notification"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.search.SearchBar
-            android:id="@+id/V_Search"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/switch1"
-            android:layout_marginTop="16dp"
-            />
-
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/GRP_filter"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/V_Search"
-            android:layout_marginHorizontal="16dp"
-            app:singleLine="true">
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip_pending"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toStartOf="@id/chip_ongoing"
-                android:text="Pending"
-                app:chipStrokeColor="@color/status_pending" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip_ongoing"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginHorizontal="32dp"
-                android:text="Ongoing"
-                app:chipStrokeColor="@color/status_ongoing" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip_finished"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/chip_ongoing"
-                android:text="Finished"
-                app:chipStrokeColor="@color/status_finished" />
-            </RelativeLayout>
-
-        </com.google.android.material.chip.ChipGroup>
-
-    </RelativeLayout>
     <TextView
         android:id="@+id/text_home"
         android:layout_width="match_parent"
@@ -101,13 +37,21 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_margin="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/text_home"
         app:layout_constraintStart_toStartOf="@+id/text_home"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintTop_toBottomOf="@+id/V_Search"
         tools:listitem="@layout/pick_donation_item" />
+
+    <com.google.android.material.search.SearchBar
+        android:id="@+id/V_Search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/TXT_Ongoing_Order"
+        tools:layout_editor_absoluteX="8dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

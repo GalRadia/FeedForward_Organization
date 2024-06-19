@@ -7,11 +7,10 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.feedforward_association.callbacks.OngoingDonationCallback;
+import com.example.feedforward_association.interfaces.OngoingDonationCallback;
 import com.example.feedforward_association.databinding.OngoingItemBinding;
 import com.example.feedforward_association.models.Order;
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.textview.MaterialTextView;
 
 import java.util.ArrayList;

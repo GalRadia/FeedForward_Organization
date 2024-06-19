@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.feedforward_association.callbacks.PickDonationCallback;
+import com.example.feedforward_association.interfaces.PickDonationCallback;
 import com.example.feedforward_association.databinding.PickDonationItemBinding;
 import com.example.feedforward_association.models.Order;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;

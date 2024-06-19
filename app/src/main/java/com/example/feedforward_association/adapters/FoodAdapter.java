@@ -8,11 +8,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
-import com.example.feedforward_association.callbacks.FoodCallback;
+import com.example.feedforward_association.interfaces.FoodCallback;
 import com.example.feedforward_association.databinding.FoodItemBinding;
 import com.example.feedforward_association.models.Food;
 import com.google.android.material.textview.MaterialTextView;
-import com.huynn109.IncreaseDecreaseButton;
 
 import java.util.ArrayList;
 import java.util.List;
