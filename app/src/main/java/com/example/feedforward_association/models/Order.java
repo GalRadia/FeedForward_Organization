@@ -1,9 +1,17 @@
 package com.example.feedforward_association.models;
 
+import com.example.feedforward_association.models.server.object.CreatedBy;
+import com.example.feedforward_association.models.server.object.Location;
+import com.example.feedforward_association.models.server.object.ObjectBoundary;
+
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
-public class Order {
+import retrofit2.Converter;
+
+public class Order implements Converter<Order, ObjectBoundary> {
     String orderID;
     String donatorName;
     String donatorLocation;
@@ -23,6 +31,17 @@ public class Order {
         this.orderTime = orderTime;
         this.foods = foods;
         this.orderStatus = orderStatus;
+    }
+
+    public Order(ObjectBoundary objectBoundary) {
+        Order temp = (Order) objectBoundary.getObjectDetails().get("order");
+        this.orderID = temp.getOrderID();
+        this.donatorName = temp.getDonatorName();
+        this.donatorLocation = temp.getDonatorLocation();
+        this.orderDate = temp.getOrderDate();
+        this.orderTime = temp.getOrderTime();
+        this.foods = temp.getFoods();
+        this.orderStatus = temp.getOrderStatus();
     }
 
     public String getOrderID() {
@@ -94,5 +113,18 @@ public class Order {
                 ", foods=" + foods +
                 ", orderStatus=" + orderStatus +
                 '}';
+    }
+
+    @Override
+    public ObjectBoundary convert(Order order) throws IOException {
+        ObjectBoundary objectBoundary = new ObjectBoundary();
+        objectBoundary.setType("Order");
+        objectBoundary.setAlias(order.getOrderID());
+        objectBoundary.setCreatedBy(new CreatedBy("2024b.gal.said", "ziv@gmail.com"));
+        objectBoundary.setLocation(new Location(100.0, 100.0));//TODO: get location from device
+        objectBoundary.setActive(true);
+        Map<String, Object> orderMap = Map.of("order", order);
+        objectBoundary.setObjectDetails(orderMap);
+        return objectBoundary;
     }
 }
