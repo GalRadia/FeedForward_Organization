@@ -2,6 +2,11 @@ package com.example.feedforward_association;
 
 import android.os.Bundle;
 
+import com.example.feedforward_association.interfaces.ApiCallback;
+import com.example.feedforward_association.models.Food;
+import com.example.feedforward_association.models.Order;
+import com.example.feedforward_association.models.OrderStatus;
+import com.example.feedforward_association.utils.DatabaseRepository;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,6 +16,10 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.feedforward_association.databinding.ActivityMainBinding;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,7 +32,8 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        BottomNavigationView navView = findViewById(R.id.nav_view);
+        BottomNavigationView navView = binding.navView;
+
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
@@ -31,8 +41,26 @@ public class MainActivity extends AppCompatActivity {
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-        NavigationUI.setupWithNavController(binding.navView, navController);
+        NavigationUI.setupWithNavController(navView, navController);
+        List<Food> foods = new ArrayList<>();
+        foods.add(new Food("apple","yammy",10));
+        Order o = new Order("DOCNATOR","132,123","12313 ","999",foods, OrderStatus.PENDING);
+        DatabaseRepository databaseRepository = new DatabaseRepository();
+        try {
+            databaseRepository.createOrder(o, new ApiCallback<Order>() {
+                @Override
+                public void onSuccess(Order order) {
+                    System.out.println("order created");
+                }
 
+                @Override
+                public void onError(String error) {
+                    System.out.println("order not created");
+                }
+            });
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
 
     }

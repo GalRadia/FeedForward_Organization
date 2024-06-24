@@ -5,6 +5,7 @@ import com.example.feedforward_association.models.server.object.Location;
 import com.example.feedforward_association.models.server.object.ObjectBoundary;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -42,6 +43,14 @@ public class Order implements Converter<Order, ObjectBoundary> {
         this.orderTime = temp.getOrderTime();
         this.foods = temp.getFoods();
         this.orderStatus = temp.getOrderStatus();
+    }
+
+    public static List<Order> convertObjectBoundaryList(List<ObjectBoundary> objectBoundaryList) {
+        List<Order> orders = new ArrayList<>();
+        for (ObjectBoundary objectBoundary : objectBoundaryList) {
+            orders.add(new Order(objectBoundary));
+        }
+        return orders;
     }
 
     public String getOrderID() {

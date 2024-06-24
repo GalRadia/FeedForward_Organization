@@ -45,12 +45,9 @@ public class PickDonationAdapter extends RecyclerView.Adapter<PickDonationAdapte
         holder.donatorName.setText(order.getDonatorName());
         holder.donatorLocation.setText(order.getDonatorLocation());
         holder.foodItems.setText(order.getFoods().toString()); //TODO: Implement a way to show the food items
-        holder.donatorButton.setOnClickListener(v -> {
-            if (pickDonationCallback != null) {
-                //TODO: Implement the callback
-            }
-
-        });
+        if (pickDonationCallback != null) {
+            holder.donatorButton.setOnClickListener(v -> pickDonationCallback.onDonationPicked(order));
+        }
     }
 
     @Override
@@ -65,6 +62,15 @@ public class PickDonationAdapter extends RecyclerView.Adapter<PickDonationAdapte
         this.donations = new ArrayList<>();
         this.donations.addAll(donations);
         notifyDataSetChanged();
+    }
+    public void filterDonations(String query){
+        List<Order> filteredDonations = new ArrayList<>();
+        for (Order order : donations) {
+            if (order.getDonatorName().toLowerCase().contains(query.toLowerCase())) {
+                filteredDonations.add(order);
+            }
+        }
+        setDonations(filteredDonations);
     }
 
     public class PickDonationViewHolder extends RecyclerView.ViewHolder {

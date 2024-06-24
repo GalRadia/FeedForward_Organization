@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.feedforward_association.databinding.FragmentHistoryBinding;
-import com.example.feedforward_association.databinding.FragmentNotificationsBinding;
 
 public class HistoryFragment extends Fragment {
 

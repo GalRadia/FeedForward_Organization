@@ -9,12 +9,20 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface ApiService {
 
+
     @POST("superapp/objects")
     Call<ObjectBoundary> createObject(@Body ObjectBoundary boundary);
-    @GET("superapp/objects")
-    Call<List<ObjectBoundary>> getAllObjects(@Query("userSuperApp") String userSuperApp, @Query("userEmail") String userEmail);
+    @GET("/superapp/objects/search/byType/{type}")
+    Call<List<ObjectBoundary>> getAllObjcts(
+            @Path("type") String type,
+            @Query("userSuperApp ") String userSuperApp,
+            @Query("userEmail ") String userEmail,
+            @Query("size") int size,
+            @Query("page") int page
+    );
 }

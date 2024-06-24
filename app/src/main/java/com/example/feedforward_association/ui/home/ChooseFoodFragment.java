@@ -7,16 +7,22 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.feedforward_association.R;
+import com.example.feedforward_association.databinding.FragmentChooseFoodBinding;
+import com.google.android.material.button.MaterialButton;
 
 public class ChooseFoodFragment extends Fragment {
 
     private ChooseFoodViewModel mViewModel;
+    private RecyclerView recyclerView;
+    private MaterialButton finishButton;
+    private FragmentChooseFoodBinding binding;
 
     public static ChooseFoodFragment newInstance() {
         return new ChooseFoodFragment();
@@ -33,6 +39,14 @@ public class ChooseFoodFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(ChooseFoodViewModel.class);
         // TODO: Use the ViewModel
+    }
+    private void findViews(){
+        recyclerView = binding.RCVChooseFood;
+        finishButton = binding.BTNFinish;
+        initViews();
+    }
+    private void initViews(){
+
     }
 
 }

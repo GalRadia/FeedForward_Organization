@@ -1,6 +1,6 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="Theme.FeedForward_Association" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Theme.FeedForward_Association" parent="Theme.Material3.DynamicColors.DayNight">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_500</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>

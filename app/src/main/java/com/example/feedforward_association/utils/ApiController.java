@@ -42,28 +42,28 @@ public class ApiController {
             }
         });
     }
-    public void getAllObjects(String userSuperApp, String userEmail, final ApiCallback<List<ObjectBoundary>> callback) {
-        Call<List<ObjectBoundary>> call = apiService.getAllObjects(userSuperApp, userEmail);
-          call.enqueue(new Callback<List<ObjectBoundary>>() {
-                @Override
-                public void onResponse(Call<List<ObjectBoundary>> call, Response<List<ObjectBoundary>> response) {
-                 if (response.isSuccessful()) {
-                      callback.onSuccess(response.body());
-                 } else {
-                      Log.e("ApiRepository", "Error response code: " + response.code());
-                      Log.e("ApiRepository", "Error response message: " + response.message());
-                      Log.e("ApiRepository", "Error response body: " + response.errorBody());
-                      callback.onError("Error: " + response.code());
-                 }
-                }
-
-                @Override
-                public void onFailure(Call<List<ObjectBoundary>> call, Throwable t) {
-                 Log.e("ApiRepository", "Failure message: " + t.getMessage(), t);
-                 callback.onError("Failure: " + t.getMessage());
-                }
-          });
-    }
+//    public void getAllObjects(String userSuperApp, String userEmail, final ApiCallback<List<ObjectBoundary>> callback) {
+//        Call<List<ObjectBoundary>> call = apiService.getAllOrders();
+//          call.enqueue(new Callback<List<ObjectBoundary>>() {
+//                @Override
+//                public void onResponse(Call<List<ObjectBoundary>> call, Response<List<ObjectBoundary>> response) {
+//                 if (response.isSuccessful()) {
+//                      callback.onSuccess(response.body());
+//                 } else {
+//                      Log.e("ApiRepository", "Error response code: " + response.code());
+//                      Log.e("ApiRepository", "Error response message: " + response.message());
+//                      Log.e("ApiRepository", "Error response body: " + response.errorBody());
+//                      callback.onError("Error: " + response.code());
+//                 }
+//                }
+//
+//                @Override
+//                public void onFailure(Call<List<ObjectBoundary>> call, Throwable t) {
+//                 Log.e("ApiRepository", "Failure message: " + t.getMessage(), t);
+//                 callback.onError("Failure: " + t.getMessage());
+//                }
+//          });
+//    }
 
 
 

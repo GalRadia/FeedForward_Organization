@@ -59,6 +59,7 @@
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_pending"
+                style="@style/Widget.Material3.Chip.Filter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toStartOf="@id/chip_ongoing"
@@ -67,6 +68,7 @@
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_ongoing"
+                style="@style/Widget.Material3.Chip.Filter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
@@ -76,6 +78,7 @@
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_finished"
+                style="@style/Widget.Material3.Chip.Filter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@id/chip_ongoing"

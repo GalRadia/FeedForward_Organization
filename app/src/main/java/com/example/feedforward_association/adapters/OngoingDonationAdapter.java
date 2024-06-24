@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.feedforward_association.interfaces.OngoingDonationCallback;
 import com.example.feedforward_association.databinding.OngoingItemBinding;
 import com.example.feedforward_association.models.Order;
+import com.example.feedforward_association.models.OrderStatus;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
 
@@ -52,7 +53,31 @@ public class OngoingDonationAdapter extends RecyclerView.Adapter<OngoingDonation
         holder.donationDate.setText(order.getOrderDate());
         holder.donationTime.setText(order.getOrderTime());
     }
-
+    public void setDonations(List<Order> donations) {
+        this.donations = donations;
+        notifyDataSetChanged();
+    }
+    public List<Order> getDonations() {
+        return donations;
+    }
+    public void filterDonationsByDonatorName(String query){
+        List<Order> filteredDonations = new ArrayList<>();
+        for (Order order : donations) {
+            if (order.getDonatorName().toLowerCase().contains(query.toLowerCase())) {
+                filteredDonations.add(order);
+            }
+        }
+        setDonations(filteredDonations);
+    }
+    public void filererDonationByStatus(OrderStatus status){
+        List<Order> filteredDonations = new ArrayList<>();
+        for (Order order : donations) {
+            if (order.getOrderStatus() == status) {
+                filteredDonations.add(order);
+            }
+        }
+        setDonations(filteredDonations);
+    }
     @Override
     public int getItemCount() {
         if (donations != null) {

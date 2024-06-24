@@ -1,5 +1,6 @@
 package com.example.feedforward_association.models;
 
+import java.util.OptionalInt;
 import java.util.UUID;
 
 public class Food {
@@ -7,6 +8,7 @@ public class Food {
     private String name;
     private String description;
     private int quantity;
+    private OptionalInt currentQuantity;
 
     public Food(){
 
@@ -17,6 +19,7 @@ public class Food {
         this.name = name;
         this.description = description;
         this.quantity = quantity;
+        this.currentQuantity = OptionalInt.empty();
     }
     public String getId() {
         return id;
@@ -48,6 +51,14 @@ public class Food {
         this.quantity = quantity;
         return this;
     }
+    public OptionalInt getCurrentQuantity() {
+        return currentQuantity;
+    }
+    public Food setCurrentQuantity(int currentQuantity) {
+        this.currentQuantity = OptionalInt.of(currentQuantity);
+        return this;
+    }
+    @Override
     public String toString() {
         return name + " - " + description + " - " + quantity;
     }

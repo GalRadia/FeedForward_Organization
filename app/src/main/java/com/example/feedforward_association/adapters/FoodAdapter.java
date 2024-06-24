@@ -7,10 +7,10 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
 import com.example.feedforward_association.interfaces.FoodCallback;
 import com.example.feedforward_association.databinding.FoodItemBinding;
 import com.example.feedforward_association.models.Food;
+import com.google.android.material.slider.Slider;
 import com.google.android.material.textview.MaterialTextView;
 
 import java.util.ArrayList;
@@ -33,6 +33,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
     }
 
 
+
     @NonNull
     @Override
     public FoodAdapter.FoodViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -46,7 +47,12 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
         holder.foodName.setText(food.getName());
         holder.foodQuantity.setText(String.valueOf(food.getQuantity()));
         holder.foodDescription.setText(food.getDescription());
-        holder.increaseDecreaseButton.setRange(0, food.getQuantity());
+        holder.foodQurantitySlider.setValueTo(food.getQuantity());
+        holder.foodQurantitySlider.setValueFrom(0);
+        holder.foodQurantitySlider.addOnChangeListener((slider, value, fromUser) -> {
+            food.setCurrentQuantity((int)value);
+        });
+        holder.foodQurantitySlider.setValue(food.getCurrentQuantity().orElse(0));
     }
 
     @Override
@@ -61,17 +67,22 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
         foodArrayList.addAll(foods);
         notifyDataSetChanged();
     }
+    public List<Food> getFoods() {
+        return foods;
+    }
+
+
 
     public class FoodViewHolder extends RecyclerView.ViewHolder {
         MaterialTextView foodName, foodQuantity, foodDescription;
-        ElegantNumberButton increaseDecreaseButton;
+        Slider foodQurantitySlider;
 
         public FoodViewHolder(FoodItemBinding binding) {
             super(binding.getRoot());
             foodName = binding.FoodItemName;
             foodQuantity = binding.FoodItemQuantity;
             foodDescription = binding.FoodItemDesc;
-            increaseDecreaseButton = binding.FoodItemBTN;
+            foodQurantitySlider = binding.slider;
         }
     }
 }

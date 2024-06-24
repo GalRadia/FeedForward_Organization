@@ -7,20 +7,17 @@
     tools:context=".ui.home.HomeFragment">
 
 
-        <TextView
-            android:id="@+id/TXT_Ongoing_Order"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="24dp"
-            android:textAlignment="center"
-            android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/switch1"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Orders" />
-
+    <TextView
+        android:id="@+id/TXT_Ongoing_Order"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="8dp"
+        android:text="Orders"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="-8dp" />
 
     <TextView
         android:id="@+id/text_home"
@@ -37,7 +34,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+        android:id="@+id/recyclerViewDonations"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_margin="16dp"
@@ -52,6 +49,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/TXT_Ongoing_Order"
-        tools:layout_editor_absoluteX="8dp" />
+         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
