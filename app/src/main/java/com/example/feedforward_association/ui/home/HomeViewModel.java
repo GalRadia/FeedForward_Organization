@@ -1,32 +1,36 @@
 package com.example.feedforward_association.ui.home;
 
-import androidx.lifecycle.LiveData;
+import android.util.Log;
+
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.feedforward_association.interfaces.ApiCallback;
 import com.example.feedforward_association.models.Order;
-import com.example.feedforward_association.utils.DatabaseRepository;
+import com.example.feedforward_association.models.Restaurant;
+import com.example.feedforward_association.utils.Repository;
 
 import java.util.List;
 
 public class HomeViewModel extends ViewModel {
-    private DatabaseRepository databaseRepository;
+    private Repository repository;
     private final MutableLiveData<String> mText;
-    private final LiveData<List<Order>> mOrders;
 
+    // private final MutableLiveData<List<Order>> mOrders;
     public HomeViewModel() {
-        databaseRepository = new DatabaseRepository();
+        Log.d("HomeViewModel", "Initializing HomeViewModel...");
+
+        repository = Repository.getInstance();
         mText = new MutableLiveData<>();
         mText.setValue("This is home fragment");
-        mOrders=databaseRepository.getAllOrders("2024b.gal.said",
-                "ziv@gmail.com",5,0);
     }
 
-    public LiveData<String> getText() {
-        return mText;
+    public List<Order> getOrders(ApiCallback<List<Order>> callback) {
+        return repository.getAllOrders("2024b.gal.said", "ziv@gmail.com", 50, 0, callback);
     }
-    public LiveData<List<Order>> getOrders() {
-        return mOrders;
+
+    public List<Restaurant> getRestaurants(ApiCallback<List<Restaurant>> callback) {
+        return repository.getAllRestaurants("2024b.gal.said", "ziv@gmail.com", 50, 0, callback);
     }
 
 }

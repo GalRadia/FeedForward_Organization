@@ -50,10 +50,10 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
         holder.foodQurantitySlider.setValueTo(food.getQuantity());
         holder.foodQurantitySlider.setValueFrom(0);
         holder.foodQurantitySlider.addOnChangeListener((slider, value, fromUser) -> {
-            food.setCurrentQuantity((int)value);
+            food.setQuantity((int)value);
         });
-        holder.foodQurantitySlider.setValue(food.getCurrentQuantity().orElse(0));
     }
+
 
     @Override
     public int getItemCount() {

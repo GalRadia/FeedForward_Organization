@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.feedforward_association.adapters.OngoingOrdersAdapter;
 import com.example.feedforward_association.databinding.FragmentCurrentOrdersBinding;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
@@ -23,6 +24,7 @@ public class CurrentOrdersFragment extends Fragment {
     private ChipGroup  chipGroup;
     private Chip chipPendning,chipOngoing,chipfinished;
     private RecyclerView recyclerView;
+    private OngoingOrdersAdapter adapter;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -50,6 +52,10 @@ public class CurrentOrdersFragment extends Fragment {
         chipOngoing = binding.chipOngoing;
         chipfinished = binding.chipFinished;
         recyclerView = binding.RCVOngoingOrder;
+    }
+    private void initRecyclerView() {
+        adapter = new OngoingOrdersAdapter(getContext(), null);
+        recyclerView.setAdapter(adapter);
     }
     private void refreshUI(){
         // Update UI

@@ -17,13 +17,13 @@ import com.google.android.material.textview.MaterialTextView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OngoingDonationAdapter extends RecyclerView.Adapter<OngoingDonationAdapter.OngoingDonationViewHolder> {
+public class OngoingOrdersAdapter extends RecyclerView.Adapter<OngoingOrdersAdapter.OngoingDonationViewHolder> {
     private Context context;
     private OngoingItemBinding binding;
     private List<Order> donations;
     private OngoingDonationCallback ongoingDonationCallback;
 
-    public OngoingDonationAdapter(Context context, List<Order> donations) {
+    public OngoingOrdersAdapter(Context context, List<Order> donations) {
         this.context = context;
         this.donations = new ArrayList<>();
         this.donations.addAll(donations);
@@ -43,11 +43,11 @@ public class OngoingDonationAdapter extends RecyclerView.Adapter<OngoingDonation
     public void onBindViewHolder(@NonNull OngoingDonationViewHolder holder, int position) {
         Order order = donations.get(position);
         holder.donatorName.setText(order.getDonatorName());
-        holder.donatorLocation.setText(order.getDonatorLocation());
+        holder.donatorLocation.setText(order.getDonatorLocation().toString());
         holder.foodItems.setText(order.getFoods().toString()); //TODO: Implement a way to show the food items
         holder.statusButton.setOnClickListener(v -> {
             if (ongoingDonationCallback != null) {
-
+                //TODO: Implement a way to change the status of the order
             }
         });
         holder.donationDate.setText(order.getOrderDate());

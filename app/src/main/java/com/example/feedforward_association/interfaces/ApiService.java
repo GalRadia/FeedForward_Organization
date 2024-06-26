@@ -17,12 +17,13 @@ public interface ApiService {
 
     @POST("superapp/objects")
     Call<ObjectBoundary> createObject(@Body ObjectBoundary boundary);
-    @GET("/superapp/objects/search/byType/{type}")
+    @GET("superapp/objects/search/byType/{type}")
     Call<List<ObjectBoundary>> getAllObjcts(
             @Path("type") String type,
-            @Query("userSuperApp ") String userSuperApp,
-            @Query("userEmail ") String userEmail,
+            @Query("userSuperApp") String userSuperApp,
+            @Query("userEmail") String userEmail,
             @Query("size") int size,
             @Query("page") int page
     );
+
 }

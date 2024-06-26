@@ -3,40 +3,45 @@ package com.example.feedforward_association.models;
 import com.example.feedforward_association.models.server.object.CreatedBy;
 import com.example.feedforward_association.models.server.object.Location;
 import com.example.feedforward_association.models.server.object.ObjectBoundary;
+import com.example.feedforward_association.models.server.object.ObjectId;
+import com.google.gson.Gson;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
-import retrofit2.Converter;
 
-public class Order implements Converter<Order, ObjectBoundary> {
-    String orderID;
+public class Order  {
+    ObjectId orderID;
+    String donatorEmail;
     String donatorName;
-    String donatorLocation;
+    Location donatorLocation;
     String orderDate;
     String orderTime;
     List<Food> foods;
     OrderStatus orderStatus;
+    WhoCarries whoCarries;
 
     public Order() {
     }
 
-    public Order(String donatorName, String donatorLocation, String orderDate, String orderTime, List<Food> foods, OrderStatus orderStatus) {
-        this.orderID = UUID.randomUUID().toString();
+    public Order(ObjectId id,String donatorEmail,String donatorName, Location donatorLocation, String orderDate, String orderTime, List<Food> foods, OrderStatus orderStatus, WhoCarries whoCarries) {
+        this.orderID = id;
+        this.donatorEmail = donatorEmail;
         this.donatorName = donatorName;
         this.donatorLocation = donatorLocation;
         this.orderDate = orderDate;
         this.orderTime = orderTime;
         this.foods = foods;
         this.orderStatus = orderStatus;
+        this.whoCarries = whoCarries;
     }
 
     public Order(ObjectBoundary objectBoundary) {
-        Order temp = (Order) objectBoundary.getObjectDetails().get("order");
-        this.orderID = temp.getOrderID();
+        Gson gson = new Gson();
+        Order temp =gson.fromJson((String) objectBoundary.getObjectDetails().get("order"), Order.class);
+        this.orderID = objectBoundary.getObjectId();
+        this.donatorEmail = temp.getDonatorEmail();
         this.donatorName = temp.getDonatorName();
         this.donatorLocation = temp.getDonatorLocation();
         this.orderDate = temp.getOrderDate();
@@ -53,8 +58,8 @@ public class Order implements Converter<Order, ObjectBoundary> {
         return orders;
     }
 
-    public String getOrderID() {
-        return orderID;
+    public String getDonatorEmail() {
+        return donatorEmail;
     }
 
     public String getDonatorName() {
@@ -66,11 +71,11 @@ public class Order implements Converter<Order, ObjectBoundary> {
         return this;
     }
 
-    public String getDonatorLocation() {
+    public Location getDonatorLocation() {
         return donatorLocation;
     }
 
-    public Order setDonatorLocation(String donatorLocation) {
+    public Order setDonatorLocation(Location donatorLocation) {
         this.donatorLocation = donatorLocation;
         return this;
     }
@@ -114,7 +119,7 @@ public class Order implements Converter<Order, ObjectBoundary> {
     @Override
     public String toString() {
         return "Order{" +
-                "orderID='" + orderID + '\'' +
+                "orderID='" + donatorEmail + '\'' +
                 ", donatorName='" + donatorName + '\'' +
                 ", donatorLocation='" + donatorLocation + '\'' +
                 ", orderDate='" + orderDate + '\'' +
@@ -124,15 +129,16 @@ public class Order implements Converter<Order, ObjectBoundary> {
                 '}';
     }
 
-    @Override
-    public ObjectBoundary convert(Order order) throws IOException {
+    public ObjectBoundary convert(Order order)  {
         ObjectBoundary objectBoundary = new ObjectBoundary();
+        objectBoundary.setObjectId(orderID);
         objectBoundary.setType("Order");
-        objectBoundary.setAlias(order.getOrderID());
+        objectBoundary.setAlias(order.getDonatorEmail());
         objectBoundary.setCreatedBy(new CreatedBy("2024b.gal.said", "ziv@gmail.com"));
         objectBoundary.setLocation(new Location(100.0, 100.0));//TODO: get location from device
         objectBoundary.setActive(true);
-        Map<String, Object> orderMap = Map.of("order", order);
+        Gson gson = new Gson();
+        Map<String, Object> orderMap = Map.of("order",gson.toJson(order, Order.class));
         objectBoundary.setObjectDetails(orderMap);
         return objectBoundary;
     }

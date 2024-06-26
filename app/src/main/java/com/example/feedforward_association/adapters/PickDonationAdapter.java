@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.feedforward_association.interfaces.PickDonationCallback;
 import com.example.feedforward_association.databinding.PickDonationItemBinding;
 import com.example.feedforward_association.models.Order;
+import com.example.feedforward_association.models.Restaurant;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.textview.MaterialTextView;
 
@@ -19,13 +20,13 @@ import java.util.List;
 public class PickDonationAdapter extends RecyclerView.Adapter<PickDonationAdapter.PickDonationViewHolder> {
     private Context context;
     private PickDonationItemBinding binding;
-    private List<Order> donations;
+    private List<Restaurant> restaurants;
     private PickDonationCallback pickDonationCallback;
 
-    public PickDonationAdapter(Context context, List<Order> donations) {
+    public PickDonationAdapter(Context context, List<Restaurant> restaurants) {
         this.context = context;
-        this.donations = new ArrayList<>();
-        this.donations.addAll(donations);
+        this.restaurants = new ArrayList<>();
+        this.restaurants.addAll(restaurants);
     }
 
     public void setPickDonationCallback(PickDonationCallback pickDonationCallback) {
@@ -41,43 +42,42 @@ public class PickDonationAdapter extends RecyclerView.Adapter<PickDonationAdapte
 
     @Override
     public void onBindViewHolder(@NonNull PickDonationViewHolder holder, int position) {
-        Order order = donations.get(position);
-        holder.donatorName.setText(order.getDonatorName());
-        holder.donatorLocation.setText(order.getDonatorLocation());
-        holder.foodItems.setText(order.getFoods().toString()); //TODO: Implement a way to show the food items
+        Restaurant restaurant = restaurants.get(position);
+        holder.donatorName.setText(restaurant.getRestaurantName());
+        holder.donatorLocation.setText(restaurant.getRestaurantLocation().toString());
+        holder.foodItems.setText(restaurant.getStorage().toString()); //TODO: Implement a way to show the food items
         if (pickDonationCallback != null) {
-            holder.donatorButton.setOnClickListener(v -> pickDonationCallback.onDonationPicked(order));
+            holder.donatorButton.setOnClickListener(v -> pickDonationCallback.onDonationPicked(restaurant));
         }
     }
 
     @Override
     public int getItemCount() {
-        if (donations != null) {
-            return donations.size();
+        if (restaurants != null) {
+            return restaurants.size();
         }
         return 0;
     }
 
-    public void setDonations(List<Order> donations) {
-        this.donations = new ArrayList<>();
-        this.donations.addAll(donations);
+    public void setRestaurants(List<Restaurant> restaurants) {
+        this.restaurants = restaurants;
         notifyDataSetChanged();
     }
-    public void filterDonations(String query){
-        List<Order> filteredDonations = new ArrayList<>();
-        for (Order order : donations) {
-            if (order.getDonatorName().toLowerCase().contains(query.toLowerCase())) {
-                filteredDonations.add(order);
+    public void filterOrders(String query){
+        List<Restaurant> filteredorders = new ArrayList<>();
+        for (Restaurant restaurant : restaurants) {
+            if (restaurant.getRestaurantName().toLowerCase().contains(query.toLowerCase())) {
+                filteredorders.add(restaurant);
             }
         }
-        setDonations(filteredDonations);
+        setRestaurants(filteredorders);
     }
 
     public class PickDonationViewHolder extends RecyclerView.ViewHolder {
-        MaterialTextView donatorName;
-        MaterialTextView donatorLocation;
-        MaterialTextView foodItems;
-        ExtendedFloatingActionButton donatorButton;
+        private MaterialTextView donatorName;
+        private MaterialTextView donatorLocation;
+        private MaterialTextView foodItems;
+        private ExtendedFloatingActionButton donatorButton;
 
         public PickDonationViewHolder(PickDonationItemBinding binding) {
             super(binding.getRoot());
