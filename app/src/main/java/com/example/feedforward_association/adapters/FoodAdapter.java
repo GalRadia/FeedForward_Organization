@@ -3,13 +3,17 @@ package com.example.feedforward_association.adapters;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.feedforward_association.interfaces.FoodCallback;
 import com.example.feedforward_association.databinding.FoodItemBinding;
 import com.example.feedforward_association.models.Food;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.slider.Slider;
 import com.google.android.material.textview.MaterialTextView;
 
@@ -47,12 +51,13 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
         holder.foodName.setText(food.getName());
         holder.foodQuantity.setText(String.valueOf(food.getQuantity()));
         holder.foodDescription.setText(food.getDescription());
-        holder.foodQurantitySlider.setValueTo(food.getQuantity());
-        holder.foodQurantitySlider.setValueFrom(0);
-        holder.foodQurantitySlider.addOnChangeListener((slider, value, fromUser) -> {
-            food.setQuantity((int)value);
+        holder.selectFoodb.setOnClickListener(v -> {
+            if (foodCallback != null) {
+                foodCallback.onFoodSelected(food);
+            }
         });
     }
+
 
 
     @Override
@@ -75,14 +80,14 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
 
     public class FoodViewHolder extends RecyclerView.ViewHolder {
         MaterialTextView foodName, foodQuantity, foodDescription;
-        Slider foodQurantitySlider;
+        FloatingActionButton selectFoodb;
 
         public FoodViewHolder(FoodItemBinding binding) {
             super(binding.getRoot());
             foodName = binding.FoodItemName;
-            foodQuantity = binding.FoodItemQuantity;
+            foodQuantity = binding.TXTQuantity;
             foodDescription = binding.FoodItemDesc;
-            foodQurantitySlider = binding.slider;
+            selectFoodb = binding.BTNAddFood;
         }
     }
 }

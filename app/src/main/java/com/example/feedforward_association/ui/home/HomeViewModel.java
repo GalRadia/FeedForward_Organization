@@ -25,12 +25,20 @@ public class HomeViewModel extends ViewModel {
         mText.setValue("This is home fragment");
     }
 
-    public List<Order> getOrders(ApiCallback<List<Order>> callback) {
-        return repository.getAllOrders("2024b.gal.said", "ziv@gmail.com", 50, 0, callback);
+    public void getOrders(ApiCallback<List<Order>> callback) {
+        repository.getAllOrders("2024b.gal.said", "ziv@gmail.com", 50, 0, callback);
     }
 
-    public List<Restaurant> getRestaurants(ApiCallback<List<Restaurant>> callback) {
-        return repository.getAllRestaurants("2024b.gal.said", "ziv@gmail.com", 50, 0, callback);
+    public void getRestaurants(ApiCallback<List<Restaurant>> callback) {
+        repository.getAllRestaurants("2024b.gal.said", "ziv@gmail.com", 50, 0, callback);
+    }
+
+    public void postOrder(Order order, ApiCallback<Order> callback) {
+        repository.createOrder(order, callback);
+    }
+
+    public void updateRestaurant(Restaurant restaurant, ApiCallback<Restaurant> callback) {
+        repository.updateRestaurant(restaurant, callback);
     }
 
 }

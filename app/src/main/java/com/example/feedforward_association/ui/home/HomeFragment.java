@@ -18,7 +18,6 @@ import com.example.feedforward_association.R;
 import com.example.feedforward_association.adapters.PickDonationAdapter;
 import com.example.feedforward_association.databinding.FragmentHomeBinding;
 import com.example.feedforward_association.interfaces.ApiCallback;
-import com.example.feedforward_association.models.Order;
 import com.example.feedforward_association.models.Restaurant;
 import com.google.android.material.search.SearchBar;
 import com.google.gson.Gson;
@@ -65,10 +64,10 @@ public class HomeFragment extends Fragment {
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         Log.d("HomeFragment", "Observing LiveData...");
-        adapter.setRestaurants(homeViewModel.getRestaurants(new ApiCallback<List<Restaurant>>() {
+        homeViewModel.getRestaurants(new ApiCallback<List<Restaurant>>() {
             @Override
-            public void onSuccess(List<Restaurant> result) {
-                adapter.setRestaurants(result);
+            public void onSuccess(List<Restaurant> restaurants) {
+                adapter.setRestaurants(restaurants);
                 RefreshUI();
             }
 
@@ -76,7 +75,7 @@ public class HomeFragment extends Fragment {
             public void onError(String error) {
 
             }
-        }));
+        });
         adapter.setPickDonationCallback(restaurant -> {
             // Handle donation picking logic here
             Bundle bundle = new Bundle();
@@ -88,6 +87,7 @@ public class HomeFragment extends Fragment {
         });
         Log.d("HomeFragment", "initViews: CHECK");
     }
+
     private void RefreshUI() {
         adapter.notifyDataSetChanged();
     }

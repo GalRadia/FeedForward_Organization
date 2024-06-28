@@ -2,6 +2,7 @@ package com.example.feedforward_association;
 
 import android.os.Bundle;
 
+import com.example.feedforward_association.models.server.user.UserBoundary;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,14 +12,20 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.feedforward_association.databinding.ActivityMainBinding;
+import com.google.gson.Gson;
 
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
+    public  UserBoundary user = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        String user = savedInstanceState.getString("user");
+        if (user != null) {
+            this.user = new Gson().fromJson(user, UserBoundary.class);
+        }
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -33,21 +40,7 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
-//        List<Food> foods = new ArrayList<>();
-//        foods.add(new Food("apple", "yammy", 10));
-//        Order o = new Order("DOCNATOR", "132,123", "12313 ", "999", foods, OrderStatus.PENDING);
-//        DatabaseRepository databaseRepository = new DatabaseRepository();
-//        databaseRepository.createOrder(o, new ApiCallback<Order>() {
-//            @Override
-//            public void onSuccess(Order order) {
-//                System.out.println("order created");
-//            }
-//
-//            @Override
-//            public void onError(String error) {
-//                Log.d(TAG, "onError: " + error);
-//            }
-//        });
+
 
 
     }

@@ -16,18 +16,22 @@ public class Order  {
     String donatorEmail;
     String donatorName;
     Location donatorLocation;
+    Location associationLocation;
     String orderDate;
     String orderTime;
     List<Food> foods;
     OrderStatus orderStatus;
     WhoCarries whoCarries;
+    String associationName;
 
     public Order() {
     }
 
-    public Order(ObjectId id,String donatorEmail,String donatorName, Location donatorLocation, String orderDate, String orderTime, List<Food> foods, OrderStatus orderStatus, WhoCarries whoCarries) {
+
+    public Order(ObjectId id, String donatorEmail, String donatorName, Location donatorLocation, String orderDate, String orderTime, List<Food> foods, OrderStatus orderStatus, WhoCarries whoCarries, String associationName, Location associationLocation) {
         this.orderID = id;
         this.donatorEmail = donatorEmail;
+        this.associationName = associationName;
         this.donatorName = donatorName;
         this.donatorLocation = donatorLocation;
         this.orderDate = orderDate;
@@ -35,6 +39,7 @@ public class Order  {
         this.foods = foods;
         this.orderStatus = orderStatus;
         this.whoCarries = whoCarries;
+        this.associationLocation = associationLocation;
     }
 
     public Order(ObjectBoundary objectBoundary) {
@@ -49,6 +54,43 @@ public class Order  {
         this.foods = temp.getFoods();
         this.orderStatus = temp.getOrderStatus();
     }
+
+    public ObjectId getOrderID() {
+        return orderID;
+    }
+
+    public void setOrderID(ObjectId orderID) {
+        this.orderID = orderID;
+    }
+
+    public void setDonatorEmail(String donatorEmail) {
+        this.donatorEmail = donatorEmail;
+    }
+
+    public Location getAssociationLocation() {
+        return associationLocation;
+    }
+
+    public void setAssociationLocation(Location associationLocation) {
+        this.associationLocation = associationLocation;
+    }
+
+    public WhoCarries getWhoCarries() {
+        return whoCarries;
+    }
+
+    public void setWhoCarries(WhoCarries whoCarries) {
+        this.whoCarries = whoCarries;
+    }
+
+    public String getAssociationName() {
+        return associationName;
+    }
+
+    public void setAssociationName(String associationName) {
+        this.associationName = associationName;
+    }
+
 
     public static List<Order> convertObjectBoundaryList(List<ObjectBoundary> objectBoundaryList) {
         List<Order> orders = new ArrayList<>();

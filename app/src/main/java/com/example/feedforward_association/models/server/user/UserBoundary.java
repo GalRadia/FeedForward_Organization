@@ -12,6 +12,14 @@ public class UserBoundary {
     public UserBoundary() {
     }
 
+    public UserBoundary(String email, String username,RoleEnum role ,String avatar) {
+        UserId userId = new UserId("2024b.gal.said", email);
+        this.userId = userId;
+        this.role = role;
+        this.username = username;
+        this.avatar = avatar;
+    }
+
 
     public RoleEnum getRole() {
         return role;
