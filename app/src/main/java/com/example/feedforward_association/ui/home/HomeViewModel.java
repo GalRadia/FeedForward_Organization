@@ -8,6 +8,8 @@ import androidx.lifecycle.ViewModel;
 import com.example.feedforward_association.interfaces.ApiCallback;
 import com.example.feedforward_association.models.Order;
 import com.example.feedforward_association.models.Restaurant;
+import com.example.feedforward_association.models.server.user.UserBoundary;
+import com.example.feedforward_association.models.server.user.UserSession;
 import com.example.feedforward_association.utils.Repository;
 
 import java.util.List;
@@ -30,7 +32,7 @@ public class HomeViewModel extends ViewModel {
     }
 
     public void getRestaurants(ApiCallback<List<Restaurant>> callback) {
-        repository.getAllRestaurants("2024b.gal.said", "ziv@gmail.com", 50, 0, callback);
+        repository.getAllRestaurants(UserSession.getInstance().getSUPERAPP(), UserSession.getInstance().getUserEmail(), 50, 0, callback);
     }
 
     public void postOrder(Order order, ApiCallback<Order> callback) {
@@ -40,5 +42,6 @@ public class HomeViewModel extends ViewModel {
     public void updateRestaurant(Restaurant restaurant, ApiCallback<Restaurant> callback) {
         repository.updateRestaurant(restaurant, callback);
     }
+
 
 }

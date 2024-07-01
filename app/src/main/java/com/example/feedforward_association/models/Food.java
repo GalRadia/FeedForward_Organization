@@ -1,5 +1,8 @@
 package com.example.feedforward_association.models;
 
+import com.example.feedforward_association.models.server.CommandOptions;
+
+import java.util.Objects;
 import java.util.OptionalInt;
 import java.util.UUID;
 
@@ -7,6 +10,19 @@ public class Food {
     private String name;
     private String description;
     private int quantity;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Food food = (Food) o;
+        return Objects.equals(name, food.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(name);
+    }
 
     public Food(){
 

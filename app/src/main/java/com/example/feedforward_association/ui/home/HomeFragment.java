@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -62,35 +63,37 @@ public class HomeFragment extends Fragment {
     private void initViews() {
         adapter = new PickDonationAdapter(getContext(), new ArrayList<>());
         recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        Log.d("HomeFragment", "Observing LiveData...");
+        recyclerView.setLayoutManager(new
+
+                LinearLayoutManager(getContext()));
         homeViewModel.getRestaurants(new ApiCallback<List<Restaurant>>() {
             @Override
             public void onSuccess(List<Restaurant> restaurants) {
+                Toast.makeText(getContext(), "Success + "+restaurants.size(), Toast.LENGTH_SHORT).show();
+
                 adapter.setRestaurants(restaurants);
-                RefreshUI();
             }
 
             @Override
             public void onError(String error) {
-
+                Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
+                Log.d("HomeFragment", "onError: " + error);
             }
         });
-        adapter.setPickDonationCallback(restaurant -> {
+        adapter.setPickDonationCallback(restaurant ->
+
+        {
             // Handle donation picking logic here
             Bundle bundle = new Bundle();
             Gson gson = new Gson();
             String json = gson.toJson(restaurant);
             bundle.putString("restaurant", json);
-            Navigation.findNavController(getView()).navigate(R.id.action_navigation_home_to_chooseFoodFragment, bundle);
+            Navigation.findNavController(binding.getRoot()).navigate(R.id.action_navigation_home_to_chooseFoodFragment, bundle);
 
         });
         Log.d("HomeFragment", "initViews: CHECK");
     }
 
-    private void RefreshUI() {
-        adapter.notifyDataSetChanged();
-    }
 
 
 }

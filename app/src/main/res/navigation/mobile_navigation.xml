@@ -3,17 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@id/navigation_home">
-
-    <fragment
-        android:id="@+id/navigation_home"
-        android:name="com.example.feedforward_association.ui.home.HomeFragment"
-        android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" >
-        <action
-            android:id="@+id/action_navigation_home_to_chooseFoodFragment"
-            app:destination="@id/chooseFoodFragment" />
-    </fragment>
+    app:startDestination="@id/nestedGraph">
 
     <fragment
         android:id="@+id/navigation_Current_Orders"
@@ -26,9 +16,25 @@
         android:name="com.example.feedforward_association.ui.history.HistoryFragment"
         android:label="@string/title_history_orders"
         tools:layout="@layout/fragment_history" />
-    <fragment
-        android:id="@+id/chooseFoodFragment"
-        android:name="com.example.feedforward_association.ui.home.ChooseFoodFragment"
-        android:label="fragment_choose_food"
-        tools:layout="@layout/fragment_choose_food" />
+    <navigation android:id="@+id/nestedGraph"
+        app:startDestination="@id/navigation_home">
+        <fragment
+            android:id="@+id/navigation_home"
+            android:name="com.example.feedforward_association.ui.home.HomeFragment"
+            android:label="@string/title_home"
+            tools:layout="@layout/fragment_home">
+            <action
+                android:id="@+id/action_navigation_home_to_chooseFoodFragment"
+                app:destination="@id/chooseFoodFragment" />
+        </fragment>
+        <fragment
+            android:id="@+id/chooseFoodFragment"
+            android:name="com.example.feedforward_association.ui.home.ChooseFoodFragment"
+            android:label="fragment_choose_food"
+            tools:layout="@layout/fragment_choose_food">
+            <action
+                android:id="@+id/action_chooseFoodFragment_to_navigation_home"
+                app:destination="@id/mobile_navigation" />
+        </fragment>
+    </navigation>
 </navigation>

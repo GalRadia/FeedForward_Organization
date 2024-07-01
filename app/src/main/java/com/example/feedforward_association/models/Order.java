@@ -4,6 +4,7 @@ import com.example.feedforward_association.models.server.object.CreatedBy;
 import com.example.feedforward_association.models.server.object.Location;
 import com.example.feedforward_association.models.server.object.ObjectBoundary;
 import com.example.feedforward_association.models.server.object.ObjectId;
+import com.example.feedforward_association.models.server.user.UserSession;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -44,7 +45,7 @@ public class Order  {
 
     public Order(ObjectBoundary objectBoundary) {
         Gson gson = new Gson();
-        Order temp =gson.fromJson((String) objectBoundary.getObjectDetails().get("order"), Order.class);
+        Order temp =gson.fromJson((String) objectBoundary.getObjectDetails().get("Order"), Order.class);
         this.orderID = objectBoundary.getObjectId();
         this.donatorEmail = temp.getDonatorEmail();
         this.donatorName = temp.getDonatorName();
@@ -176,11 +177,11 @@ public class Order  {
         objectBoundary.setObjectId(orderID);
         objectBoundary.setType("Order");
         objectBoundary.setAlias(order.getDonatorEmail());
-        objectBoundary.setCreatedBy(new CreatedBy("2024b.gal.said", "ziv@gmail.com"));
+        objectBoundary.setCreatedBy(new CreatedBy(UserSession.getInstance().getSUPERAPP(), UserSession.getInstance().getUserEmail()));
         objectBoundary.setLocation(new Location(100.0, 100.0));//TODO: get location from device
         objectBoundary.setActive(true);
         Gson gson = new Gson();
-        Map<String, Object> orderMap = Map.of("order",gson.toJson(order, Order.class));
+        Map<String, Object> orderMap = Map.of("Order",gson.toJson(order, Order.class));
         objectBoundary.setObjectDetails(orderMap);
         return objectBoundary;
     }

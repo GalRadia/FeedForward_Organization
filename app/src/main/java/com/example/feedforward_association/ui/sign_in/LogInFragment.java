@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,9 +14,12 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.feedforward_association.MainActivity;
+import com.example.feedforward_association.R;
 import com.example.feedforward_association.databinding.FragmentLogInBinding;
 import com.example.feedforward_association.interfaces.ApiCallback;
+import com.example.feedforward_association.models.Association;
 import com.example.feedforward_association.models.server.user.UserBoundary;
+import com.example.feedforward_association.models.server.user.UserSession;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
@@ -44,33 +48,43 @@ public class LogInFragment extends Fragment {
     }
 
     private void initViews() {
+        registerButton.setOnClickListener(v -> Navigation.findNavController(binding.getRoot()).navigate(R.id.action_logInFragment_to_registerFragment));
+
         logInButton.setOnClickListener(v -> {
             String email = emailEditText.getText().toString();
             signInViewModel.logIn(email, new ApiCallback<UserBoundary>() {
-
                 @Override
                 public void onSuccess(UserBoundary result) {
-                    if (result == null) {
-                        Toast.makeText(getActivity(), "User not found", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    Intent intent = new Intent(getActivity(), MainActivity.class);
-                    Gson gson = new Gson();
-                    intent.putExtra("user", gson.toJson(result));
-                    startActivity(intent);
-                    getActivity().finish();
+                    UserSession.getInstance().setUserEmail(result.getUserId().getEmail());
+                    UserSession.getInstance().setBoundaryId(result.getUserName());
+                    Toast.makeText(getContext(), "Logged in successfully", Toast.LENGTH_SHORT).show();
+                    signInViewModel.fetchAssociation(new ApiCallback<Association>() {
+                        @Override
+                        public void onSuccess(Association result) {
+                            UserSession.getInstance().setAssociation(result);
+                            Toast.makeText(getContext(), "Welcome " + result.getAssociationName(), Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(getContext(), MainActivity.class);
+                            startActivity(intent);
+                            getActivity().finish();
+                        }
+
+                        @Override
+                        public void onError(String error) {
+                            Toast.makeText(getContext(), "Cant find association", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(getContext(), MainActivity.class);
+                            startActivity(intent);
+                            getActivity().finish();
+                        }
+                    });
                 }
 
                 @Override
                 public void onError(String error) {
+                    Toast.makeText(getContext(), "Email doesnt exists", Toast.LENGTH_SHORT).show();
 
                 }
             });
         });
-        registerButton.setOnClickListener(v -> {
-            getActivity().getSupportFragmentManager().beginTransaction().replace(binding.getRoot().getId(), new RegisterFragment()).commit();
-        });
-
     }
 
     @Override

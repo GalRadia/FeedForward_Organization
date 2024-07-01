@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.feedforward_association.interfaces.OngoingDonationCallback;
 import com.example.feedforward_association.databinding.OngoingItemBinding;
+import com.example.feedforward_association.models.Food;
 import com.example.feedforward_association.models.Order;
 import com.example.feedforward_association.models.OrderStatus;
 import com.google.android.material.button.MaterialButton;
@@ -20,14 +21,19 @@ import java.util.List;
 public class OngoingOrdersAdapter extends RecyclerView.Adapter<OngoingOrdersAdapter.OngoingDonationViewHolder> {
     private Context context;
     private OngoingItemBinding binding;
-    private List<Order> donations;
+    private List<Order> originalOrders;
+    private List<Order> filteredOrders;
+    private List<OrderStatus> currentFilterStatuses;
     private OngoingDonationCallback ongoingDonationCallback;
 
     public OngoingOrdersAdapter(Context context, List<Order> donations) {
         this.context = context;
-        this.donations = new ArrayList<>();
-        this.donations.addAll(donations);
+        this.originalOrders = donations != null ? donations : new ArrayList<>();
+        this.filteredOrders = new ArrayList<>(this.originalOrders);
+        this.currentFilterStatuses = new ArrayList<>();
+
     }
+
     public void setOngoingDonationCallback(OngoingDonationCallback ongoingDonationCallback) {
         this.ongoingDonationCallback = ongoingDonationCallback;
     }
@@ -41,10 +47,16 @@ public class OngoingOrdersAdapter extends RecyclerView.Adapter<OngoingOrdersAdap
 
     @Override
     public void onBindViewHolder(@NonNull OngoingDonationViewHolder holder, int position) {
-        Order order = donations.get(position);
+        Order order = filteredOrders.get(position);
         holder.donatorName.setText(order.getDonatorName());
         holder.donatorLocation.setText(order.getDonatorLocation().toString());
-        holder.foodItems.setText(order.getFoods().toString()); //TODO: Implement a way to show the food items
+        StringBuilder items = new StringBuilder();
+        for (Food food : order.getFoods()) {
+            items.append(food.getName()).append(", ");
+        }
+        if (items.charAt(items.length() - 1) == ' ')
+            items.deleteCharAt(items.length() - 2);
+        holder.foodItems.setText(items);//TODO: Implement a way to show the food items
         holder.statusButton.setOnClickListener(v -> {
             if (ongoingDonationCallback != null) {
                 //TODO: Implement a way to change the status of the order
@@ -53,35 +65,35 @@ public class OngoingOrdersAdapter extends RecyclerView.Adapter<OngoingOrdersAdap
         holder.donationDate.setText(order.getOrderDate());
         holder.donationTime.setText(order.getOrderTime());
     }
-    public void setDonations(List<Order> donations) {
-        this.donations = donations;
+
+    public void setDonations(List<Order> orders) {
+        this.originalOrders = orders != null ? orders : new ArrayList<>();
+        filterDonationsByStatus(this.currentFilterStatuses);
+    }
+
+
+
+
+
+    public void filterDonationsByStatus(List<OrderStatus> statuses) {
+        this.currentFilterStatuses = statuses;
+        if (statuses.isEmpty()) {
+            filteredOrders = new ArrayList<>(originalOrders);
+        } else {
+            filteredOrders = new ArrayList<>();
+            for (Order order : originalOrders) {
+                if (statuses.contains(order.getOrderStatus())) {
+                    filteredOrders.add(order);
+                }
+            }
+        }
         notifyDataSetChanged();
     }
-    public List<Order> getDonations() {
-        return donations;
-    }
-    public void filterDonationsByDonatorName(String query){
-        List<Order> filteredDonations = new ArrayList<>();
-        for (Order order : donations) {
-            if (order.getDonatorName().toLowerCase().contains(query.toLowerCase())) {
-                filteredDonations.add(order);
-            }
-        }
-        setDonations(filteredDonations);
-    }
-    public void filererDonationByStatus(OrderStatus status){
-        List<Order> filteredDonations = new ArrayList<>();
-        for (Order order : donations) {
-            if (order.getOrderStatus() == status) {
-                filteredDonations.add(order);
-            }
-        }
-        setDonations(filteredDonations);
-    }
+
     @Override
     public int getItemCount() {
-        if (donations != null) {
-            return donations.size();
+        if (filteredOrders != null) {
+            return filteredOrders.size();
         }
         return 0;
     }

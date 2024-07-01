@@ -51,41 +51,33 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/V_Search"
-        app:singleLine="true">
+        app:selectionRequired="false"
+        app:singleLine="true"
+        app:singleSelection="false">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_pending"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pending"
+            app:chipStrokeColor="@color/status_pending" />
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip_pending"
-                style="@style/Widget.Material3.Chip.Filter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toStartOf="@id/chip_ongoing"
-                android:text="Pending"
-                app:chipStrokeColor="@color/status_pending" />
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_ongoing"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="32dp"
+            android:text="Ongoing"
+            app:chipStrokeColor="@color/status_ongoing" />
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip_ongoing"
-                style="@style/Widget.Material3.Chip.Filter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginHorizontal="32dp"
-                android:text="Ongoing"
-                app:chipStrokeColor="@color/status_ongoing" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip_finished"
-                style="@style/Widget.Material3.Chip.Filter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/chip_ongoing"
-                android:text="Finished"
-                app:chipStrokeColor="@color/status_finished" />
-        </RelativeLayout>
-
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_finished"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Finished"
+            app:chipStrokeColor="@color/status_finished" />
     </com.google.android.material.chip.ChipGroup>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

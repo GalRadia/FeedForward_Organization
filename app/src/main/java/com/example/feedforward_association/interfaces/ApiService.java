@@ -2,6 +2,7 @@ package com.example.feedforward_association.interfaces;
 
 
 import com.example.feedforward_association.models.server.object.ObjectBoundary;
+import com.example.feedforward_association.models.server.user.NewUserBoundary;
 import com.example.feedforward_association.models.server.user.UserBoundary;
 
 import java.util.List;
@@ -21,16 +22,17 @@ public interface ApiService {
     Call<ObjectBoundary> createObject(@Body ObjectBoundary boundary);
 
     @POST("superapp/users")
-    Call<UserBoundary> createUser(@Body UserBoundary boundary);
+    Call<UserBoundary> createUser(@Body NewUserBoundary boundary);
 
     @GET("superapp/objects/search/byType/{type}")
-    Call<List<ObjectBoundary>> getAllObjcts(
+    Call<List<ObjectBoundary>> getAllObjctsByType(
             @Path("type") String type,
-            @Query("userSuperApp") String userSuperApp,
+            @Query("userSuperapp") String userSuperapp,
             @Query("userEmail") String userEmail,
             @Query("size") int size,
             @Query("page") int page
     );
+
     @GET("superapp/users/login/{superapp}/{email}")
     Call<UserBoundary> getUser(
             @Path("superapp") String superapp,
@@ -42,7 +44,7 @@ public interface ApiService {
     Call<Void> updateObject(
             @Path("id") String id,
             @Path("superapp") String superapp,
-            @Query("userSuperApp") String  userSuperApp,
+            @Query("userSuperapp") String userSuperApp,
             @Query("userEmail") String userEmail,
             @Body ObjectBoundary boundary
     );
@@ -53,6 +55,18 @@ public interface ApiService {
             @Path("userEmail") String userEmail,
             @Body UserBoundary boundary
     );
+
+    @POST("superapp/miniapp/{miniAppName}")
+    Call<List<ObjectBoundary>> command(
+            @Path("miniAppName") String miniAppName,
+            @Body ObjectBoundary boundary
+    );
+
+    @GET("superapp/objects/{superapp}/{id}")
+    Call<ObjectBoundary> getSpecificObject(@Path("superapp") String superapp,
+                                           @Path("id") String id,
+                                           @Query("userSuperapp") String userSuperApp,
+                                           @Query("userEmail") String userEmail);
 
 
 }

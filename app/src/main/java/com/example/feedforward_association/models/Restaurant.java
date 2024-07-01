@@ -4,6 +4,7 @@ import com.example.feedforward_association.models.server.object.CreatedBy;
 import com.example.feedforward_association.models.server.object.Location;
 import com.example.feedforward_association.models.server.object.ObjectBoundary;
 import com.example.feedforward_association.models.server.object.ObjectId;
+import com.example.feedforward_association.models.server.user.UserSession;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -46,78 +47,79 @@ public class Restaurant {
         this.storage = temp.getStorage();
        // this.orders = temp.getOrders();
         this.reviews = temp.getReviews();
+
     }
 
     public ObjectId getRestaurantId() {
         return restaurantId;
     }
 
-    public void setRestaurantId(ObjectId restaurantId) {
+    public Restaurant setRestaurantId(ObjectId restaurantId) {
         this.restaurantId = restaurantId;
+        return this;
     }
 
     public String getRestaurantEmail() {
         return restaurantEmail;
     }
 
-    public void setRestaurantEmail(String restaurantEmail) {
+    public Restaurant setRestaurantEmail(String restaurantEmail) {
         this.restaurantEmail = restaurantEmail;
+        return this;
     }
 
     public String getRestaurantName() {
         return restaurantName;
     }
 
-    public void setRestaurantName(String restaurantName) {
+    public Restaurant setRestaurantName(String restaurantName) {
         this.restaurantName = restaurantName;
+        return this;
     }
 
     public String getRestaurantAddress() {
         return restaurantAddress;
     }
 
-    public void setRestaurantAddress(String restaurantAddress) {
+    public Restaurant setRestaurantAddress(String restaurantAddress) {
         this.restaurantAddress = restaurantAddress;
+        return this;
     }
 
     public Location getRestaurantLocation() {
         return restaurantLocation;
     }
 
-    public void setRestaurantLocation(Location restaurantLocation) {
+    public Restaurant setRestaurantLocation(Location restaurantLocation) {
         this.restaurantLocation = restaurantLocation;
+        return this;
     }
 
     public String getRestaurantPhone() {
         return restaurantPhone;
     }
 
-    public void setRestaurantPhone(String restaurantPhone) {
+    public Restaurant setRestaurantPhone(String restaurantPhone) {
         this.restaurantPhone = restaurantPhone;
+        return this;
     }
 
     public List<Food> getStorage() {
         return storage;
     }
 
-    public void setStorage(List<Food> storage) {
+    public Restaurant setStorage(List<Food> storage) {
         this.storage = storage;
+        return this;
     }
-
-//    public List<Order> getOrders() {
-//        return orders;
-//    }
-//
-//    public void setOrders(List<Order> orders) {
-//        this.orders = orders;
-//    }
 
     public List<Review> getReviews() {
         return reviews;
     }
 
-    public void setReviews(List<Review> reviews) {
+    public Restaurant setReviews(List<Review> reviews) {
         this.reviews = reviews;
+        return this;
     }
 
     @Override
@@ -141,16 +143,16 @@ public class Restaurant {
         }
         return restaurants;
     }
-    public ObjectBoundary convert(Restaurant restaurant) {
+    public ObjectBoundary toObjectBoundary() {
         ObjectBoundary objectBoundary = new ObjectBoundary();
         objectBoundary.setObjectId(restaurantId);
-        objectBoundary.setType("Order");
+        objectBoundary.setType("Restaurant");
         objectBoundary.setAlias(restaurantEmail);
-        objectBoundary.setCreatedBy(new CreatedBy("2024b.gal.said", "ziv@gmail.com"));
+        objectBoundary.setCreatedBy(new CreatedBy(UserSession.getInstance().getSUPERAPP(), UserSession.getInstance().getUserEmail()));
         objectBoundary.setLocation(new Location(100.0, 100.0));//TODO: get location from device
         objectBoundary.setActive(true);
         Gson gson = new Gson();
-        Map<String, Object> orderMap = Map.of("order",gson.toJson(restaurant, Restaurant.class));
+        Map<String, Object> orderMap = Map.of("Restaurant",gson.toJson(this, Restaurant.class));
         objectBoundary.setObjectDetails(orderMap);
         return objectBoundary;
     }
