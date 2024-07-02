@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.feedforward_association.R;
 import com.example.feedforward_association.interfaces.OngoingDonationCallback;
 import com.example.feedforward_association.databinding.OngoingItemBinding;
 import com.example.feedforward_association.models.Food;
@@ -50,6 +51,21 @@ public class OngoingOrdersAdapter extends RecyclerView.Adapter<OngoingOrdersAdap
         Order order = filteredOrders.get(position);
         holder.donatorName.setText(order.getDonatorName());
         holder.donatorLocation.setText(order.getDonatorLocation().toString());
+        switch (order.getOrderStatus()) {
+            case PENDING:
+                holder.statusButton.setText("Pending");
+                holder.statusButton.setIcon(context.getDrawable(R.drawable.ic_pending));
+                break;
+            case DELIVERED:
+                holder.statusButton.setText("Delivered");
+                holder.statusButton.setIcon(context.getDrawable(R.drawable.ic_done));
+                break;
+            case ACTIVE:
+                holder.statusButton.setText("Active");
+                holder.statusButton.setIcon(context.getDrawable(R.drawable.ic_ongoing_shipment));
+                break;
+
+        }
         StringBuilder items = new StringBuilder();
         for (Food food : order.getFoods()) {
             items.append(food.getName()).append(", ");

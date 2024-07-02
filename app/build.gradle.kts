@@ -88,7 +88,7 @@ dependencies {
     //google-play-services
     implementation(libs.play.services.location)
     implementation(libs.play.services.maps)
-    implementation(libs.kotlin.bom)
+    implementation(platform(libs.kotlin.bom))
     implementation(libs.places)
 
 }

@@ -26,8 +26,11 @@ import com.example.feedforward_association.models.server.object.ObjectId;
 import com.example.feedforward_association.models.server.user.UserBoundary;
 import com.example.feedforward_association.models.server.user.UserSession;
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.api.model.RectangularBounds;
+import com.google.android.libraries.places.api.model.TypeFilter;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
@@ -40,14 +43,15 @@ import java.util.Objects;
 
 
 public class RegisterFragment extends Fragment {
-    SignInViewModel signInViewModel;
-    FragmentRegisterBinding binding;
-    TextInputEditText emailEditText;
-    TextInputEditText usernameEditText;
-    TextInputEditText phoneEditText;
-    TextInputEditText AddressEditText;
-    ExtendedFloatingActionButton registerButton;
-    PlacesClient placesClient;
+   private SignInViewModel signInViewModel;
+   private FragmentRegisterBinding binding;
+   private TextInputEditText emailEditText;
+   private TextInputEditText usernameEditText;
+   private TextInputEditText phoneEditText;
+   private TextInputEditText AddressEditText;
+   private ExtendedFloatingActionButton registerButton;
+   private PlacesClient placesClient;
+    private LatLng latLng;
 
 
     @Override
@@ -72,9 +76,13 @@ public class RegisterFragment extends Fragment {
     }
 
     private void initViess() {
-        initializePlaces();
+       // initializePlaces();
         autoComplete();
+        AddressEditText.setEnabled(false);
         registerButton.setOnClickListener(v -> {
+            if (!validate()) {
+                return;
+            }
             String email = emailEditText.getText().toString();
             String username = usernameEditText.getText().toString();
             String avatar = "DEFAULT_AVATAR";
@@ -82,7 +90,7 @@ public class RegisterFragment extends Fragment {
                 @Override
                 public void onSuccess(UserBoundary userBoundary) {
                     Toast.makeText(getActivity(), "User created successfully", Toast.LENGTH_SHORT).show();
-                    Association association = new Association(new ObjectId(UserSession.getInstance().getSUPERAPP(),email), username, AddressEditText.getText().toString(), phoneEditText.getText().toString(), email, new Location(0.0, 0.0));
+                    Association association = new Association(new ObjectId(UserSession.getInstance().getSUPERAPP(),email), username, AddressEditText.getText().toString(), phoneEditText.getText().toString(), email, new Location(latLng.latitude, latLng.longitude));
                     signInViewModel.createAssociation(association, new ApiCallback<ObjectBoundary>() {
                         @Override
                         public void onSuccess(ObjectBoundary objectBoundary) {
@@ -118,39 +126,54 @@ public class RegisterFragment extends Fragment {
 
         });
     }
-    public void initializePlaces() {
-        String apiKey = BuildConfig.MAPS_API_KEY;
-
-        if (TextUtils.isEmpty(apiKey) || apiKey.equals("DEFAULT_API_KEY")) {
-            Log.e("Places test", "No API key");
-            return;
+    private boolean validate() {
+        if (TextUtils.isEmpty(emailEditText.getText().toString())) {
+            emailEditText.setError("Email is required");
+            return false;
         }
-
-        Places.initialize(getContext(), apiKey);
-        placesClient = Places.createClient(getContext());
+        if (TextUtils.isEmpty(usernameEditText.getText().toString())) {
+            usernameEditText.setError("Username is required");
+            return false;
+        }
+        if (TextUtils.isEmpty(phoneEditText.getText().toString())) {
+            phoneEditText.setError("Phone is required");
+            return false;
+        }
+        if (TextUtils.isEmpty(AddressEditText.getText().toString())) {
+            AddressEditText.setError("Address is required");
+            return false;
+        }
+        return true;
     }
 
     public void autoComplete() {
+        Places.initialize(getActivity().getApplicationContext(), BuildConfig.MAPS_API_KEY);
+        placesClient = Places.createClient(getActivity());
+
         AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
-                getActivity().getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment);
+                getChildFragmentManager().findFragmentById(R.id.autocomplete_fragment);
+        autocompleteFragment.setLocationBias(RectangularBounds.newInstance(
+                new LatLng(31.937750, 34.834125),
+                new LatLng(32.225814, 34.896383)
+        ));
+        autocompleteFragment.setCountries("IL");
+        autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG, Place.Field.ADDRESS));
+        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+            @Override
+            public void onPlaceSelected(@NonNull Place place) {
+                AddressEditText.setText(place.getName());
+                latLng = place.getLatLng();
 
-        if (autocompleteFragment != null) {
-            autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME));
 
-            autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
-                @Override
-                public void onPlaceSelected(@NonNull Place place) {
-                    Log.i("Places", "Place: " + place.getName() + ", " + place.getId());
-                }
+            }
 
-                @Override
-                public void onError(@NonNull Status status) {
-                    Log.i("Places", "An error occurred: " + status);
-                }
-            });
-        } else {
-            Log.e("Places", "Autocomplete fragment is null");
-        }
+            @Override
+            public void onError(@NonNull Status status) {
+                Log.e("Places test", "An error occurred: " + status);
+            }
+        });
+
+
     }
 
 }
