@@ -11,10 +11,20 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.feedforward_association.databinding.FragmentHistoryBinding;
+import com.example.feedforward_association.interfaces.ApiCallback;
+import com.example.feedforward_association.models.Association;
+import com.example.feedforward_association.models.server.user.UserSession;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputLayout;
 
 public class HistoryFragment extends Fragment {
 
     private FragmentHistoryBinding binding;
+    private HistoryViewModel historyViewModel;
+    private TextInputLayout updatedName;
+    private TextInputLayout updatedAddress;
+    private TextInputLayout updatedPhone;
+    private MaterialButton updateButton;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -23,9 +33,8 @@ public class HistoryFragment extends Fragment {
 
         binding = FragmentHistoryBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-
-        final TextView textView = binding.textNotifications;
-        historyViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        findViews();
+        initViews();
         return root;
     }
 
@@ -33,5 +42,54 @@ public class HistoryFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+    private void findViews(){
+        updateButton = binding.button;
+        updatedName = binding.updatedName;
+        updatedAddress = binding.updatedAddress;
+        updatedPhone = binding.updatedPhoneNumber;
+    }
+    private void initViews(){
+        updatedName.setHint(UserSession.getInstance().getAssociation().getAssociationName());
+        updatedAddress.setHint(UserSession.getInstance().getAssociation().getAssociationAddress());
+        updatedPhone.setHint(UserSession.getInstance().getAssociation().getAssociationPhone());
+        updateButton.setOnClickListener(v -> {
+            Association association = UserSession.getInstance().getAssociation();
+            association.setAssociationName(updatedName.getEditText().getText().toString());
+            association.setAssociationAddress(updatedAddress.getEditText().getText().toString());
+            association.setAssociationPhone(updatedPhone.getEditText().getText().toString());
+            historyViewModel.updateAssociation(association, new ApiCallback<Association>() {
+                @Override
+                public void onSuccess(Association result) {
+                    if(!validate())
+                        return;
+                    updatedName.setHint(result.getAssociationName());
+                    updatedAddress.setHint(result.getAssociationAddress());
+                    updatedPhone.setHint(result.getAssociationPhone());
+                }
+
+                @Override
+                public void onError(String message) {
+                    updatedName.setHint(UserSession.getInstance().getAssociation().getAssociationName());
+                    updatedAddress.setHint(UserSession.getInstance().getAssociation().getAssociationAddress());
+                    updatedPhone.setHint(UserSession.getInstance().getAssociation().getAssociationPhone());
+                }
+            });
+        });
+    }
+    private boolean validate(){
+        if(updatedName.getEditText().getText().toString().isEmpty()){
+            updatedName.setError("Name cannot be empty");
+            return false;
+        }
+        if(updatedAddress.getEditText().getText().toString().isEmpty()){
+            updatedAddress.setError("Address cannot be empty");
+            return false;
+        }
+        if(updatedPhone.getEditText().getText().toString().isEmpty()){
+            updatedPhone.setError("Phone cannot be empty");
+            return false;
+        }
+        return true;
     }
 }

@@ -6,6 +6,8 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.feedforward_association.interfaces.ApiCallback;
 import com.example.feedforward_association.models.Order;
+import com.example.feedforward_association.models.Review;
+import com.example.feedforward_association.models.server.object.ObjectBoundary;
 import com.example.feedforward_association.models.server.user.UserBoundary;
 import com.example.feedforward_association.models.server.user.UserSession;
 import com.example.feedforward_association.utils.Repository;
@@ -30,6 +32,10 @@ public class CurrentOrdersViewModel extends ViewModel {
     public void getOrders(ApiCallback<List<Order>> callback) {
         repository.getAllOrdersByCommand(callback);
         //repository.getAllOrders(UserSession.getInstance().getSUPERAPP(), UserSession.getInstance().getUserEmail(), 50, 0,callback);
+    }
+    public void creatReview(Review review, ApiCallback<ObjectBoundary> callback){
+        ObjectBoundary objectBoundary = review.converToObjectBoundary();
+        repository.createObject(objectBoundary, callback);
     }
 
 }

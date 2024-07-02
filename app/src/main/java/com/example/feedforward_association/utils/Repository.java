@@ -60,6 +60,7 @@ public class Repository {
             }
         });
     }
+
     public void getAllOrdersByCommand(ApiCallback<List<Order>> callback){
         CommandBoundary commandBoundary = new CommandBoundary("SBECT");
         Map<String, Object> commandMap = Map.of("type","Order","email",UserSession.getInstance().getUserEmail());
@@ -204,6 +205,28 @@ public class Repository {
 
             @Override
             public void onFailure(Call<ObjectBoundary> call, Throwable t) {
+                callback.onError("Failure: " + t.getMessage());
+                Log.d(" DatabaseRepository", "onFailure: " + t.getMessage());
+            }
+        });
+    }
+    public void updateAssociation(Association association, final ApiCallback<Association> callback) {
+        ObjectBoundary object = association.toObjectBoundary();
+        Call<Void> call = apiService.updateObject(association.getAssociationId().getId(), UserSession.getInstance().getSUPERAPP(), UserSession.getInstance().getSUPERAPP(), UserSession.getInstance().getUserEmail(), object);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    callback.onSuccess(association);
+                    Log.d(" DatabaseRepository", "onResponse: " + association);
+                } else {
+                    callback.onError("Error: " + response.code());
+                    Log.d(" DatabaseRepository", "onError: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
                 callback.onError("Failure: " + t.getMessage());
                 Log.d(" DatabaseRepository", "onFailure: " + t.getMessage());
             }

@@ -35,7 +35,9 @@ public class SignInViewModel extends ViewModel {
     }
 
     public void createAssociation(Association association, ApiCallback<ObjectBoundary> callback) {
-        repository.createAssociation(association, callback);
+        ObjectBoundary object = association.toObjectBoundary();
+        repository.createObject(object, callback);
+       // repository.createAssociation(association, callback);
     }
 
 

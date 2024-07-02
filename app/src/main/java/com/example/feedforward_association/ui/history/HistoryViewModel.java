@@ -4,16 +4,21 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.feedforward_association.interfaces.ApiCallback;
+import com.example.feedforward_association.models.Association;
+import com.example.feedforward_association.utils.Repository;
+
 public class HistoryViewModel extends ViewModel {
 
-    private final MutableLiveData<String> mText;
+    private Repository repository ;
 
     public HistoryViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is notifications fragment");
+        repository = Repository.getInstance();
+
+    }
+    public void updateAssociation(Association association, ApiCallback<Association> callback){
+        repository.updateAssociation(association,callback);
     }
 
-    public LiveData<String> getText() {
-        return mText;
-    }
+
 }

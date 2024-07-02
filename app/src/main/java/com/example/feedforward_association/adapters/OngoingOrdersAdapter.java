@@ -58,7 +58,7 @@ public class OngoingOrdersAdapter extends RecyclerView.Adapter<OngoingOrdersAdap
                 holder.statusButton.setIcon(context.getDrawable(R.drawable.ic_pending));
                 break;
             case DELIVERED:
-                holder.statusButton.setText("Delivered");
+                holder.statusButton.setText("Delivered\nWrite a review");
                 holder.statusButton.setIcon(context.getDrawable(R.drawable.ic_done));
                 break;
             case ACTIVE:
@@ -77,6 +77,7 @@ public class OngoingOrdersAdapter extends RecyclerView.Adapter<OngoingOrdersAdap
         holder.statusButton.setOnClickListener(v -> {
             if (ongoingDonationCallback != null) {
                 //TODO: Implement a way to change the status of the order
+                ongoingDonationCallback.onStatusClicked(order);
             }
         });
         holder.donationDate.setText(order.getOrderDate());
@@ -115,8 +116,6 @@ public class OngoingOrdersAdapter extends RecyclerView.Adapter<OngoingOrdersAdap
         return 0;
     }
 
-    public void filterDonationsByName(String newText) {
-    }
 
     public class OngoingDonationViewHolder extends RecyclerView.ViewHolder {
         MaterialTextView donatorName;

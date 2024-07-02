@@ -1,12 +1,16 @@
 package com.example.feedforward_association.ui.current_orders;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -19,11 +23,15 @@ import com.example.feedforward_association.databinding.FragmentCurrentOrdersBind
 import com.example.feedforward_association.interfaces.ApiCallback;
 import com.example.feedforward_association.models.Order;
 import com.example.feedforward_association.models.OrderStatus;
+import com.example.feedforward_association.models.Review;
+import com.example.feedforward_association.models.server.object.ObjectBoundary;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.search.SearchBar;
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class CurrentOrdersFragment extends Fragment {
@@ -68,18 +76,6 @@ public class CurrentOrdersFragment extends Fragment {
 
     private void initViews() {
         initRecyclerView();
-        searchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                adapter.filterDonationsByName(newText);
-                return false;
-            }
-        });
         chipGroup.setOnCheckedStateChangeListener((group, checkedIds) -> {
             List<OrderStatus> orderStatuses = new ArrayList<>();
 
@@ -102,6 +98,17 @@ public class CurrentOrdersFragment extends Fragment {
     private void initRecyclerView() {
         adapter = new OngoingOrdersAdapter(getContext(), new ArrayList<>());
         recyclerView.setAdapter(adapter);
+        adapter.setOngoingDonationCallback(order -> {
+            switch (order.getOrderStatus()) {
+                case PENDING:
+                case ACTIVE:
+                    Toast.makeText(getContext(), "Cant Write a review", Toast.LENGTH_SHORT).show();
+                    break;
+                case DELIVERED:
+                    showRateReviewDialog(order);
+                    break;
+            }
+        });
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         currentOrdersViewModel.getOrders(new ApiCallback<List<Order>>() {
             @Override
@@ -114,6 +121,50 @@ public class CurrentOrdersFragment extends Fragment {
 
             }
         });
+    }
+
+    private void showRateReviewDialog(Order order) {
+        // Inflate the custom layout/view
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_review, null);
+
+        // Find the RatingBar and TextInputEditText in the custom layout
+        RatingBar ratingBar = dialogView.findViewById(R.id.ratingBar);
+        TextInputEditText reviewText = dialogView.findViewById(R.id.reviewText);
+
+        // Create the AlertDialog
+        AlertDialog.Builder builder = getBuilder(dialogView, ratingBar, reviewText, order);
+        builder.setNegativeButton("Cancel", null);
+        builder.show();
+    }
+
+    private AlertDialog.Builder getBuilder(View dialogView, RatingBar ratingBar, TextInputEditText reviewText, Order order) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Rate and Review");
+        builder.setView(dialogView);
+        builder.setPositiveButton("Submit", (dialogInterface, i) -> {
+                    Review review = new Review();
+                    review.setRating(ratingBar.getRating());
+                    Date date = new Date();
+                    date.setTime(System.currentTimeMillis());
+                    review.setDate(date + "");
+                    review.setName(order.getAssociationName());
+                    review.setOverview(reviewText.toString());
+                    currentOrdersViewModel.creatReview(review, new ApiCallback<ObjectBoundary>() {
+                        @Override
+                        public void onSuccess(ObjectBoundary result) {
+                            Toast.makeText(getContext(), "Review Submitted", Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onError(String error) {
+                            Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+
+        );
+        return builder;
     }
 
 

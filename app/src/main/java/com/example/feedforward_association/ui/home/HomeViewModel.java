@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel;
 import com.example.feedforward_association.interfaces.ApiCallback;
 import com.example.feedforward_association.models.Order;
 import com.example.feedforward_association.models.Restaurant;
+import com.example.feedforward_association.models.server.object.ObjectBoundary;
 import com.example.feedforward_association.models.server.user.UserBoundary;
 import com.example.feedforward_association.models.server.user.UserSession;
 import com.example.feedforward_association.utils.Repository;
@@ -37,6 +38,8 @@ public class HomeViewModel extends ViewModel {
     }
 
     public void postOrder(Order order, ApiCallback<Order> callback) {
+        ObjectBoundary object = order.convert(order);
+       // repository.createObject(object, callback); TODO: to change
         repository.createOrder(order, callback);
     }
 

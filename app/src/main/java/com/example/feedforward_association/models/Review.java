@@ -1,5 +1,13 @@
 package com.example.feedforward_association.models;
 
+import com.example.feedforward_association.models.server.object.CreatedBy;
+import com.example.feedforward_association.models.server.object.ObjectBoundary;
+import com.example.feedforward_association.models.server.object.ObjectId;
+import com.example.feedforward_association.models.server.user.UserSession;
+import com.google.gson.Gson;
+
+import java.util.Map;
+
 public class Review {
     private String name;
     private String overview;
@@ -46,5 +54,23 @@ public class Review {
 
     public void setRating(float rating) {
         this.rating = rating;
+    }
+
+    public String toString() {
+        return "Review{" +
+                "name='" + name + '\'' +
+                ", overview='" + overview + '\'' +
+                ", date='" + date + '\'' + ", rating=" + rating + '}';
+    }
+    public ObjectBoundary converToObjectBoundary() {
+        ObjectBoundary objectBoundary= new ObjectBoundary();
+        objectBoundary.setType("Review");
+        objectBoundary.setObjectId(new ObjectId(UserSession.getInstance().getSUPERAPP(),this.name));
+        objectBoundary.setActive(true);
+        objectBoundary.setCreatedBy(new CreatedBy(UserSession.getInstance().getSUPERAPP(),UserSession.getInstance().getUserEmail()));
+        Gson gson = new Gson();
+        Map<String, Object> orderMap = Map.of("Review",gson.toJson(this, Order.class));
+        objectBoundary.setObjectDetails(orderMap);
+        return objectBoundary;
     }
 }
