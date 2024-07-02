@@ -7,13 +7,19 @@ import com.example.feedforward_association.interfaces.ApiService;
 import com.example.feedforward_association.models.Association;
 import com.example.feedforward_association.models.Order;
 import com.example.feedforward_association.models.Restaurant;
+import com.example.feedforward_association.models.server.command.CommandBoundary;
+import com.example.feedforward_association.models.server.command.CommandId;
+import com.example.feedforward_association.models.server.command.InvokedBy;
+import com.example.feedforward_association.models.server.command.TargetObject;
 import com.example.feedforward_association.models.server.object.ObjectBoundary;
 import com.example.feedforward_association.models.server.user.NewUserBoundary;
 import com.example.feedforward_association.models.server.user.RoleEnum;
 import com.example.feedforward_association.models.server.user.UserBoundary;
 import com.example.feedforward_association.models.server.user.UserSession;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -53,6 +59,89 @@ public class Repository {
                 Log.d("DatabaseRepository", "onFailure: GET " + t.getMessage());
             }
         });
+    }
+    public void getAllOrdersByCommand(ApiCallback<List<Order>> callback){
+        CommandBoundary commandBoundary = new CommandBoundary("SBECT");
+        Map<String, Object> commandMap = Map.of("type","Order","email",UserSession.getInstance().getUserEmail());
+        commandBoundary.setCommandAttributes(commandMap);
+        Call<List<ObjectBoundary>> call = apiService.command(UserSession.getInstance().getSUPERAPP(), commandBoundary);
+
+        getUser(UserSession.getInstance().getUserEmail(), new ApiCallback<UserBoundary>() {
+            @Override
+            public void onSuccess(UserBoundary result) {
+                result.setRole(RoleEnum.MINIAPP_USER);
+                updateUser(result);
+                call.enqueue(new Callback<List<ObjectBoundary>>() {
+                    @Override
+                    public void onResponse(Call<List<ObjectBoundary>> call, Response<List<ObjectBoundary>> response) {
+                        if (response.isSuccessful()) {
+                            result.setRole(RoleEnum.SUPERAPP_USER);
+                            updateUser(result);
+                            List<Order> restaurants = Order.convertObjectBoundaryList(response.body());
+                            callback.onSuccess(restaurants);
+                        } else {
+                            callback.onError("Error: " + response.code());
+                            Log.d(" DatabaseRepository", "onError: " + response.code());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<ObjectBoundary>> call, Throwable t) {
+                        callback.onError("Failure: " + t.getMessage());
+                        Log.d(" DatabaseRepository", "onFailure: " + t.getMessage());
+                    }
+                });
+
+
+            }
+
+            @Override
+            public void onError(String error) {
+
+            }
+        });
+    }
+    public void getAllRestaurantsByCommand(ApiCallback<List<Restaurant>> callback){
+        CommandBoundary commandBoundary = new CommandBoundary("SBECT");
+        Map<String, Object> commandMap = Map.of("type","Restaurant","email",UserSession.getInstance().getUserEmail());
+        commandBoundary.setCommandAttributes(commandMap);
+        Call<List<ObjectBoundary>> call = apiService.command(UserSession.getInstance().getSUPERAPP(), commandBoundary);
+
+        getUser(UserSession.getInstance().getUserEmail(), new ApiCallback<UserBoundary>() {
+            @Override
+            public void onSuccess(UserBoundary result) {
+                result.setRole(RoleEnum.MINIAPP_USER);
+                updateUser(result);
+                call.enqueue(new Callback<List<ObjectBoundary>>() {
+                    @Override
+                    public void onResponse(Call<List<ObjectBoundary>> call, Response<List<ObjectBoundary>> response) {
+                        if (response.isSuccessful()) {
+                            result.setRole(RoleEnum.SUPERAPP_USER);
+                            updateUser(result);
+                            List<Restaurant> restaurants = Restaurant.convertObjectBoundaryList(response.body());
+                            callback.onSuccess(restaurants);
+                        } else {
+                            callback.onError("Error: " + response.code());
+                            Log.d(" DatabaseRepository", "onError: " + response.code());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<ObjectBoundary>> call, Throwable t) {
+                        callback.onError("Failure: " + t.getMessage());
+                        Log.d(" DatabaseRepository", "onFailure: " + t.getMessage());
+                    }
+                });
+
+
+            }
+
+            @Override
+            public void onError(String error) {
+
+            }
+        });
+
     }
 
     public void getAllRestaurants(String userSuperApp, String userEmail, int size, int page, ApiCallback<List<Restaurant>> callback) {
@@ -171,6 +260,7 @@ public class Repository {
             public void onResponse(Call<UserBoundary> call, Response<UserBoundary> response) {
                 if (response.isSuccessful()) {
                     UserBoundary user = response.body();
+                    UserSession.getInstance().setUserEmail(email);
                     callback.onSuccess(user);
                     Log.d("DatabaseRepository", "onResponse: " + user);
                 } else {
@@ -282,6 +372,33 @@ public class Repository {
 
             @Override
             public void onFailure(Call<ObjectBoundary> call, Throwable t) {
+                callback.onError("Failure: " + t.getMessage());
+                Log.d(" DatabaseRepository", "onFailure: " + t.getMessage());
+            }
+        });
+    }
+    public void createCommand(String miniApp, String command,ApiCallback<List<ObjectBoundary>> callback){
+        CommandBoundary commandBoundary = new CommandBoundary();
+        commandBoundary.setCommand(command);
+        commandBoundary.setCommandId(new CommandId(UserSession.getInstance().getSUPERAPP(), miniApp,"d"));
+        commandBoundary.setInvokedBy(new InvokedBy(UserSession.getInstance().getSUPERAPP(), UserSession.getInstance().getUserEmail()));
+        commandBoundary.setTargetObject(new TargetObject(UserSession.getInstance().getSUPERAPP(), UserSession.getInstance().getBoundaryId()));
+        Call<List<ObjectBoundary>> call = apiService.command(miniApp, commandBoundary);
+        call.enqueue(new Callback<List<ObjectBoundary>>() {
+            @Override
+            public void onResponse(Call<List<ObjectBoundary>> call, Response<List<ObjectBoundary>> response) {
+                if (response.isSuccessful()) {
+                    List<ObjectBoundary> objects = response.body();
+                    callback.onSuccess(objects);
+                    Log.d(" DatabaseRepository", "onResponse: " + objects);
+                } else {
+                    callback.onError("Error: " + response.code());
+                    Log.d(" DatabaseRepository", "onError: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<ObjectBoundary>> call, Throwable t) {
                 callback.onError("Failure: " + t.getMessage());
                 Log.d(" DatabaseRepository", "onFailure: " + t.getMessage());
             }

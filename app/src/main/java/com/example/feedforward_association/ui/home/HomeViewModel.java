@@ -32,6 +32,7 @@ public class HomeViewModel extends ViewModel {
     }
 
     public void getRestaurants(ApiCallback<List<Restaurant>> callback) {
+        //  repository.getAllRestaurantsByCommand(callback);
         repository.getAllRestaurants(UserSession.getInstance().getSUPERAPP(), UserSession.getInstance().getUserEmail(), 50, 0, callback);
     }
 

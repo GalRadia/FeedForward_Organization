@@ -28,7 +28,8 @@ public class CurrentOrdersViewModel extends ViewModel {
     }
 
     public void getOrders(ApiCallback<List<Order>> callback) {
-        repository.getAllOrders(UserSession.getInstance().getSUPERAPP(), UserSession.getInstance().getUserEmail(), 50, 0,callback);
+        repository.getAllOrdersByCommand(callback);
+        //repository.getAllOrders(UserSession.getInstance().getSUPERAPP(), UserSession.getInstance().getUserEmail(), 50, 0,callback);
     }
 
 }

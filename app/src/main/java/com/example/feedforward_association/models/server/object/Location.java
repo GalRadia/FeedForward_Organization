@@ -4,32 +4,32 @@ package com.example.feedforward_association.models.server.object;
 
 public class Location {
 
-    private double lat;
-    private double lng;
+    private double latitude;
+    private double longitude;
 
     public Location() {
     }
 
     public Location(Double latitude, Double longitude) {
         super();
-        this.lat = latitude;
-        this.lng = longitude;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
     public Double getLatitude() {
-        return lat;
+        return latitude;
     }
     public void setLatitude(Double latitude) {
-        this.lat = latitude;
+        this.latitude = latitude;
     }
     public Double getLongitude() {
-        return lng;
+        return longitude;
     }
     public void setLongitude(Double longitude) {
-        this.lng = longitude;
+        this.longitude = longitude;
     }
     @Override
     public String toString() {
-        return "Location [latitude=" + lat + ", longitude=" + lng + "]";
+        return "Location [latitude=" + latitude + ", longitude=" + longitude + "]";
     }
 
 }

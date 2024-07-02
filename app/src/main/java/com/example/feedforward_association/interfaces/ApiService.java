@@ -1,6 +1,7 @@
 package com.example.feedforward_association.interfaces;
 
 
+import com.example.feedforward_association.models.server.command.CommandBoundary;
 import com.example.feedforward_association.models.server.object.ObjectBoundary;
 import com.example.feedforward_association.models.server.user.NewUserBoundary;
 import com.example.feedforward_association.models.server.user.UserBoundary;
@@ -59,7 +60,7 @@ public interface ApiService {
     @POST("superapp/miniapp/{miniAppName}")
     Call<List<ObjectBoundary>> command(
             @Path("miniAppName") String miniAppName,
-            @Body ObjectBoundary boundary
+            @Body CommandBoundary boundary
     );
 
     @GET("superapp/objects/{superapp}/{id}")

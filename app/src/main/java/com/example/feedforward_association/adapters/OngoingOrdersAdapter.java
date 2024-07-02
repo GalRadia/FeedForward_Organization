@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.feedforward_association.R;
@@ -112,6 +113,9 @@ public class OngoingOrdersAdapter extends RecyclerView.Adapter<OngoingOrdersAdap
             return filteredOrders.size();
         }
         return 0;
+    }
+
+    public void filterDonationsByName(String newText) {
     }
 
     public class OngoingDonationViewHolder extends RecyclerView.ViewHolder {

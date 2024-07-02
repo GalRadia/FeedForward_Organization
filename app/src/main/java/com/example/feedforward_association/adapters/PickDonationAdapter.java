@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.feedforward_association.interfaces.PickDonationCallback;
 import com.example.feedforward_association.databinding.PickDonationItemBinding;
 import com.example.feedforward_association.models.Food;
-import com.example.feedforward_association.models.Order;
 import com.example.feedforward_association.models.Restaurant;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.textview.MaterialTextView;
@@ -20,13 +19,14 @@ import java.util.List;
 
 public class PickDonationAdapter extends RecyclerView.Adapter<PickDonationAdapter.PickDonationViewHolder> {
     private Context context;
-    private PickDonationItemBinding binding;
-    private List<Restaurant> restaurants;
+    private List<Restaurant> originalRestaurants;
+    private List<Restaurant> filteredRestaurants;
     private PickDonationCallback pickDonationCallback;
 
     public PickDonationAdapter(Context context, List<Restaurant> restaurants) {
         this.context = context;
-        this.restaurants = restaurants;
+        this.originalRestaurants = restaurants != null ? restaurants : new ArrayList<>();
+        this.filteredRestaurants = new ArrayList<>(this.originalRestaurants);
     }
 
     public void setPickDonationCallback(PickDonationCallback pickDonationCallback) {
@@ -36,24 +36,24 @@ public class PickDonationAdapter extends RecyclerView.Adapter<PickDonationAdapte
     @NonNull
     @Override
     public PickDonationViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        binding = PickDonationItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        PickDonationItemBinding binding = PickDonationItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         return new PickDonationViewHolder(binding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull PickDonationViewHolder holder, int position) {
-        Restaurant restaurant = restaurants.get(position);
+        Restaurant restaurant = filteredRestaurants.get(position);
         holder.donatorName.setText(restaurant.getRestaurantName());
-
         holder.donatorLocation.setText(restaurant.getRestaurantAddress());
 
         StringBuilder items = new StringBuilder();
         for (Food food : restaurant.getStorage()) {
             items.append(food.getName()).append(", ");
         }
-        if(items.charAt(items.length()-1) == ' ')
-            items.deleteCharAt(items.length()-2);
-        holder.foodItems.setText(items);//TODO: Implement a way to show the food items
+        if (items.length() > 0 && items.charAt(items.length() - 2) == ',') {
+            items.delete(items.length() - 2, items.length());
+        }
+        holder.foodItems.setText(items);
         holder.foodItems.setOnClickListener(v -> {
             if (holder.foodItems.getMaxLines() == 2)
                 holder.foodItems.setMaxLines(100);
@@ -67,26 +67,27 @@ public class PickDonationAdapter extends RecyclerView.Adapter<PickDonationAdapte
 
     @Override
     public int getItemCount() {
-        if (restaurants != null) {
-            return restaurants.size();
-        }
-        return 0;
+        return filteredRestaurants != null ? filteredRestaurants.size() : 0;
     }
 
     public void setRestaurants(List<Restaurant> restaurants) {
-        this.restaurants.clear();
-        this.restaurants.addAll(restaurants);
+        this.originalRestaurants = restaurants != null ? restaurants : new ArrayList<>();
+        this.filteredRestaurants = new ArrayList<>(this.originalRestaurants);
         notifyDataSetChanged();
     }
 
     public void filterOrders(String query) {
-        List<Restaurant> filteredorders = new ArrayList<>();
-        for (Restaurant restaurant : restaurants) {
-            if (restaurant.getRestaurantName().toLowerCase().contains(query.toLowerCase())) {
-                filteredorders.add(restaurant);
+        filteredRestaurants.clear();
+        if (query.isEmpty()) {
+            filteredRestaurants.addAll(originalRestaurants);
+        } else {
+            for (Restaurant restaurant : originalRestaurants) {
+                if (restaurant.getRestaurantName().toLowerCase().contains(query.toLowerCase())) {
+                    filteredRestaurants.add(restaurant);
+                }
             }
         }
-        setRestaurants(filteredorders);
+        notifyDataSetChanged();
     }
 
     public class PickDonationViewHolder extends RecyclerView.ViewHolder {
@@ -105,7 +106,6 @@ public class PickDonationAdapter extends RecyclerView.Adapter<PickDonationAdapte
             donatorButton = binding.BTNPCKStart;
             date = binding.TXTPCKDate;
             time = binding.TXTPCKTime;
-
         }
     }
 }

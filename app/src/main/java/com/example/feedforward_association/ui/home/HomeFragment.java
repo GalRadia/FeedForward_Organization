@@ -9,9 +9,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,12 +28,15 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
 
+import jp.wasabeef.recyclerview.animators.FadeInAnimator;
+import jp.wasabeef.recyclerview.animators.FadeInUpAnimator;
+
 public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
     private HomeViewModel homeViewModel;
     private RecyclerView recyclerView;
-    private SearchBar searchBar;
+    private SearchView searchBar;
     private PickDonationAdapter adapter;
 
 
@@ -62,6 +67,8 @@ public class HomeFragment extends Fragment {
 
     private void initViews() {
         adapter = new PickDonationAdapter(getContext(), new ArrayList<>());
+        recyclerView.setItemAnimator(new FadeInAnimator());
+
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new
 
@@ -92,7 +99,20 @@ public class HomeFragment extends Fragment {
 
         });
         Log.d("HomeFragment", "initViews: CHECK");
+        searchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                adapter.filterOrders(newText);
+                return true;
+            }
+        });
     }
+
 
 
 

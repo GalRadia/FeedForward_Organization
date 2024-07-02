@@ -91,4 +91,6 @@ dependencies {
     implementation(platform(libs.kotlin.bom))
     implementation(libs.places)
 
+    implementation("jp.wasabeef:recyclerview-animators:4.0.2")
+
 }

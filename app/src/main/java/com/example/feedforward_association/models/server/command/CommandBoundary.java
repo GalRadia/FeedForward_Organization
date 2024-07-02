@@ -1,4 +1,6 @@
 package com.example.feedforward_association.models.server.command;
+import com.example.feedforward_association.models.server.user.UserSession;
+
 import java.util.Date;
 import java.util.Map;
 
@@ -16,6 +18,13 @@ public class CommandBoundary {
 
     public CommandBoundary() {
 
+    }
+    public CommandBoundary(String command){
+        this.setCommandId(new CommandId(UserSession.getInstance().getSUPERAPP(),UserSession.getInstance().getBoundaryId(),"123"));
+        this.setInvokedBy(new InvokedBy(UserSession.getInstance().getSUPERAPP(),UserSession.getInstance().getUserEmail()));
+        this.setCommandAttributes(null);
+        this.setTargetObject(new TargetObject(UserSession.getInstance().getSUPERAPP(),UserSession.getInstance().getBoundaryId()));
+        this.setCommand(command);
     }
     public CommandId getCommandId() {
         return commandId;
