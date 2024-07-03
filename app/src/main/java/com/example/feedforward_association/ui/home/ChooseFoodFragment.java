@@ -40,8 +40,11 @@ import com.google.android.material.slider.Slider;
 import com.google.android.material.textview.MaterialTextView;
 import com.google.gson.Gson;
 
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class ChooseFoodFragment extends Fragment {
 
@@ -90,9 +93,12 @@ public class ChooseFoodFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         finishButton.setOnClickListener(v -> {
             //TODO dialog who carries
-
-            Order order = new Order(new ObjectId("2024b.gal.said", ""), restaurant.getRestaurantEmail(), restaurant.getRestaurantName(),
-                    restaurant.getRestaurantLocation(), "", "", selectedFoods, OrderStatus.PENDING, WhoCarries.values()[spinner.getSelectedItemPosition()], UserSession.getInstance().getAssociation().getAssociationName(), new Location());//TODO CHANGE
+            Date date = new Date(System.currentTimeMillis());
+            SimpleDateFormat sdf = new SimpleDateFormat("DD/MM/YYYY");
+            String formattedDate = sdf.format(date);
+            String time = new SimpleDateFormat("HH:mm", Locale.getDefault()).format(new java.util.Date());
+            Order order = new Order(new ObjectId(UserSession.getInstance().getSUPERAPP(), "123"), restaurant.getRestaurantEmail(), restaurant.getRestaurantName(),
+                    restaurant.getRestaurantLocation(), formattedDate, time, selectedFoods, OrderStatus.PENDING, WhoCarries.values()[spinner.getSelectedItemPosition()], UserSession.getInstance().getAssociation().getAssociationName(), new Location());//TODO CHANGE
             mViewModel.postOrder(order, new ApiCallback<Order>() {
                 @Override
                 public void onSuccess(Order result) {

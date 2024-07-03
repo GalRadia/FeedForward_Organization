@@ -1,16 +1,20 @@
 package com.example.feedforward_association.models;
 
-import com.example.feedforward_association.models.server.CommandOptions;
-
 import java.util.Objects;
-import java.util.OptionalInt;
-import java.util.UUID;
 
 public class Food {
     private String name;
     private String type;
     private int amount;
     private String expiryDate;
+
+    public Food(String name, String type, int amount, String expiryDate) {
+        this.name = name;
+        this.type = type;
+        this.amount = amount;
+        this.expiryDate = expiryDate;
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -27,13 +31,6 @@ public class Food {
 
     public Food(){
 
-    }
-
-    public Food(String name, String type, int amount, String expiryDate) {
-        this.name = name;
-        this.type = type;
-        this.amount = amount;
-        this.expiryDate = expiryDate;
     }
 
     public String getType() {

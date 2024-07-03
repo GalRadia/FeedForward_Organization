@@ -13,17 +13,17 @@ import java.util.Map;
 
 
 public class Order  {
-    ObjectId orderID;
-    String donatorEmail;
-    String donatorName;
-    Location donatorLocation;
-    Location associationLocation;
-    String orderDate;
-    String orderTime;
-    List<Food> foods;
-    OrderStatus orderStatus;
-    WhoCarries whoCarries;
-    String associationName;
+  private ObjectId orderID;
+  private String donatorEmail;
+  private String donatorName;
+  private Location donatorLocation;
+  private Location associationLocation;
+  private String orderDate;
+  private String orderTime;
+  private List<Food> foods;
+  private OrderStatus orderStatus;
+  private WhoCarries whoCarries;
+  private String associationName;
 
     public Order() {
     }
@@ -50,10 +50,13 @@ public class Order  {
         this.donatorEmail = temp.getDonatorEmail();
         this.donatorName = temp.getDonatorName();
         this.donatorLocation = temp.getDonatorLocation();
+        this.associationName = temp.getAssociationName();
+        this.associationLocation = temp.getAssociationLocation();
         this.orderDate = temp.getOrderDate();
         this.orderTime = temp.getOrderTime();
         this.foods = temp.getFoods();
         this.orderStatus = temp.getOrderStatus();
+        this.whoCarries = temp.getWhoCarries();
     }
 
     public ObjectId getOrderID() {
@@ -178,7 +181,7 @@ public class Order  {
         objectBoundary.setType("Order");
         objectBoundary.setAlias(order.getDonatorEmail());
         objectBoundary.setCreatedBy(new CreatedBy(UserSession.getInstance().getSUPERAPP(), UserSession.getInstance().getUserEmail()));
-        objectBoundary.setLocation(new Location(100.0, 100.0));//TODO: get location from device
+        objectBoundary.setLocation(order.donatorLocation);//TODO: get location from device
         objectBoundary.setActive(true);
         Gson gson = new Gson();
         Map<String, Object> orderMap = Map.of("Order",gson.toJson(order, Order.class));

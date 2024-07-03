@@ -361,6 +361,10 @@ public class Repository  {
             @Override
             public void onResponse(Call<ObjectBoundary> call, Response<ObjectBoundary> response) {
                 if (response.isSuccessful()) {
+                    if(response.body().getType()!="Association"){
+                        callback.onError("No association found");
+                        return;
+                    }
                     Association association = new Association(response.body());
                     Log.d(" DatabaseRepository INSIDE GET ASSOCIATION", "onResponse: " + association);
                     callback.onSuccess(association);
