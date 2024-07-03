@@ -25,7 +25,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Repository {
+public class Repository  {
     private static Repository instance;
     private ApiService apiService;
     private Repository() {

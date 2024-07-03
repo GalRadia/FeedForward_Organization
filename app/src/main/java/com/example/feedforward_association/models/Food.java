@@ -8,8 +8,9 @@ import java.util.UUID;
 
 public class Food {
     private String name;
-    private String description;
-    private int quantity;
+    private String type;
+    private int amount;
+    private String expiryDate;
 
     @Override
     public boolean equals(Object o) {
@@ -28,10 +29,38 @@ public class Food {
 
     }
 
-    public Food(String name, String description, int quantity) {
+    public Food(String name, String type, int amount, String expiryDate) {
         this.name = name;
-        this.description = description;
-        this.quantity = quantity;
+        this.type = type;
+        this.amount = amount;
+        this.expiryDate = expiryDate;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public Food setType(String type) {
+        this.type = type;
+        return this;
+    }
+
+    public int getAmount() {
+        return amount;
+    }
+
+    public Food setAmount(int amount) {
+        this.amount = amount;
+        return this;
+    }
+
+    public String getExpiryDate() {
+        return expiryDate;
+    }
+
+    public Food setExpiryDate(String expiryDate) {
+        this.expiryDate = expiryDate;
+        return this;
     }
 
     public String getName() {
@@ -43,27 +72,11 @@ public class Food {
         return this;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public Food setDescription(String description) {
-        this.description = description;
-        return this;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
 
 
 
-    @Override
-    public String toString() {
-        return name + " - " + description + " - " + quantity;
-    }
+
+
+
+
 }

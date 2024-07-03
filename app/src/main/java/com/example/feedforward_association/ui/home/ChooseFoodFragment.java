@@ -154,7 +154,7 @@ public class ChooseFoodFragment extends Fragment {
         // Create a Slider
         final Slider slider = new Slider(getContext());
         slider.setValueFrom(0);
-        slider.setValueTo(food.getQuantity());
+        slider.setValueTo(food.getAmount());
         slider.setStepSize(1);
         layout.addView(slider);
 
@@ -185,7 +185,7 @@ public class ChooseFoodFragment extends Fragment {
         for (Food selectedFood : selectedFoods) {
             selectedFoodsText.append(selectedFood.getName())
                     .append(": ")
-                    .append(selectedFood.getQuantity())
+                    .append(selectedFood.getAmount())
                     .append("\n");
         }
         selectedFoodsTextView.setText(selectedFoodsText.toString());
@@ -196,9 +196,9 @@ public class ChooseFoodFragment extends Fragment {
 
         boolean found = selectedFoods.contains(food);
         if (found)
-            selectedFoods.get(selectedFoods.indexOf(food)).setQuantity(selectedValue);
+            selectedFoods.get(selectedFoods.indexOf(food)).setAmount(selectedValue);
         else
-            selectedFoods.add(new Food(food.getName(), food.getDescription(), selectedValue));
+            selectedFoods.add(new Food(food.getName(), food.getType(), selectedValue, food.getExpiryDate()));
 
 
         adapter.notifyDataSetChanged();
@@ -213,7 +213,7 @@ public class ChooseFoodFragment extends Fragment {
         for (Food selectedFood : selectedFoods) {
             for (Food food : restaurant.getStorage()) {
                 if (selectedFood.getName().equals(food.getName())) {
-                    food.setQuantity(food.getQuantity() - selectedFood.getQuantity());
+                    food.setAmount(food.getAmount() - selectedFood.getAmount());
                 }
             }
         }

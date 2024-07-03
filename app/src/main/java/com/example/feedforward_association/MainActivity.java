@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-   //     initData();
+        initData();
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -81,12 +81,12 @@ public class MainActivity extends AppCompatActivity {
         restaurant.setRestaurantAddress("Hertzel 1, Tel Aviv");
         restaurant.setRestaurantLocation(new Location(32.1234, 34.1234));
         ArrayList<Food> storage = new ArrayList<>();
-        storage.add(new Food("Hamburger", "yammy", 20));
-        storage.add(new Food("Fries", "yammy", 10));
-        storage.add(new Food("Coca Cola", "yammy", 5));
+        storage.add(new Food( "Big Mac", "KOSHER", 20,"11/10/2010"));
+        storage.add(new Food( "Fries", "VEGAN", 10,"11/10/2010"));
+        storage.add(new Food( "Coca Cola", "VEGI", 5,"11/10/2010"));
+
         restaurant.setStorage(storage);
         restaurant.setRestaurantId(new ObjectId(UserSession.getInstance().getSUPERAPP(), "123"));
-        restaurant.setReviews(new ArrayList<>());
         repository.createObject(restaurant.toObjectBoundary(), new ApiCallback<ObjectBoundary>() {
             @Override
             public void onSuccess(ObjectBoundary result) {

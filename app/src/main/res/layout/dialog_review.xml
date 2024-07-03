@@ -13,7 +13,7 @@
         android:stepSize="1.0"
         android:layout_gravity="center"
         android:rating="0"
-        android:theme="@style/RatingBarStyle" />
+        />
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"

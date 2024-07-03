@@ -19,10 +19,8 @@ public class Restaurant {
     private Location restaurantLocation;
     private String restaurantPhone;
     private List<Food> storage;
-   // private List<Order> orders;
-    private List<Review>reviews;
 
-    public Restaurant(ObjectId restaurantId, String restaurantEmail, String restaurantName, String restaurantAddress, Location restaurantLocation, String restaurantPhone, List<Food> storage, List<Review> reviews) {
+    public Restaurant(ObjectId restaurantId, String restaurantEmail, String restaurantName, String restaurantAddress, Location restaurantLocation, String restaurantPhone, List<Food> storage) {
         this.restaurantId = restaurantId;
         this.restaurantEmail = restaurantEmail;
         this.restaurantName = restaurantName;
@@ -30,8 +28,6 @@ public class Restaurant {
         this.restaurantLocation = restaurantLocation;
         this.restaurantPhone = restaurantPhone;
         this.storage = storage;
-      //  this.orders = orders;
-        this.reviews = reviews;
     }
     public Restaurant() {
     }
@@ -45,8 +41,6 @@ public class Restaurant {
         this.restaurantLocation = temp.getRestaurantLocation();
         this.restaurantPhone = temp.getRestaurantPhone();
         this.storage = temp.getStorage();
-       // this.orders = temp.getOrders();
-        this.reviews = temp.getReviews();
 
     }
 
@@ -113,14 +107,8 @@ public class Restaurant {
         return this;
     }
 
-    public List<Review> getReviews() {
-        return reviews;
-    }
 
-    public Restaurant setReviews(List<Review> reviews) {
-        this.reviews = reviews;
-        return this;
-    }
+
 
     @Override
     public String toString() {
@@ -132,8 +120,6 @@ public class Restaurant {
                 ", restaurantLocation=" + restaurantLocation +
                 ", restaurantPhone='" + restaurantPhone + '\'' +
                 ", storage=" + storage +
-//                ", orders=" + orders +
-                ", reviews=" + reviews +
                 '}';
     }
     public static List<Restaurant> convertObjectBoundaryList(List<ObjectBoundary> objectBoundaries) {
