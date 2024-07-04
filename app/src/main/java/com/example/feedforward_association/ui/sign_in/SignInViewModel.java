@@ -8,6 +8,8 @@ import com.example.feedforward_association.models.server.object.ObjectBoundary;
 import com.example.feedforward_association.models.server.user.UserBoundary;
 import com.example.feedforward_association.utils.Repository;
 
+import java.util.Objects;
+
 public class SignInViewModel extends ViewModel {
     private Repository repository;
 
@@ -20,8 +22,24 @@ public class SignInViewModel extends ViewModel {
         repository.getUser(email, userBoundaryApiCallback);
     }
 
-    public void fetchAssociation(ApiCallback<Association> callback) {
-        repository.getAssociation(callback);
+    public void fetchAssociation(String id ,String email, String superApp,String userSuperApp,ApiCallback<Association> callback) {
+       // repository.getAssociation(callback);
+        repository.getSpecificObject(id, email, superApp, userSuperApp, new ApiCallback<ObjectBoundary>() {
+            @Override
+            public void onSuccess(ObjectBoundary result) {
+                if(result == null|| !Objects.equals(result.getType(), "Association")){
+                    callback.onError("Association not found");
+                    return;
+                }
+                Association association = new Association(result);
+                callback.onSuccess(association);
+            }
+
+            @Override
+            public void onError(String error) {
+
+            }
+        });
     }
 
     public void signUp(String email, String username, String avatar, ApiCallback<UserBoundary> callback) {

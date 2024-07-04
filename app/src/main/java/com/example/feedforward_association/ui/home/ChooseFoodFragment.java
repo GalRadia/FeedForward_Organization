@@ -18,7 +18,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
-import android.widget.PopupMenu;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -31,20 +30,17 @@ import com.example.feedforward_association.models.Order;
 import com.example.feedforward_association.models.OrderStatus;
 import com.example.feedforward_association.models.Restaurant;
 import com.example.feedforward_association.models.WhoCarries;
-import com.example.feedforward_association.models.server.object.Location;
 import com.example.feedforward_association.models.server.object.ObjectId;
 import com.example.feedforward_association.models.server.user.UserSession;
-import com.example.feedforward_association.utils.Repository;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.slider.Slider;
 import com.google.android.material.textview.MaterialTextView;
 import com.google.gson.Gson;
 
-import java.sql.Date;
-import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class ChooseFoodFragment extends Fragment {
 
@@ -93,12 +89,18 @@ public class ChooseFoodFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         finishButton.setOnClickListener(v -> {
             //TODO dialog who carries
-            Date date = new Date(System.currentTimeMillis());
-            SimpleDateFormat sdf = new SimpleDateFormat("DD/MM/YYYY");
-            String formattedDate = sdf.format(date);
-            String time = new SimpleDateFormat("HH:mm", Locale.getDefault()).format(new java.util.Date());
+
+            LocalDateTime now = LocalDateTime.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            // Format the current date and time
+            String date = now.format(formatter);
+            DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+            String time = now.format(timeFormatter);
+
+
+            OrderStatus status = spinner.getSelectedItem().toString().equals("Take Away") ? OrderStatus.ACTIVE : OrderStatus.PENDING;
             Order order = new Order(new ObjectId(UserSession.getInstance().getSUPERAPP(), "123"), restaurant.getRestaurantEmail(), restaurant.getRestaurantName(),
-                    restaurant.getRestaurantLocation(), formattedDate, time, selectedFoods, OrderStatus.PENDING, WhoCarries.values()[spinner.getSelectedItemPosition()], UserSession.getInstance().getAssociation().getAssociationName(), new Location());//TODO CHANGE
+                    restaurant.getRestaurantLocation(), date, time, selectedFoods, status, WhoCarries.values()[spinner.getSelectedItemPosition()], UserSession.getInstance().getAssociation().getAssociationName(), UserSession.getInstance().getAssociation().getAssociationLocation());//TODO CHANGE
             mViewModel.postOrder(order, new ApiCallback<Order>() {
                 @Override
                 public void onSuccess(Order result) {
@@ -185,6 +187,7 @@ public class ChooseFoodFragment extends Fragment {
     }
 
     private @NonNull MaterialTextView showSelectedFood() {
+
         final MaterialTextView selectedFoodsTextView = new MaterialTextView(getContext());
         selectedFoodsTextView.setTextSize(18);
         StringBuilder selectedFoodsText = new StringBuilder("Selected foods so far:\n");
@@ -206,7 +209,10 @@ public class ChooseFoodFragment extends Fragment {
         else
             selectedFoods.add(new Food(food.getName(), food.getType(), selectedValue, food.getExpiryDate()));
 
-
+        for (int i = 0; i < selectedFoods.size(); i++) {
+            if (selectedFoods.get(i).getAmount() == 0)
+                selectedFoods.remove(i);
+        }
         adapter.notifyDataSetChanged();
     }
 
@@ -217,11 +223,10 @@ public class ChooseFoodFragment extends Fragment {
 
     private Restaurant updateStorage(List<Food> selectedFoods) {
         for (Food selectedFood : selectedFoods) {
-            for (Food food : restaurant.getStorage()) {
-                if (selectedFood.getName().equals(food.getName())) {
-                    food.setAmount(food.getAmount() - selectedFood.getAmount());
-                }
-            }
+            Food food = restaurant.getStorage().get(restaurant.getStorage().indexOf(selectedFood));
+            food.setAmount(food.getAmount() - selectedFood.getAmount());
+            if (food.getAmount() == 0)
+                restaurant.getStorage().remove(food);
         }
         return restaurant;
     }

@@ -17,7 +17,6 @@ import com.example.feedforward_association.models.server.user.RoleEnum;
 import com.example.feedforward_association.models.server.user.UserBoundary;
 import com.example.feedforward_association.models.server.user.UserSession;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -25,9 +24,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Repository  {
+public class Repository {
     private static Repository instance;
     private ApiService apiService;
+
     private Repository() {
 
         this.apiService = RetrofitClient.getApiService();
@@ -61,9 +61,9 @@ public class Repository  {
         });
     }
 
-    public void getAllOrdersByCommand(ApiCallback<List<Order>> callback){
+    public void getAllOrdersByCommand(ApiCallback<List<Order>> callback) {
         CommandBoundary commandBoundary = new CommandBoundary("SBECT");
-        Map<String, Object> commandMap = Map.of("type","Order","email",UserSession.getInstance().getUserEmail());
+        Map<String, Object> commandMap = Map.of("type", "Order", "email", UserSession.getInstance().getUserEmail());
         commandBoundary.setCommandAttributes(commandMap);
         Call<List<ObjectBoundary>> call = apiService.command(UserSession.getInstance().getSUPERAPP(), commandBoundary);
 
@@ -102,9 +102,10 @@ public class Repository  {
             }
         });
     }
-    public void getAllRestaurantsByCommand(ApiCallback<List<Restaurant>> callback){
+
+    public void getAllRestaurantsByCommand(ApiCallback<List<Restaurant>> callback) {
         CommandBoundary commandBoundary = new CommandBoundary("SBECT");
-        Map<String, Object> commandMap = Map.of("type","Restaurant","email",UserSession.getInstance().getUserEmail());
+        Map<String, Object> commandMap = Map.of("type", "Restaurant", "email", UserSession.getInstance().getUserEmail());
         commandBoundary.setCommandAttributes(commandMap);
         Call<List<ObjectBoundary>> call = apiService.command(UserSession.getInstance().getSUPERAPP(), commandBoundary);
 
@@ -145,6 +146,25 @@ public class Repository  {
 
     }
 
+    public void getAllObjectsByType(String type, String userSuperApp, String userEmail, int size, int page, ApiCallback<List<ObjectBoundary>> callback) {
+        apiService.getAllObjctsByType(type, userSuperApp, userEmail, size, page).enqueue(new Callback<List<ObjectBoundary>>() {
+            @Override
+            public void onResponse(Call<List<ObjectBoundary>> call, Response<List<ObjectBoundary>> response) {
+                if (response.isSuccessful()) {
+                    List<ObjectBoundary> objects = response.body();
+                    callback.onSuccess(objects);
+                    Log.d("DatabaseRepository", "onResponse: GET " + objects);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<ObjectBoundary>> call, Throwable t) {
+                // Handle failure
+                Log.d("DatabaseRepository", "onFailure: GET " + t.getMessage());
+            }
+        });
+    }
+
     public void getAllRestaurants(String userSuperApp, String userEmail, int size, int page, ApiCallback<List<Restaurant>> callback) {
         apiService.getAllObjctsByType("Restaurant", userSuperApp, userEmail, size, page).enqueue(new Callback<List<ObjectBoundary>>() {
             @Override
@@ -164,29 +184,6 @@ public class Repository  {
         });
     }
 
-    //    private void fetchOrdersFromServer(String userSuperApp, String userEmail, int size, int page) {
-//        Log.d("DatabaseRepository", "Fetching orders from server...");
-//
-//        apiService.getAllObjcts("Order", userSuperApp, userEmail, size, page).enqueue(new Callback<List<ObjectBoundary>>() {
-//            @Override
-//            public void onResponse(Call<List<ObjectBoundary>> call, Response<List<ObjectBoundary>> response) {
-//                if (response.isSuccessful() && response.body() != null) {
-//                    List<Order> orders = Order.convertObjectBoundaryList(response.body());
-//                    ordersLiveData.setValue(orders);
-//                    Log.d("DatabaseRepository", "Orders fetched successfully: " + orders.size());
-//                } else {
-//                    ordersLiveData.setValue(new ArrayList<>());
-//                    Log.d("DatabaseRepository", "Failed to fetch orders: response unsuccessful or body is null");
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<List<ObjectBoundary>> call, Throwable t) {
-//                ordersLiveData.setValue(new ArrayList<>());
-//                Log.d("DatabaseRepository", "Failed to fetch orders: " + t.getMessage());
-//            }
-//        });
-//    }
     public void createOrder(Order order, final ApiCallback<Order> callback) {
         ObjectBoundary object = order.convert(order);
         Call<ObjectBoundary> call = apiService.createObject(object);
@@ -210,6 +207,7 @@ public class Repository  {
             }
         });
     }
+
     public void updateAssociation(Association association, final ApiCallback<Association> callback) {
         ObjectBoundary object = association.toObjectBoundary();
         Call<Void> call = apiService.updateObject(association.getAssociationId().getId(), UserSession.getInstance().getSUPERAPP(), UserSession.getInstance().getSUPERAPP(), UserSession.getInstance().getUserEmail(), object);
@@ -256,6 +254,25 @@ public class Repository  {
         });
     }
 
+    public void updateObject(ObjectBoundary object) {
+        Call<Void> call = apiService.updateObject(object.getObjectId().getId(), object.getObjectId().getSuperapp(), object.getObjectId().getSuperapp(), object.getCreatedBy().getUserId().getEmail(), object);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    Log.d(" DatabaseRepository", "onResponse: " + object);
+                } else {
+                    Log.d(" DatabaseRepository", "onError: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Log.d(" DatabaseRepository", "onFailure: " + t.getMessage());
+            }
+        });
+    }
+
     public void updateUser(UserBoundary user) {
         Call<Void> call = apiService.updateUser(user.getUserId().getSuperapp(), user.getUserId().getEmail(), user);
         call.enqueue(new Callback<Void>() {
@@ -276,7 +293,7 @@ public class Repository  {
     }
 
     public void createUser(String email, String userName, String avatar, final ApiCallback<UserBoundary> callback) {
-        NewUserBoundary user = new NewUserBoundary(email, RoleEnum.SUPERAPP_USER,userName, avatar);
+        NewUserBoundary user = new NewUserBoundary(email, RoleEnum.SUPERAPP_USER, userName, avatar);
         Call<UserBoundary> call = apiService.createUser(user);
         call.enqueue(new Callback<UserBoundary>() {
             @Override
@@ -350,21 +367,36 @@ public class Repository  {
         });
     }
 
-    public void getAssociation(ApiCallback<Association> callback) {
-        Call<ObjectBoundary> call = apiService.getSpecificObject(
-                UserSession.getInstance().getSUPERAPP(),
-                UserSession.getInstance().getBoundaryId(),
-                UserSession.getInstance().getSUPERAPP(),
-                UserSession.getInstance().getUserEmail()
-        );
+    public void getSpecificObject(String id, String userSuperApp, String userEmail, String superApp, final ApiCallback<ObjectBoundary> callback) {
+        Call<ObjectBoundary> call = apiService.getSpecificObject(id, userSuperApp, userEmail, superApp);
         call.enqueue(new Callback<ObjectBoundary>() {
             @Override
             public void onResponse(Call<ObjectBoundary> call, Response<ObjectBoundary> response) {
                 if (response.isSuccessful()) {
-                    if(response.body().getType()!="Association"){
-                        callback.onError("No association found");
-                        return;
-                    }
+                    ObjectBoundary object = response.body();
+                    callback.onSuccess(object);
+                    Log.d(" DatabaseRepository", "onResponse: " + object);
+                } else {
+                    callback.onError("Error: " + response.code());
+                    Log.d(" DatabaseRepository", "onError: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ObjectBoundary> call, Throwable t) {
+                callback.onError("Failure: " + t.getMessage());
+                Log.d(" DatabaseRepository", "onFailure: " + t.getMessage());
+            }
+        });
+    }
+
+    public void getAssociation(ApiCallback<Association> callback) {
+        Call<ObjectBoundary> call = apiService.getSpecificObject(UserSession.getInstance().getSUPERAPP(), UserSession.getInstance().getBoundaryId(), UserSession.getInstance().getSUPERAPP(), UserSession.getInstance().getUserEmail());
+        call.enqueue(new Callback<ObjectBoundary>() {
+            @Override
+            public void onResponse(Call<ObjectBoundary> call, Response<ObjectBoundary> response) {
+                if (response.isSuccessful()) {
+
                     Association association = new Association(response.body());
                     Log.d(" DatabaseRepository INSIDE GET ASSOCIATION", "onResponse: " + association);
                     callback.onSuccess(association);
@@ -381,7 +413,8 @@ public class Repository  {
             }
         });
     }
-    public void createAssociation(Association association, ApiCallback<ObjectBoundary> callback){
+
+    public void createAssociation(Association association, ApiCallback<ObjectBoundary> callback) {
         ObjectBoundary object = association.toObjectBoundary();
         Call<ObjectBoundary> call = apiService.createObject(object);
         call.enqueue(new Callback<ObjectBoundary>() {
@@ -404,10 +437,11 @@ public class Repository  {
             }
         });
     }
-    public void createCommand(String miniApp, String command,ApiCallback<List<ObjectBoundary>> callback){
+
+    public void createCommand(String miniApp, String command, ApiCallback<List<ObjectBoundary>> callback) {
         CommandBoundary commandBoundary = new CommandBoundary();
         commandBoundary.setCommand(command);
-        commandBoundary.setCommandId(new CommandId(UserSession.getInstance().getSUPERAPP(), miniApp,"d"));
+        commandBoundary.setCommandId(new CommandId(UserSession.getInstance().getSUPERAPP(), miniApp, "d"));
         commandBoundary.setInvokedBy(new InvokedBy(UserSession.getInstance().getSUPERAPP(), UserSession.getInstance().getUserEmail()));
         commandBoundary.setTargetObject(new TargetObject(UserSession.getInstance().getSUPERAPP(), UserSession.getInstance().getBoundaryId()));
         Call<List<ObjectBoundary>> call = apiService.command(miniApp, commandBoundary);

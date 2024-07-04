@@ -29,22 +29,58 @@ public class HomeViewModel extends ViewModel {
     }
 
     public void getOrders(ApiCallback<List<Order>> callback) {
-        repository.getAllOrders("2024b.gal.said", "ziv@gmail.com", 50, 0, callback);
+       // repository.getAllOrders("2024b.gal.said", "ziv@gmail.com", 50, 0, callback);
+        repository.getAllObjectsByType("Order", UserSession.getInstance().getSUPERAPP(), UserSession.getInstance().getUserEmail(), 50, 0, new ApiCallback<List<ObjectBoundary>>() {
+            @Override
+            public void onSuccess(List<ObjectBoundary> result) {
+                callback.onSuccess(Order.convertObjectBoundaryList(result));
+            }
+
+            @Override
+            public void onError(String error) {
+                callback.onError(error);
+            }
+        });
     }
 
     public void getRestaurants(ApiCallback<List<Restaurant>> callback) {
         //  repository.getAllRestaurantsByCommand(callback);
-        repository.getAllRestaurants(UserSession.getInstance().getSUPERAPP(), UserSession.getInstance().getUserEmail(), 50, 0, callback);
+       // repository.getAllRestaurants(UserSession.getInstance().getSUPERAPP(), UserSession.getInstance().getUserEmail(), 50, 0, callback);
+        repository.getAllObjectsByType("Restaurant", UserSession.getInstance().getSUPERAPP(), UserSession.getInstance().getUserEmail(), 50, 0, new ApiCallback<List<ObjectBoundary>>() {
+            @Override
+            public void onSuccess(List<ObjectBoundary> result) {
+                callback.onSuccess(Restaurant.convertObjectBoundaryList(result));
+            }
+
+            @Override
+            public void onError(String error) {
+                callback.onError(error);
+            }
+        });
     }
 
     public void postOrder(Order order, ApiCallback<Order> callback) {
         ObjectBoundary object = order.convert(order);
        // repository.createObject(object, callback); TODO: to change
-        repository.createOrder(order, callback);
+       // repository.createOrder(order, callback);
+        repository.createObject(object, new ApiCallback<ObjectBoundary>() {
+            @Override
+            public void onSuccess(ObjectBoundary result) {
+                Order order = new Order(result);
+                callback.onSuccess(order);
+            }
+
+            @Override
+            public void onError(String error) {
+                callback.onError(error);
+            }
+        });
     }
 
     public void updateRestaurant(Restaurant restaurant, ApiCallback<Restaurant> callback) {
-        repository.updateRestaurant(restaurant, callback);
+       // repository.updateRestaurant(restaurant, callback);
+        ObjectBoundary object = restaurant.toObjectBoundary();
+        repository.updateObject(object);
     }
 
 

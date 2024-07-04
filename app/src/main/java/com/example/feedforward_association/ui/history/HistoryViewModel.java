@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.feedforward_association.interfaces.ApiCallback;
 import com.example.feedforward_association.models.Association;
+import com.example.feedforward_association.models.server.object.ObjectBoundary;
 import com.example.feedforward_association.utils.Repository;
 
 public class HistoryViewModel extends ViewModel {
@@ -17,7 +18,10 @@ public class HistoryViewModel extends ViewModel {
 
     }
     public void updateAssociation(Association association, ApiCallback<Association> callback){
-        repository.updateAssociation(association,callback);
+
+       // repository.updateAssociation(association,callback);
+        ObjectBoundary associationBoundary = association.toObjectBoundary();
+        repository.updateObject(associationBoundary);
     }
 
 

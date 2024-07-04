@@ -58,22 +58,18 @@ public class LogInFragment extends Fragment {
                     UserSession.getInstance().setUserEmail(result.getUserId().getEmail());
                     UserSession.getInstance().setBoundaryId(result.getUserName());
                     Toast.makeText(getContext(), "Logged in successfully", Toast.LENGTH_SHORT).show();
-                    signInViewModel.fetchAssociation(new ApiCallback<Association>() {
+
+                    signInViewModel.fetchAssociation(result.getUserName(), result.getUserId().getEmail(), UserSession.getInstance().getSUPERAPP(), UserSession.getInstance().getSUPERAPP(), new ApiCallback<Association>() {
                         @Override
                         public void onSuccess(Association result) {
                             UserSession.getInstance().setAssociation(result);
-                            Toast.makeText(getContext(), "Welcome " + result.getAssociationName(), Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(getContext(), MainActivity.class);
                             startActivity(intent);
-                            getActivity().finish();
                         }
 
                         @Override
                         public void onError(String error) {
-                            Toast.makeText(getContext(), "Cant find association", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(getContext(), MainActivity.class);
-                            startActivity(intent);
-                            getActivity().finish();
+                            Toast.makeText(getContext(), "Association doesnt exists", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
