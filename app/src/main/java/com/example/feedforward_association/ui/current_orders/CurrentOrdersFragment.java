@@ -30,6 +30,8 @@ import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.search.SearchBar;
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -145,9 +147,11 @@ public class CurrentOrdersFragment extends Fragment {
         builder.setPositiveButton("Submit", (dialogInterface, i) -> {
                     Review review = new Review();
                     review.setRating(ratingBar.getRating());
-                    Date date = new Date();
-                    date.setTime(System.currentTimeMillis());
-                    review.setDate(date + "");
+                    LocalDateTime now = LocalDateTime.now();
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                    // Format the current date and time
+                    String date = now.format(formatter);
+                    review.setDate(date);
                     review.setName(order.getAssociationName());
                     review.setOverview(reviewText.toString());
                     currentOrdersViewModel.creatReview(review, new ApiCallback<ObjectBoundary>() {

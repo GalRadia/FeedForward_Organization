@@ -94,8 +94,6 @@ public class PickDonationAdapter extends RecyclerView.Adapter<PickDonationAdapte
         private MaterialTextView donatorName;
         private MaterialTextView donatorLocation;
         private MaterialTextView foodItems;
-        private MaterialTextView date;
-        private MaterialTextView time;
         private ExtendedFloatingActionButton donatorButton;
 
         public PickDonationViewHolder(PickDonationItemBinding binding) {
@@ -104,8 +102,7 @@ public class PickDonationAdapter extends RecyclerView.Adapter<PickDonationAdapte
             donatorLocation = binding.TXTPCKDonatorLocation;
             foodItems = binding.TXTPCKFoodItems;
             donatorButton = binding.BTNPCKStart;
-            date = binding.TXTPCKDate;
-            time = binding.TXTPCKTime;
+
         }
     }
 }

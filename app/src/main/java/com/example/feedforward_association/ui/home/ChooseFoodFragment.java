@@ -106,9 +106,9 @@ public class ChooseFoodFragment extends Fragment {
                 public void onSuccess(Order result) {
                     restaurant = updateStorage(selectedFoods);
                     Toast.makeText(getContext(), "Order posted", Toast.LENGTH_SHORT).show();
-                    mViewModel.updateRestaurant(restaurant, new ApiCallback<Restaurant>() {
+                    mViewModel.updateRestaurant(restaurant, new ApiCallback<Void>() {
                         @Override
-                        public void onSuccess(Restaurant result) {
+                        public void onSuccess(Void result) {
                             Toast.makeText(getContext(), "Restaurant updated", Toast.LENGTH_SHORT).show();
                             navigateBackToHome();
                         }

@@ -254,12 +254,13 @@ public class Repository {
         });
     }
 
-    public void updateObject(ObjectBoundary object) {
+    public void updateObject(ObjectBoundary object, final ApiCallback<Void> callback) {
         Call<Void> call = apiService.updateObject(object.getObjectId().getId(), object.getObjectId().getSuperapp(), object.getObjectId().getSuperapp(), object.getCreatedBy().getUserId().getEmail(), object);
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
+                    callback.onSuccess(null);
                     Log.d(" DatabaseRepository", "onResponse: " + object);
                 } else {
                     Log.d(" DatabaseRepository", "onError: " + response.code());
@@ -268,6 +269,7 @@ public class Repository {
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
+                callback.onError("Failure: " + t.getMessage());
                 Log.d(" DatabaseRepository", "onFailure: " + t.getMessage());
             }
         });
@@ -368,7 +370,7 @@ public class Repository {
     }
 
     public void getSpecificObject(String id, String userSuperApp, String userEmail, String superApp, final ApiCallback<ObjectBoundary> callback) {
-        Call<ObjectBoundary> call = apiService.getSpecificObject(id, userSuperApp, userEmail, superApp);
+        Call<ObjectBoundary> call = apiService.getSpecificObject( userSuperApp,id, superApp, userEmail);
         call.enqueue(new Callback<ObjectBoundary>() {
             @Override
             public void onResponse(Call<ObjectBoundary> call, Response<ObjectBoundary> response) {

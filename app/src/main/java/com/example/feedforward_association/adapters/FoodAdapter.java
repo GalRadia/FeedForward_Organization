@@ -85,6 +85,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
             foodQuantity = binding.TXTQuantity;
             foodTypes = binding.FoodItemDesc;
             selectFoodb = binding.BTNAddFood;
+            expireDate = binding.expirationDate;
         }
     }
 }

@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -28,7 +29,7 @@ public class HistoryFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        HistoryViewModel historyViewModel =
+         historyViewModel =
                 new ViewModelProvider(this).get(HistoryViewModel.class);
 
         binding = FragmentHistoryBinding.inflate(inflater, container, false);
@@ -50,26 +51,29 @@ public class HistoryFragment extends Fragment {
         updatedPhone = binding.updatedPhoneNumber;
     }
     private void initViews(){
-        updatedName.setHint(UserSession.getInstance().getAssociation().getAssociationName());
-        updatedAddress.setHint(UserSession.getInstance().getAssociation().getAssociationAddress());
-        updatedPhone.setHint(UserSession.getInstance().getAssociation().getAssociationPhone());
+        updatedName.setHint("Association Name");
+        updatedAddress.setHint("Association Address");
+        updatedPhone.setHint("Association Phone");
+        updatedName.getEditText().setText(UserSession.getInstance().getAssociation().getAssociationName());
+        updatedAddress.getEditText().setText(UserSession.getInstance().getAssociation().getAssociationAddress());
+        updatedPhone.getEditText().setText(UserSession.getInstance().getAssociation().getAssociationPhone());
         updateButton.setOnClickListener(v -> {
             Association association = UserSession.getInstance().getAssociation();
             association.setAssociationName(updatedName.getEditText().getText().toString());
             association.setAssociationAddress(updatedAddress.getEditText().getText().toString());
             association.setAssociationPhone(updatedPhone.getEditText().getText().toString());
-            historyViewModel.updateAssociation(association, new ApiCallback<Association>() {
+            if(!validate())
+                return;
+            historyViewModel.updateAssociation(association, new ApiCallback<Void>() {
                 @Override
-                public void onSuccess(Association result) {
-                    if(!validate())
-                        return;
-                    updatedName.setHint(result.getAssociationName());
-                    updatedAddress.setHint(result.getAssociationAddress());
-                    updatedPhone.setHint(result.getAssociationPhone());
+                public void onSuccess(Void result) {
+                    Toast.makeText(getContext(), "Association updated successfully", Toast.LENGTH_SHORT).show();
+
                 }
 
                 @Override
                 public void onError(String message) {
+                    Toast.makeText(getContext(), "Failed to update association", Toast.LENGTH_SHORT).show();
                     updatedName.setHint(UserSession.getInstance().getAssociation().getAssociationName());
                     updatedAddress.setHint(UserSession.getInstance().getAssociation().getAssociationAddress());
                     updatedPhone.setHint(UserSession.getInstance().getAssociation().getAssociationPhone());

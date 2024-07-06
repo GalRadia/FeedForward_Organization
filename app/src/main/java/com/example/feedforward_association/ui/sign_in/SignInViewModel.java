@@ -24,13 +24,9 @@ public class SignInViewModel extends ViewModel {
 
     public void fetchAssociation(String id ,String email, String superApp,String userSuperApp,ApiCallback<Association> callback) {
        // repository.getAssociation(callback);
-        repository.getSpecificObject(id, email, superApp, userSuperApp, new ApiCallback<ObjectBoundary>() {
+        repository.getSpecificObject(id, superApp,email, userSuperApp, new ApiCallback<ObjectBoundary>() {
             @Override
             public void onSuccess(ObjectBoundary result) {
-                if(result == null|| !Objects.equals(result.getType(), "Association")){
-                    callback.onError("Association not found");
-                    return;
-                }
                 Association association = new Association(result);
                 callback.onSuccess(association);
             }

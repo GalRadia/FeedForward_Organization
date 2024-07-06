@@ -77,10 +77,10 @@ public class HomeViewModel extends ViewModel {
         });
     }
 
-    public void updateRestaurant(Restaurant restaurant, ApiCallback<Restaurant> callback) {
+    public void updateRestaurant(Restaurant restaurant, ApiCallback<Void> callback){
        // repository.updateRestaurant(restaurant, callback);
         ObjectBoundary object = restaurant.toObjectBoundary();
-        repository.updateObject(object);
+        repository.updateObject(object,callback);
     }
 
 

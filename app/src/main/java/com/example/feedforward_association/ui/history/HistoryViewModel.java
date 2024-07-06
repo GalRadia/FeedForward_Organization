@@ -11,17 +11,18 @@ import com.example.feedforward_association.utils.Repository;
 
 public class HistoryViewModel extends ViewModel {
 
-    private Repository repository ;
+    private Repository repository;
 
     public HistoryViewModel() {
         repository = Repository.getInstance();
 
     }
-    public void updateAssociation(Association association, ApiCallback<Association> callback){
 
-       // repository.updateAssociation(association,callback);
+    public void updateAssociation(Association association, ApiCallback<Void> callback) {
+
+        // repository.updateAssociation(association,callback);
         ObjectBoundary associationBoundary = association.toObjectBoundary();
-        repository.updateObject(associationBoundary);
+        repository.updateObject(associationBoundary, callback);
     }
 
 
