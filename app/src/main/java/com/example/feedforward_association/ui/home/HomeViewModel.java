@@ -1,51 +1,42 @@
 package com.example.feedforward_association.ui.home;
 
+import android.app.Application;
+import android.location.Location;
 import android.util.Log;
 
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
 import com.example.feedforward_association.interfaces.ApiCallback;
 import com.example.feedforward_association.models.Order;
 import com.example.feedforward_association.models.Restaurant;
+import com.example.feedforward_association.models.server.DistanceUnit;
 import com.example.feedforward_association.models.server.object.ObjectBoundary;
-import com.example.feedforward_association.models.server.user.UserBoundary;
 import com.example.feedforward_association.models.server.user.UserSession;
 import com.example.feedforward_association.utils.Repository;
 
 import java.util.List;
 
-public class HomeViewModel extends ViewModel {
+public class HomeViewModel extends AndroidViewModel {
     private Repository repository;
-    private final MutableLiveData<String> mText;
+    private MutableLiveData<Location> currentLocation = new MutableLiveData<>();
 
-    // private final MutableLiveData<List<Order>> mOrders;
-    public HomeViewModel() {
+    public HomeViewModel(Application application) {
+        super(application);
         Log.d("HomeViewModel", "Initializing HomeViewModel...");
 
         repository = Repository.getInstance();
-        mText = new MutableLiveData<>();
-        mText.setValue("This is home fragment");
     }
 
-    public void getOrders(ApiCallback<List<Order>> callback) {
-       // repository.getAllOrders("2024b.gal.said", "ziv@gmail.com", 50, 0, callback);
-        repository.getAllObjectsByType("Order", UserSession.getInstance().getSUPERAPP(), UserSession.getInstance().getUserEmail(), 50, 0, new ApiCallback<List<ObjectBoundary>>() {
-            @Override
-            public void onSuccess(List<ObjectBoundary> result) {
-                callback.onSuccess(Order.convertObjectBoundaryList(result));
-            }
+    public void setCurrentLocation(Location location) {
+        currentLocation.setValue(location);
+    }
 
-            @Override
-            public void onError(String error) {
-                callback.onError(error);
-            }
-        });
+    public MutableLiveData<Location> getCurrentLocation() {
+        return currentLocation;
     }
 
     public void getRestaurants(ApiCallback<List<Restaurant>> callback) {
-        //  repository.getAllRestaurantsByCommand(callback);
-       // repository.getAllRestaurants(UserSession.getInstance().getSUPERAPP(), UserSession.getInstance().getUserEmail(), 50, 0, callback);
         repository.getAllObjectsByType("Restaurant", UserSession.getInstance().getSUPERAPP(), UserSession.getInstance().getUserEmail(), 50, 0, new ApiCallback<List<ObjectBoundary>>() {
             @Override
             public void onSuccess(List<ObjectBoundary> result) {
@@ -59,29 +50,33 @@ public class HomeViewModel extends ViewModel {
         });
     }
 
-    public void postOrder(Order order, ApiCallback<Order> callback) {
-        ObjectBoundary object = order.convert(order);
-       // repository.createObject(object, callback); TODO: to change
-       // repository.createOrder(order, callback);
-        repository.createObject(object, new ApiCallback<ObjectBoundary>() {
+    public void getOrdersByLocation(double distance, ApiCallback<List<Restaurant>> callback) {
+        if (currentLocation.getValue() != null) {
+            Location location = currentLocation.getValue();
+            com.example.feedforward_association.models.server.object.Location serverLocation =
+                    new com.example.feedforward_association.models.server.object.Location(location.getLatitude(), location.getLongitude());
+            repository.getAllOrdersByCommandAndLocation(DistanceUnit.KILOMETERS, serverLocation, distance, callback);
+        } else {
+            Log.e("HomeViewModel", "Current location is null");
+            callback.onError("Current location is not available");
+        }
+    }
+
+    public void updateRestaurant(Restaurant restaurant, ApiCallback<Void> apiCallback) {
+        repository.updateObject(restaurant.toObjectBoundary(), apiCallback);
+    }
+
+    public void postOrder(Order order, ApiCallback<Order> apiCallback) {
+        repository.createObject(order.convert(order), new ApiCallback<ObjectBoundary>() {
             @Override
             public void onSuccess(ObjectBoundary result) {
-                Order order = new Order(result);
-                callback.onSuccess(order);
+                apiCallback.onSuccess(new Order(result));
             }
 
             @Override
             public void onError(String error) {
-                callback.onError(error);
+                apiCallback.onError(error);
             }
         });
     }
-
-    public void updateRestaurant(Restaurant restaurant, ApiCallback<Void> callback){
-       // repository.updateRestaurant(restaurant, callback);
-        ObjectBoundary object = restaurant.toObjectBoundary();
-        repository.updateObject(object,callback);
-    }
-
-
 }

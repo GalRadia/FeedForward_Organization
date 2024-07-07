@@ -67,7 +67,6 @@ public class CurrentOrdersFragment extends Fragment {
     }
 
     private void findViews() {
-        searchBar = binding.VSearch;
         chipGroup = binding.GRPFilter;
         chipPendning = binding.chipPending;
         chipOngoing = binding.chipOngoing;

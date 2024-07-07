@@ -24,12 +24,14 @@ public class Order  {
   private OrderStatus orderStatus;
   private WhoCarries whoCarries;
   private String associationName;
+  private String associationAddress;
+  private String donatorAddress;
 
     public Order() {
     }
 
 
-    public Order(ObjectId id, String donatorEmail, String donatorName, Location donatorLocation, String orderDate, String orderTime, List<Food> foods, OrderStatus orderStatus, WhoCarries whoCarries, String associationName, Location associationLocation) {
+    public Order(ObjectId id, String donatorEmail, String donatorName, Location donatorLocation, String orderDate, String orderTime, List<Food> foods, OrderStatus orderStatus, WhoCarries whoCarries, String associationName, Location associationLocation, String associationAddress, String donatorAddress) {
         this.orderID = id;
         this.donatorEmail = donatorEmail;
         this.associationName = associationName;
@@ -41,6 +43,8 @@ public class Order  {
         this.orderStatus = orderStatus;
         this.whoCarries = whoCarries;
         this.associationLocation = associationLocation;
+        this.associationAddress = associationAddress;
+        this.donatorAddress = donatorAddress;
     }
 
     public Order(ObjectBoundary objectBoundary) {
@@ -57,6 +61,26 @@ public class Order  {
         this.foods = temp.getFoods();
         this.orderStatus = temp.getOrderStatus();
         this.whoCarries = temp.getWhoCarries();
+        this.associationAddress = temp.getAssociationAddress();
+        this.donatorAddress = temp.getDonatorAddress();
+    }
+
+    public String getAssociationAddress() {
+        return associationAddress;
+    }
+
+    public Order setAssociationAddress(String associationAddress) {
+        this.associationAddress = associationAddress;
+        return this;
+    }
+
+    public String getDonatorAddress() {
+        return donatorAddress;
+    }
+
+    public Order setDonatorAddress(String donatorAddress) {
+        this.donatorAddress = donatorAddress;
+        return this;
     }
 
     public ObjectId getOrderID() {
@@ -181,7 +205,7 @@ public class Order  {
         objectBoundary.setType("Order");
         objectBoundary.setAlias(order.getDonatorEmail());
         objectBoundary.setCreatedBy(new CreatedBy(UserSession.getInstance().getSUPERAPP(), UserSession.getInstance().getUserEmail()));
-        objectBoundary.setLocation(order.donatorLocation);//TODO: get location from device
+        objectBoundary.setLocation(order.donatorLocation);
         objectBoundary.setActive(true);
         Gson gson = new Gson();
         Map<String, Object> orderMap = Map.of("Order",gson.toJson(order, Order.class));

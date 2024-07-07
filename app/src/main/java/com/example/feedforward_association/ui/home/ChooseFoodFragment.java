@@ -25,6 +25,7 @@ import com.example.feedforward_association.R;
 import com.example.feedforward_association.adapters.FoodAdapter;
 import com.example.feedforward_association.databinding.FragmentChooseFoodBinding;
 import com.example.feedforward_association.interfaces.ApiCallback;
+import com.example.feedforward_association.models.Association;
 import com.example.feedforward_association.models.Food;
 import com.example.feedforward_association.models.Order;
 import com.example.feedforward_association.models.OrderStatus;
@@ -99,8 +100,7 @@ public class ChooseFoodFragment extends Fragment {
 
 
             OrderStatus status = spinner.getSelectedItem().toString().equals("Take Away") ? OrderStatus.ACTIVE : OrderStatus.PENDING;
-            Order order = new Order(new ObjectId(UserSession.getInstance().getSUPERAPP(), "123"), restaurant.getRestaurantEmail(), restaurant.getRestaurantName(),
-                    restaurant.getRestaurantLocation(), date, time, selectedFoods, status, WhoCarries.values()[spinner.getSelectedItemPosition()], UserSession.getInstance().getAssociation().getAssociationName(), UserSession.getInstance().getAssociation().getAssociationLocation());//TODO CHANGE
+            Order order = getOrder(date, time, status);
             mViewModel.postOrder(order, new ApiCallback<Order>() {
                 @Override
                 public void onSuccess(Order result) {
@@ -132,6 +132,15 @@ public class ChooseFoodFragment extends Fragment {
             //TODO update restaurant
 
         });
+    }
+
+    private @NonNull Order getOrder(String date, String time, OrderStatus status) {
+        Association association = UserSession.getInstance().getAssociation();
+        Order order = new Order(new ObjectId(UserSession.getInstance().getSUPERAPP(), "123"), restaurant.getRestaurantEmail(), restaurant.getRestaurantName(),
+                restaurant.getRestaurantLocation(), date, time, selectedFoods, status, WhoCarries.values()[spinner.getSelectedItemPosition()],
+                association.getAssociationName(), association.getAssociationLocation(),
+                association.getAssociationAddress(), restaurant.getRestaurantAddress());//TODO CHANGE
+        return order;
     }
 
     private void setSpinner() {
