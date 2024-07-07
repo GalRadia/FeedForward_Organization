@@ -45,7 +45,17 @@ public class SignInViewModel extends ViewModel {
 
     public void updateProfile(UserBoundary user, String id) {
         user.setUserName(id);
-        repository.updateUser(user);
+        repository.updateUser(user, new ApiCallback<Void>() {
+            @Override
+            public void onSuccess(Void result) {
+
+            }
+
+            @Override
+            public void onError(String error) {
+
+            }
+        });
     }
 
     public void createAssociation(Association association, ApiCallback<ObjectBoundary> callback) {

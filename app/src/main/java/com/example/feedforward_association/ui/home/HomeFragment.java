@@ -36,7 +36,6 @@ import com.google.android.gms.location.LocationServices;
 import java.util.ArrayList;
 import java.util.List;
 
-import jp.wasabeef.recyclerview.animators.FadeInAnimator;
 
 public class HomeFragment extends Fragment {
 
@@ -102,7 +101,6 @@ public class HomeFragment extends Fragment {
 
     private void initViews() {
         adapter = new PickDonationAdapter(getContext(), new ArrayList<>());
-        recyclerView.setItemAnimator(new FadeInAnimator());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
