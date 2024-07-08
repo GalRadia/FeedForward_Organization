@@ -42,7 +42,6 @@ public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding;
     private HomeViewModel homeViewModel;
     private RecyclerView recyclerView;
-    private SearchView searchBar;
     private PickDonationAdapter adapter;
     private MaterialButtonToggleGroup toggleGroup;
     private MaterialButton KM5, KM15, KM30;
@@ -92,7 +91,6 @@ public class HomeFragment extends Fragment {
 
     private void findViews() {
         recyclerView = binding.recyclerViewDonations;
-        searchBar = binding.VSearch;
         toggleGroup = binding.buttonGroup;
         KM5 = binding.KM5BTN;
         KM15 = binding.KM15BTN;
@@ -126,20 +124,6 @@ public class HomeFragment extends Fragment {
             bundle.putString("restaurant", json);
             Navigation.findNavController(binding.getRoot()).navigate(R.id.action_navigation_home_to_chooseFoodFragment, bundle);
         });
-
-        searchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                adapter.filterOrders(newText);
-                return true;
-            }
-        });
-
         toggleGroup.addOnButtonCheckedListener((group, checkedId, isChecked) -> {
             if (isChecked) {
                 double distance = 0;
@@ -152,7 +136,7 @@ public class HomeFragment extends Fragment {
                 }
 
                 if (currentLocation != null) {
-                    homeViewModel.getOrdersByLocation(distance, new ApiCallback<List<Restaurant>>() {
+                    homeViewModel.getRestaurantsByLocation(distance, new ApiCallback<List<Restaurant>>() {
                         @Override
                         public void onSuccess(List<Restaurant> restaurants) {
                             adapter.setRestaurants(restaurants);
@@ -165,7 +149,7 @@ public class HomeFragment extends Fragment {
                         }
                     });
                 } else {
-                    Toast.makeText(getContext(), "Current location is not available", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getString(R.string.current_location_is_not_available), Toast.LENGTH_SHORT).show();
                 }
             }
         });

@@ -2,11 +2,15 @@ package com.example.feedforward_association.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.feedforward_association.R;
 import com.example.feedforward_association.interfaces.PickDonationCallback;
 import com.example.feedforward_association.databinding.PickDonationItemBinding;
 import com.example.feedforward_association.models.Food;
@@ -45,6 +49,7 @@ public class PickDonationAdapter extends RecyclerView.Adapter<PickDonationAdapte
         Restaurant restaurant = filteredRestaurants.get(position);
         holder.donatorName.setText(restaurant.getRestaurantName());
         holder.donatorLocation.setText(restaurant.getRestaurantAddress());
+        setFadeAnimation(holder.itemView);
 
         StringBuilder items = new StringBuilder();
         for (Food food : restaurant.getStorage()) {
@@ -75,20 +80,24 @@ public class PickDonationAdapter extends RecyclerView.Adapter<PickDonationAdapte
         this.filteredRestaurants = new ArrayList<>(this.originalRestaurants);
         notifyDataSetChanged();
     }
-
-    public void filterOrders(String query) {
-        filteredRestaurants.clear();
-        if (query.isEmpty()) {
-            filteredRestaurants.addAll(originalRestaurants);
-        } else {
-            for (Restaurant restaurant : originalRestaurants) {
-                if (restaurant.getRestaurantName().toLowerCase().contains(query.toLowerCase())) {
-                    filteredRestaurants.add(restaurant);
-                }
-            }
-        }
-        notifyDataSetChanged();
+    private void setFadeAnimation(View view) {
+        Animation scale_up = AnimationUtils.loadAnimation(context, R.anim.scale_up);
+        view.startAnimation(scale_up);
     }
+
+//    public void filterOrders(String query) {
+//        filteredRestaurants.clear();
+//        if (query.isEmpty()) {
+//            filteredRestaurants.addAll(originalRestaurants);
+//        } else {
+//            for (Restaurant restaurant : originalRestaurants) {
+//                if (restaurant.getRestaurantName().toLowerCase().contains(query.toLowerCase())) {
+//                    filteredRestaurants.add(restaurant);
+//                }
+//            }
+//        }
+//        notifyDataSetChanged();
+//    }
 
     public class PickDonationViewHolder extends RecyclerView.ViewHolder {
         private MaterialTextView donatorName;

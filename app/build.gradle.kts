@@ -90,6 +90,8 @@ dependencies {
     implementation(libs.play.services.maps)
     implementation(platform(libs.kotlin.bom))
     implementation(libs.places)
+    //Glide
+    implementation(libs.glide)
 
     implementation("jp.wasabeef:recyclerview-animators:4.0.2")
 

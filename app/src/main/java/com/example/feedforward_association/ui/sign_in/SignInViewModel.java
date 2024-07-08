@@ -22,13 +22,17 @@ public class SignInViewModel extends ViewModel {
         repository.getUser(email, userBoundaryApiCallback);
     }
 
-    public void fetchAssociation(String id ,String email, String superApp,String userSuperApp,ApiCallback<Association> callback) {
-       // repository.getAssociation(callback);
-        repository.getSpecificObject(id, superApp,email, userSuperApp, new ApiCallback<ObjectBoundary>() {
+    public void fetchAssociation(String id, String email, String superApp, String userSuperApp, ApiCallback<Association> callback) {
+        // repository.getAssociation(callback);
+        repository.getSpecificObject(id, superApp, email, userSuperApp, new ApiCallback<ObjectBoundary>() {
             @Override
             public void onSuccess(ObjectBoundary result) {
-                Association association = new Association(result);
-                callback.onSuccess(association);
+                if ("Association".equals(result.getType())) {
+                    Association association = new Association(result);
+                    callback.onSuccess(association);
+                } else {
+                    callback.onError("Not an association");
+                }
             }
 
             @Override
@@ -61,7 +65,7 @@ public class SignInViewModel extends ViewModel {
     public void createAssociation(Association association, ApiCallback<ObjectBoundary> callback) {
         ObjectBoundary object = association.toObjectBoundary();
         repository.createObject(object, callback);
-       // repository.createAssociation(association, callback);
+        // repository.createAssociation(association, callback);
     }
 
 

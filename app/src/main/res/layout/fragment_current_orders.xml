@@ -10,12 +10,9 @@
         android:id="@+id/TXT_Ongoing_Order"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="8dp"
-        android:text="Ongoing Order"
+        android:text="@string/ongoing_order"
         android:textAlignment="center"
-        android:textSize="20sp"
+        android:textSize="@dimen/txt_title_size"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -24,8 +21,8 @@
         android:id="@+id/RCV_Ongoing_Order"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_margin="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_margin="@dimen/default_margin_small"
+        android:layout_marginBottom="@dimen/default_margin_small"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -34,9 +31,9 @@
 
     <com.google.android.material.chip.ChipGroup
         android:id="@+id/GRP_filter"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="@dimen/default_margin_small"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/TXT_Ongoing_Order"
@@ -49,7 +46,7 @@
             style="@style/Widget.Material3.Chip.Filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Pending"
+            android:text="@string/pending"
             app:chipStrokeColor="@color/status_pending" />
 
         <com.google.android.material.chip.Chip
@@ -57,8 +54,8 @@
             style="@style/Widget.Material3.Chip.Filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="32dp"
-            android:text="Ongoing"
+            android:layout_marginHorizontal="@dimen/default_margin_mid"
+            android:text="@string/ongoing"
             app:chipStrokeColor="@color/status_ongoing" />
 
         <com.google.android.material.chip.Chip
@@ -66,7 +63,7 @@
             style="@style/Widget.Material3.Chip.Filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Finished"
+            android:text="@string/finished"
             app:chipStrokeColor="@color/status_finished" />
     </com.google.android.material.chip.ChipGroup>
 </androidx.constraintlayout.widget.ConstraintLayout>

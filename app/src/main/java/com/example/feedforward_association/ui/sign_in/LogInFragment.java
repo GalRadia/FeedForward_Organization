@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.feedforward_association.MainActivity;
 import com.example.feedforward_association.R;
 import com.example.feedforward_association.databinding.FragmentLogInBinding;
@@ -21,16 +22,18 @@ import com.example.feedforward_association.models.Association;
 import com.example.feedforward_association.models.server.user.UserBoundary;
 import com.example.feedforward_association.models.server.user.UserSession;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
 
 
 public class LogInFragment extends Fragment {
-    FragmentLogInBinding binding;
-    SignInViewModel signInViewModel;
-    TextInputEditText emailEditText;
-    ExtendedFloatingActionButton logInButton;
-    ExtendedFloatingActionButton registerButton;
+    private FragmentLogInBinding binding;
+    private SignInViewModel signInViewModel;
+    private TextInputEditText emailEditText;
+    private ExtendedFloatingActionButton logInButton;
+    private ExtendedFloatingActionButton registerButton;
+    private ShapeableImageView image;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         signInViewModel = new ViewModelProvider(this).get(SignInViewModel.class);
@@ -44,11 +47,13 @@ public class LogInFragment extends Fragment {
         emailEditText = binding.emailEditText;
         logInButton = binding.buttonLogIn;
         registerButton = binding.buttonSignUp;
+        image = binding.imageView;
         initViews();
     }
 
     private void initViews() {
         registerButton.setOnClickListener(v -> Navigation.findNavController(binding.getRoot()).navigate(R.id.action_logInFragment_to_registerFragment));
+        Glide.with(this).load(R.drawable.non_profit_organisation).placeholder(R.drawable.ic_launcher_foreground).fitCenter().into(image);
 
         logInButton.setOnClickListener(v -> {
             String email = emailEditText.getText().toString();
@@ -57,7 +62,7 @@ public class LogInFragment extends Fragment {
                 public void onSuccess(UserBoundary result) {
                     UserSession.getInstance().setUserEmail(result.getUserId().getEmail());
                     UserSession.getInstance().setBoundaryId(result.getUserName());
-                    Toast.makeText(getContext(), "Logged in successfully", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getString(R.string.logged_in_successfully), Toast.LENGTH_SHORT).show();
 
                     signInViewModel.fetchAssociation(result.getUserName(), result.getUserId().getEmail(), UserSession.getInstance().getSUPERAPP(), UserSession.getInstance().getSUPERAPP(), new ApiCallback<Association>() {
                         @Override
@@ -69,14 +74,14 @@ public class LogInFragment extends Fragment {
 
                         @Override
                         public void onError(String error) {
-                            Toast.makeText(getContext(), "Association doesnt exists", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), getString(R.string.association_doesnt_exists), Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
 
                 @Override
                 public void onError(String error) {
-                    Toast.makeText(getContext(), "Email doesnt exists", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getString(R.string.email_doesnt_exists), Toast.LENGTH_SHORT).show();
 
                 }
             });

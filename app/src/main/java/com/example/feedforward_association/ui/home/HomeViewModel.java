@@ -37,29 +37,11 @@ public class HomeViewModel extends AndroidViewModel {
     }
 
     public void getRestaurants(ApiCallback<List<Restaurant>> callback) {
-        repository.getAllObjectsByType("Restaurant", UserSession.getInstance().getSUPERAPP(), UserSession.getInstance().getUserEmail(), 50, 0, new ApiCallback<List<ObjectBoundary>>() {
-            @Override
-            public void onSuccess(List<ObjectBoundary> result) {
-                callback.onSuccess(Restaurant.convertObjectBoundaryList(result));
-            }
-
-            @Override
-            public void onError(String error) {
-                callback.onError(error);
-            }
-        });
+        getRestaurantsByLocation(5,callback);
     }
 
-    public void getOrdersByLocation(double distance, ApiCallback<List<Restaurant>> callback) {
-        if (currentLocation.getValue() != null) {
-            Location location = currentLocation.getValue();
-            com.example.feedforward_association.models.server.object.Location serverLocation =
-                    new com.example.feedforward_association.models.server.object.Location(location.getLatitude(), location.getLongitude());
-            repository.getAllOrdersByCommandAndLocation(DistanceUnit.KILOMETERS, serverLocation, distance, callback);
-        } else {
-            Log.e("HomeViewModel", "Current location is null");
-            callback.onError("Current location is not available");
-        }
+    public void getRestaurantsByLocation(double distance, ApiCallback<List<Restaurant>> callback) {
+            repository.getAllRestaurantsByCommandAndLocation(DistanceUnit.KILOMETERS, UserSession.getInstance().getAssociation().getAssociationLocation(), distance, callback);
     }
 
     public void updateRestaurant(Restaurant restaurant, ApiCallback<Void> apiCallback) {

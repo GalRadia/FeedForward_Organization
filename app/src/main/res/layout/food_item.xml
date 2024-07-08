@@ -4,26 +4,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    app:cardCornerRadius="8dp"
-    app:cardElevation="4dp">
+    android:layout_margin="@dimen/default_margin_small"
+    app:cardCornerRadius="@dimen/default_radius"
+    app:cardElevation="@dimen/default_elevation">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp">
+        >
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/Food_item_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_margin_small"
             android:gravity="start"
-            android:paddingHorizontal="16dp"
-            android:paddingVertical="12dp"
+            android:paddingHorizontal="@dimen/default_padding"
+            android:paddingVertical="@dimen/default_padding_small"
             android:textColor="@android:color/black"
-            android:textSize="16sp"
+            android:textSize="@dimen/default_txt_size"
             android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/textView2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Burgers" />
@@ -32,8 +32,9 @@
             android:id="@+id/BTN_addFood"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginTop="@dimen/default_margin_small"
+            android:layout_marginEnd="@dimen/default_margin_small"
+            android:contentDescription="@string/add_food_button"
             android:src="@drawable/ic_cart"
             app:layout_constraintBottom_toTopOf="@id/Food_Item_Desc"
             app:layout_constraintEnd_toEndOf="parent"
@@ -44,10 +45,10 @@
             android:id="@+id/Food_Item_Desc"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="16dp"
-            android:paddingVertical="12dp"
+            android:paddingHorizontal="@dimen/default_padding"
+            android:paddingVertical="@dimen/default_padding_small"
             android:textColor="@android:color/black"
-            android:textSize="14sp"
+            android:textSize="@dimen/default_txt_size_small"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -58,12 +59,12 @@
             android:id="@+id/TXT_quantity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            tools:text="x5"
+            android:layout_marginStart="@dimen/default_margin_small"
             app:layout_constraintBottom_toTopOf="@+id/Food_Item_Desc"
             app:layout_constraintStart_toEndOf="@+id/Food_item_name"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.333" />
+            app:layout_constraintTop_toTopOf="@+id/Food_item_name"
+            app:layout_constraintVertical_bias="0.333"
+            tools:text="x5" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/expiration_date"
@@ -72,7 +73,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/Food_item_name"
             app:layout_constraintEnd_toStartOf="@+id/BTN_addFood"
             app:layout_constraintStart_toEndOf="@+id/TXT_quantity"
-            app:layout_constraintTop_toTopOf="@+id/Food_item_name"
+            app:layout_constraintTop_toTopOf="@+id/TXT_quantity"
             tools:text="1/1/2020" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

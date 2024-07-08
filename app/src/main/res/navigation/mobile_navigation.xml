@@ -13,9 +13,9 @@
 
     <fragment
         android:id="@+id/navigation_history_orders"
-        android:name="com.example.feedforward_association.ui.history.HistoryFragment"
-        android:label="@string/title_history_orders"
-        tools:layout="@layout/fragment_history" />
+        android:name="com.example.feedforward_association.ui.update.UpdateFragment"
+        android:label="@string/title_update"
+        tools:layout="@layout/fragment_update" />
     <navigation android:id="@+id/nestedGraph"
         app:startDestination="@id/navigation_home">
         <fragment
@@ -30,7 +30,7 @@
         <fragment
             android:id="@+id/chooseFoodFragment"
             android:name="com.example.feedforward_association.ui.home.ChooseFoodFragment"
-            android:label="fragment_choose_food"
+            android:label="@string/title_choose_food"
             tools:layout="@layout/fragment_choose_food">
             <action
                 android:id="@+id/action_chooseFoodFragment_to_navigation_home"

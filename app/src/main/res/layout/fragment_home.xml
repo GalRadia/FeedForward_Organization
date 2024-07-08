@@ -12,40 +12,36 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_margin="8dp"
-        android:text="Orders"
+        android:layout_margin="@dimen/default_margin_small"
+        android:text="@string/orders"
         android:textAlignment="center"
-        android:textSize="24sp"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="-8dp" />
+        android:textSize="@dimen/txt_title_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewDonations"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="@dimen/default_margin_mid"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonGroup"
         tools:listitem="@layout/pick_donation_item" />
 
-    <androidx.appcompat.widget.SearchView
-        android:id="@+id/V_Search"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/TXT_Ongoing_Order" />
-
     <com.google.android.material.button.MaterialButtonToggleGroup
         android:id="@+id/buttonGroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_margin_small"
         android:gravity="center"
-        app:selectionRequired="true"
         app:checkedButton="@id/KM5_BTN"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/V_Search"
+        app:layout_constraintTop_toBottomOf="@+id/TXT_Ongoing_Order"
+        app:selectionRequired="true"
         app:singleSelection="true">
 
         <com.google.android.material.button.MaterialButton
@@ -53,21 +49,21 @@
             style="?attr/materialButtonOutlinedStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="5KM" />
+            android:text="@string/_5km" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/KM15_BTN"
             style="?attr/materialButtonOutlinedStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="15KM" />
+            android:text="@string/_15km" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/KM30_BTN"
             style="?attr/materialButtonOutlinedStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="30KM" />
+            android:text="@string/_30km" />
 
     </com.google.android.material.button.MaterialButtonToggleGroup>
 

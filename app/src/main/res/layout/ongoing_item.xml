@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:textSize="24sp"
-            android:text="Donator Name"
+            android:text="@string/donator_name"
             app:layout_constraintBottom_toTopOf="@+id/TXT_ONG_Donator_Location"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:textSize="14sp"
-            android:text="Donator Location"
+            android:text="@string/donator_location"
             app:layout_constraintBottom_toTopOf="@+id/TXT_ONG_Food_Items"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/TXT_ONG_Donator_Name" />
@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
-            android:text="Below Donator Name"
+            android:text="@string/below_donator_name"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/BTN_ONG_Status" />
 
@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            android:text="Date"
+            android:text="@string/date"
             app:layout_constraintBottom_toTopOf="@+id/TXT_ONG_Time"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -62,7 +62,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:text="Time"
+            android:text="@string/time"
             app:layout_constraintBottom_toTopOf="@+id/BTN_ONG_Status"
             app:layout_constraintEnd_toEndOf="parent" />
 

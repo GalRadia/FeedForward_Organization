@@ -5,4 +5,16 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="fragment_horizontal_margin">16dp</dimen>
     <dimen name="fragment_vertical_margin">16dp</dimen>
+    <dimen name="default_margin_mid">16dp</dimen>
+    <dimen name="default_margin_small">8dp</dimen>
+    <dimen name="default_radius">8dp</dimen>
+    <dimen name="default_elevation">4dp</dimen>
+    <dimen name="default_txt_size">16sp</dimen>
+    <dimen name="default_padding">16dp</dimen>
+    <dimen name="default_padding_small">12dp</dimen>
+    <dimen name="default_txt_size_small">12sp</dimen>
+    <dimen name="default_margin_large">32dp</dimen>
+    <dimen name="default_txt_size_large">24sp</dimen>
+    <dimen name="txt_title_size">36sp</dimen>
+    <dimen name="default__layouth_height">48dp</dimen>
 </resources>

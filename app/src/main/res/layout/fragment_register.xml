@@ -9,21 +9,22 @@
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/register_email"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:hint="name@mail.com"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="@dimen/default__layouth_height"
+        android:layout_margin="@dimen/default_margin_mid"
+        android:hint="@string/name_mail_com"
+        android:inputType="text"
+        app:layout_constraintBottom_toTopOf="@+id/register_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.23000002" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/register_name"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:hint="User Name"
+        android:layout_height="@dimen/default__layouth_height"
+        android:layout_margin="@dimen/default_margin_mid"
+        android:hint="@string/user_name"
+        android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/register_email" />
@@ -31,34 +32,41 @@
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/association_phone"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:hint="Phone Number"
+        android:layout_height="@dimen/default__layouth_height"
+        android:layout_margin="@dimen/default_margin_mid"
+        android:hint="@string/phone_number"
+        android:inputType="phone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/register_name" />
-
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/association_address"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:hint="Address"
-        app:layout_constraintTop_toBottomOf="@+id/association_phone" />
 
     <fragment
         android:id="@+id/autocomplete_fragment"
         android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/register_email"
-        app:layout_constraintEnd_toEndOf="@+id/register_email"
-        app:layout_constraintStart_toStartOf="@+id/register_email"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_margin="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/association_phone" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/association_address"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/default__layouth_height"
+        android:hint="@string/address"
+        android:layout_margin="@dimen/default_margin_mid"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/autocomplete_fragment" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/register_finish_BTN"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Register"
+        android:layout_marginTop="@dimen/default_margin_mid"
+        android:text="@string/register"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -2,10 +2,12 @@ package com.example.feedforward_association.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.feedforward_association.R;
@@ -21,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OngoingOrdersAdapter extends RecyclerView.Adapter<OngoingOrdersAdapter.OngoingDonationViewHolder> {
-    private Context context;
+    private final Context context;
     private OngoingItemBinding binding;
     private List<Order> originalOrders;
     private List<Order> filteredOrders;
@@ -49,20 +51,22 @@ public class OngoingOrdersAdapter extends RecyclerView.Adapter<OngoingOrdersAdap
 
     @Override
     public void onBindViewHolder(@NonNull OngoingDonationViewHolder holder, int position) {
+        setFadeAnimation(holder.itemView);
         Order order = filteredOrders.get(position);
         holder.donatorName.setText(order.getDonatorName());
-        holder.donatorLocation.setText(order.getDonatorLocation().toString());
+        holder.donatorLocation.setText(order.getDonatorAddress());
         switch (order.getOrderStatus()) {
             case PENDING:
-                holder.statusButton.setText("Pending");
+                holder.statusButton.setTooltipText(context.getString(R.string.pending));
                 holder.statusButton.setIcon(context.getDrawable(R.drawable.ic_pending));
                 break;
             case DELIVERED:
-                holder.statusButton.setText("Delivered\nWrite a review");
+                holder.statusButton.setTooltipText(context.getString(R.string.finish) +"\n"+
+                        context.getString(R.string.write_a_review));
                 holder.statusButton.setIcon(context.getDrawable(R.drawable.ic_done));
                 break;
             case ACTIVE:
-                holder.statusButton.setText("Active");
+                holder.statusButton.setTooltipText("Active");
                 holder.statusButton.setIcon(context.getDrawable(R.drawable.ic_ongoing_shipment));
                 break;
 
@@ -88,7 +92,10 @@ public class OngoingOrdersAdapter extends RecyclerView.Adapter<OngoingOrdersAdap
         this.originalOrders = orders != null ? orders : new ArrayList<>();
         filterDonationsByStatus(this.currentFilterStatuses);
     }
-
+    private void setFadeAnimation(View view) {
+        Animation scale_up = AnimationUtils.loadAnimation(context, R.anim.scale_up);
+        view.startAnimation(scale_up);
+    }
 
 
 

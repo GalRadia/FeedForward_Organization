@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">FeedForward Association</string>
+    <string name="title_home">בית</string>
+    <string name="title_current_orders">הזמנות נוכחיות</string>
+    <string name="title_update">עדכן פרופיל</string>
+    <!-- Strings related to login -->
+    <string name="prompt_email">אימייל</string>
+    <string name="prompt_password">סיסמה</string>
+    <string name="action_sign_in">התחבר או הירשם</string>
+    <string name="action_sign_in_short">התחבר</string>
+    <string name="welcome">"ברוך הבא!"</string>
+    <string name="invalid_username">שם משתמש לא חוקי</string>
+    <string name="invalid_password">הסיסמה חייבת להיות יותר מ-5 תווים</string>
+    <string name="login_failed">"התחברות נכשלה"</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">שלום קטע ריק</string>
+    <string-array name="pickup_type">
+        <item>משלוח</item>
+        <item>לקיחה</item>
+    </string-array>
+    <string name="title_activity_maps">MapsActivity</string>
+    <string name="title_choose_food">בחר אוכל</string>
+    <string name="title_log_in">התחבר</string>
+    <string name="title_register">הירשם</string>
+    <string name="your_review">הביקורת שלך</string>
+    <string name="add_food_button">כפתור הוסף אוכל</string>
+    <string name="finish">סיים</string>
+    <string name="choose_food">בחר אוכל</string>
+    <string name="ongoing_order">הזמנה נמשכת</string>
+    <string name="pending">ממתין</string>
+    <string name="ongoing">מתמשך</string>
+    <string name="finished">הסתיים</string>
+    <string name="orders">הזמנות</string>
+    <string name="_5km">5 ק"מ</string>
+    <string name="_15km">15 ק"מ</string>
+    <string name="_30km">30 ק"מ</string>
+    <string name="log_in">התחבר</string>
+    <string name="sign_up">הירשם</string>
+    <string name="name_mail_com">name@mail.com</string>
+    <string name="user_name">שם משתמש</string>
+    <string name="phone_number">מספר טלפון</string>
+    <string name="address">כתובת</string>
+    <string name="register">הירשם</string>
+    <string name="update">עדכן</string>
+    <string name="donator_name">שם תורם</string>
+    <string name="donator_location">מיקום תורם</string>
+    <string name="below_donator_name">מתחת לשם התורם</string>
+    <string name="date">תאריך</string>
+    <string name="time">שעה</string>
+    <string name="pick">בחר</string>
+    <string name="current_value">"ערך נוכחי: "</string>
+    <string name="write_a_review">כתוב ביקורת</string>
+    <string name="order_posted">הזמנה נשלחה</string>
+    <string name="restaurant_updated">מסעדה עודכנה</string>
+    <string name="restaurant_update_failed">עדכון המסעדה נכשל</string>
+    <string name="order_failed">הזמנה נכשלה</string>
+    <string name="take_away">לקחת</string>
+    <string name="delivery">משלוח</string>
+    <string name="choose_a_value">בחר ערך</string>
+    <string name="ok">אישור</string>
+    <string name="cancel">ביטול</string>
+    <string name="selected_foods_so_far">האוכל שנבחר עד כה:\n</string>
+    <string name="current_location_is_not_available">המיקום הנוכחי אינו זמין</string>
+    <string name="logged_in_successfully">התחברת בהצלחה</string>
+    <string name="association_doesnt_exists">העמותה לא קיימת</string>
+    <string name="email_doesnt_exists">האימייל לא קיים</string>
+    <string name="user_created_successfully">המשתמש נוצר בהצלחה</string>
+    <string name="association_created_successfully">העמותה נוצרה בהצלחה</string>
+    <string name="profile_updated_successfully">הפרופיל עודכן בהצלחה</string>
+    <string name="cant_create_association">לא ניתן ליצור עמותה</string>
+    <string name="email_allready_exists">האימייל כבר קיים</string>
+    <string name="email_is_required">האימייל נדרש</string>
+    <string name="username_is_required">שם המשתמש נדרש</string>
+    <string name="phone_is_required">מספר טלפון נדרש</string>
+    <string name="address_is_required">כתובת נדרשת</string>
+    <string name="association_name">שם העמותה</string>
+    <string name="association_address">כתובת העמותה</string>
+    <string name="association_phone">טלפון העמותה</string>
+    <string name="association_updated_successfully">העמותה עודכנה בהצלחה</string>
+    <string name="failed_to_update_association">עדכון העמותה נכשל</string>
+    <string name="name_cannot_be_empty">השם לא יכול להיות ריק</string>
+    <string name="address_cannot_be_empty">הכתובת לא יכולה להיות ריקה</string>
+    <string name="phone_cannot_be_empty">הטלפון לא יכול להיות ריק</string>
+</resources>

@@ -135,7 +135,7 @@ public class Restaurant {
         objectBoundary.setType("Restaurant");
         objectBoundary.setAlias(restaurantEmail);
         objectBoundary.setCreatedBy(new CreatedBy(UserSession.getInstance().getSUPERAPP(), UserSession.getInstance().getUserEmail()));
-        objectBoundary.setLocation(new Location(100.0, 100.0));//TODO: get location from device
+        objectBoundary.setLocation(restaurantLocation);//TODO: get location from device
         objectBoundary.setActive(true);
         Gson gson = new Gson();
         Map<String, Object> orderMap = Map.of("Restaurant",gson.toJson(this, Restaurant.class));

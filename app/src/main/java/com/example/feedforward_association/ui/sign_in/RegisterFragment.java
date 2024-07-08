@@ -89,20 +89,20 @@ public class RegisterFragment extends Fragment {
             signInViewModel.signUp(email, username, avatar, new ApiCallback<UserBoundary>() {
                 @Override
                 public void onSuccess(UserBoundary userBoundary) {
-                    Toast.makeText(getActivity(), "User created successfully", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), getString(R.string.user_created_successfully), Toast.LENGTH_SHORT).show();
                     Association association = new Association(new ObjectId(UserSession.getInstance().getSUPERAPP(),email), username, AddressEditText.getText().toString(), phoneEditText.getText().toString(), email, new Location(latLng.latitude, latLng.longitude));
                     signInViewModel.createAssociation(association, new ApiCallback<ObjectBoundary>() {
                         @Override
                         public void onSuccess(ObjectBoundary objectBoundary) {
-                            Toast.makeText(getActivity(), "Association created successfully", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), getString(R.string.association_created_successfully), Toast.LENGTH_SHORT).show();
                             Gson gson = new Gson();
                             Association association = gson.fromJson((String) objectBoundary.getObjectDetails().get("Association"), Association.class);
                             UserSession.getInstance().setAssociation(association);
                             signInViewModel.updateProfile(userBoundary, objectBoundary.getObjectId().getId());
-                            Toast.makeText(getActivity(), "Profile updated successfully", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), getString(R.string.profile_updated_successfully), Toast.LENGTH_SHORT).show();
                             UserSession.getInstance().setUserEmail(email);
                             UserSession.getInstance().setBoundaryId(objectBoundary.getObjectId().getId());
-                            Toast.makeText(getActivity(), "Association created successfully", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), getString(R.string.association_created_successfully), Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(getContext(), MainActivity.class);
                             startActivity(intent);
                             getActivity().finish();
@@ -110,7 +110,7 @@ public class RegisterFragment extends Fragment {
 
                         @Override
                         public void onError(String error) {
-                            Toast.makeText(getActivity(), "Cant create association", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), getString(R.string.cant_create_association), Toast.LENGTH_SHORT).show();
                         }
                     });
 
@@ -118,7 +118,7 @@ public class RegisterFragment extends Fragment {
 
                 @Override
                 public void onError(String error) {
-                    Toast.makeText(getActivity(), "Email allready exists", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(),getString(R.string.email_allready_exists), Toast.LENGTH_SHORT).show();
                     Log.e("RegisterFragment", "onError: " + error);
 
                 }
@@ -128,19 +128,19 @@ public class RegisterFragment extends Fragment {
     }
     private boolean validate() {
         if (TextUtils.isEmpty(emailEditText.getText().toString())) {
-            emailEditText.setError("Email is required");
+            emailEditText.setError(getString(R.string.email_is_required));
             return false;
         }
         if (TextUtils.isEmpty(usernameEditText.getText().toString())) {
-            usernameEditText.setError("Username is required");
+            usernameEditText.setError(getString(R.string.username_is_required));
             return false;
         }
         if (TextUtils.isEmpty(phoneEditText.getText().toString())) {
-            phoneEditText.setError("Phone is required");
+            phoneEditText.setError(getString(R.string.phone_is_required));
             return false;
         }
         if (TextUtils.isEmpty(AddressEditText.getText().toString())) {
-            AddressEditText.setError("Address is required");
+            AddressEditText.setError(getString(R.string.address_is_required));
             return false;
         }
         return true;
@@ -154,7 +154,7 @@ public class RegisterFragment extends Fragment {
                 getChildFragmentManager().findFragmentById(R.id.autocomplete_fragment);
         autocompleteFragment.setLocationBias(RectangularBounds.newInstance(
                 new LatLng(31.937750, 34.834125),
-                new LatLng(32.225814, 34.896383)
+                new LatLng(32.225814, 34.896383) //default bounds
         ));
         autocompleteFragment.setCountries("IL");
         autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG, Place.Field.ADDRESS));

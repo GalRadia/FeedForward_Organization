@@ -1,7 +1,5 @@
-package com.example.feedforward_association.ui.history;
+package com.example.feedforward_association.ui.update;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.feedforward_association.interfaces.ApiCallback;
@@ -9,11 +7,11 @@ import com.example.feedforward_association.models.Association;
 import com.example.feedforward_association.models.server.object.ObjectBoundary;
 import com.example.feedforward_association.utils.Repository;
 
-public class HistoryViewModel extends ViewModel {
+public class UpdateViewModel extends ViewModel {
 
     private Repository repository;
 
-    public HistoryViewModel() {
+    public UpdateViewModel() {
         repository = Repository.getInstance();
 
     }

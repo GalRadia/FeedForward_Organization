@@ -2,11 +2,15 @@ package com.example.feedforward_association.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.feedforward_association.R;
 import com.example.feedforward_association.interfaces.FoodCallback;
 import com.example.feedforward_association.databinding.FoodItemBinding;
 import com.example.feedforward_association.models.Food;
@@ -44,6 +48,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
     @Override
     public void onBindViewHolder(@NonNull FoodAdapter.FoodViewHolder holder, int position) {
         Food food = foods.get(position);
+        setFadeAnimation(holder.itemView);
         holder.foodName.setText(food.getName());
         holder.foodQuantity.setText(String.valueOf(food.getAmount()));
         holder.foodTypes.setText(food.getType());
@@ -55,7 +60,10 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
         });
     }
 
-
+    private void setFadeAnimation(View view) {
+        Animation scale_up = AnimationUtils.loadAnimation(context, R.anim.scale_up);
+        view.startAnimation(scale_up);
+    }
 
     @Override
     public int getItemCount() {

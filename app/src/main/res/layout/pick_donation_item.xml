@@ -6,7 +6,8 @@
     android:layout_height="wrap_content"
     android:layout_margin="16dp"
     android:padding="8dp"
-    android:background="?attr/selectableItemBackground">
+
+    android:background="#E8F5E9">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -29,23 +30,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:textSize="14sp"
             android:text="Donator Location"
+            android:textSize="14sp"
+            app:layout_constrainedWidth="true"
             app:layout_constraintBottom_toTopOf="@+id/TXT_PCK_Food_Items"
+            app:layout_constraintEnd_toStartOf="@+id/BTN_PCK_Start"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/TXT_PCK_Donator_Name" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/TXT_PCK_Food_Items"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            tools:text="items\nsdf\nfsdf\nsfsdfs\nsfsdf"
-            app:layout_constraintWidth_percent="0.4"
-            android:paddingStart="8dp"
+            android:layout_height="match_parent"
             android:maxLines="2"
+            android:paddingStart="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/BTN_PCK_Start"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/TXT_PCK_Donator_Location"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintWidth_percent="0.4"
+            tools:text="items\nsdf\nfsdf\nsfsdfs\nsfsdf" />
 
         <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
             android:id="@+id/BTN_PCK_Start"
@@ -53,7 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="12dp"
             app:icon="@drawable/ic_donation_box"
-            android:text="Pick"
+            android:text="@string/pick"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent" />
 

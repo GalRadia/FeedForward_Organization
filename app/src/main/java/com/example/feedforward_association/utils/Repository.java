@@ -484,7 +484,7 @@ public class Repository {
     public void createCommand(String miniApp, String command, ApiCallback<List<ObjectBoundary>> callback) {
         CommandBoundary commandBoundary = new CommandBoundary();
         commandBoundary.setCommand(command);
-        commandBoundary.setCommandId(new CommandId(UserSession.getInstance().getSUPERAPP(), miniApp, "d"));
+     //   commandBoundary.setCommandId(new CommandId(UserSession.getInstance().getSUPERAPP(), miniApp, "d"));
         commandBoundary.setInvokedBy(new InvokedBy(UserSession.getInstance().getSUPERAPP(), UserSession.getInstance().getUserEmail()));
         commandBoundary.setTargetObject(new TargetObject(UserSession.getInstance().getSUPERAPP(), UserSession.getInstance().getBoundaryId()));
         Call<List<ObjectBoundary>> call = apiService.command(miniApp, commandBoundary);
@@ -541,10 +541,10 @@ public class Repository {
 
         });
     }
-    public void getAllOrdersByCommandAndLocation(DistanceUnit unit, Location location, double distance, ApiCallback<List<Restaurant>> callback) {
+    public void getAllRestaurantsByCommandAndLocation(DistanceUnit unit, Location location, double distance, ApiCallback<List<Restaurant>> callback) {
         CommandBoundary commandBoundary = new CommandBoundary("SBRT");
         Map<String, Object> commandMap = Map.of(
-                "type", "Order",
+                "type", "Restaurant",
                 "lat", location.getLat(),
                 "lng", location.getLng(),
                 "distance", distance,

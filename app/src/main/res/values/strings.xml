@@ -1,8 +1,8 @@
 <resources>
-    <string name="app_name">FeedForward_Association</string>
+    <string name="app_name">FeedForward Association</string>
     <string name="title_home">Home</string>
     <string name="title_current_orders">Current Orders</string>
-    <string name="title_history_orders">History</string>
+    <string name="title_update">Update Profile</string>
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
@@ -19,4 +19,66 @@
         <item>Takeout</item>
     </string-array>
     <string name="title_activity_maps">MapsActivity</string>
+    <string name="title_choose_food">Choose Food</string>
+    <string name="title_log_in">Log In</string>
+    <string name="title_register">Register</string>
+    <string name="your_review">Your Review</string>
+    <string name="add_food_button">Add Food Button</string>
+    <string name="finish">Finish</string>
+    <string name="choose_food">Choose Food</string>
+    <string name="ongoing_order">Ongoing Order</string>
+    <string name="pending">Pending</string>
+    <string name="ongoing">Ongoing</string>
+    <string name="finished">Finished</string>
+    <string name="orders">Orders</string>
+    <string name="_5km">5KM</string>
+    <string name="_15km">15KM</string>
+    <string name="_30km">30KM</string>
+    <string name="log_in">Log In</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="name_mail_com">name@mail.com</string>
+    <string name="user_name">User Name</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="address">Address</string>
+    <string name="register">Register</string>
+    <string name="update">Update</string>
+    <string name="donator_name">Donator Name</string>
+    <string name="donator_location">Donator Location</string>
+    <string name="below_donator_name">Below Donator Name</string>
+    <string name="date">Date</string>
+    <string name="time">Time</string>
+    <string name="pick">Pick</string>
+    <string name="current_value">"Current value: "</string>
+    <string name="write_a_review">Write a review</string>
+    <string name="order_posted">Order posted</string>
+    <string name="restaurant_updated">Restaurant updated</string>
+    <string name="restaurant_update_failed">Restaurant update failed</string>
+    <string name="order_failed">Order failed</string>
+    <string name="take_away">Take Away</string>
+    <string name="delivery">Delivery</string>
+    <string name="choose_a_value">Choose a value</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="selected_foods_so_far">Selected foods so far:\n</string>
+    <string name="current_location_is_not_available">Current location is not available</string>
+    <string name="logged_in_successfully">Logged in successfully</string>
+    <string name="association_doesnt_exists">Association doesnt exists</string>
+    <string name="email_doesnt_exists">Email doesnt exists</string>
+    <string name="user_created_successfully">User created successfully</string>
+    <string name="association_created_successfully">Association created successfully</string>
+    <string name="profile_updated_successfully">Profile updated successfully</string>
+    <string name="cant_create_association">Cant create association</string>
+    <string name="email_allready_exists">Email allready exists</string>
+    <string name="email_is_required">Email is required</string>
+    <string name="username_is_required">Username is required</string>
+    <string name="phone_is_required">Phone is required</string>
+    <string name="address_is_required">Address is required</string>
+    <string name="association_name">Association Name</string>
+    <string name="association_address">Association Address</string>
+    <string name="association_phone">Association Phone</string>
+    <string name="association_updated_successfully">Association updated successfully</string>
+    <string name="failed_to_update_association">Failed to update association</string>
+    <string name="name_cannot_be_empty">Name cannot be empty</string>
+    <string name="address_cannot_be_empty">Address cannot be empty</string>
+    <string name="phone_cannot_be_empty">Phone cannot be empty</string>
 </resources>

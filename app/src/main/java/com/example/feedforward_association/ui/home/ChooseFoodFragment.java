@@ -99,23 +99,23 @@ public class ChooseFoodFragment extends Fragment {
             String time = now.format(timeFormatter);
 
 
-            OrderStatus status = spinner.getSelectedItem().toString().equals("Take Away") ? OrderStatus.ACTIVE : OrderStatus.PENDING;
+            OrderStatus status = spinner.getSelectedItem().toString().equals(getString(R.string.take_away)) ? OrderStatus.ACTIVE : OrderStatus.PENDING;
             Order order = getOrder(date, time, status);
             mViewModel.postOrder(order, new ApiCallback<Order>() {
                 @Override
                 public void onSuccess(Order result) {
                     restaurant = updateStorage(selectedFoods);
-                    Toast.makeText(getContext(), "Order posted", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getString(R.string.order_posted), Toast.LENGTH_SHORT).show();
                     mViewModel.updateRestaurant(restaurant, new ApiCallback<Void>() {
                         @Override
                         public void onSuccess(Void result) {
-                            Toast.makeText(getContext(), "Restaurant updated", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), getString(R.string.restaurant_updated), Toast.LENGTH_SHORT).show();
                             navigateBackToHome();
                         }
 
                         @Override
                         public void onError(String error) {
-                            Toast.makeText(getContext(), "Restaurant update failed", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), getString(R.string.restaurant_update_failed), Toast.LENGTH_SHORT).show();
                         }
                     });
 
@@ -124,7 +124,7 @@ public class ChooseFoodFragment extends Fragment {
 
                 @Override
                 public void onError(String error) {
-                    Toast.makeText(getContext(), "Order failed", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getString(R.string.order_failed), Toast.LENGTH_SHORT).show();
 
                 }
             });
@@ -144,7 +144,7 @@ public class ChooseFoodFragment extends Fragment {
     }
 
     private void setSpinner() {
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, new String[]{"Take Away", "Delivery"});
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, new String[]{getString(R.string.take_away), getString(R.string.delivery)});
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
     }
@@ -164,7 +164,7 @@ public class ChooseFoodFragment extends Fragment {
 
         // Create a TextView to display the current value
         final MaterialTextView tvSliderValue = new MaterialTextView(getContext());
-        tvSliderValue.setText("Current value: 0");
+        tvSliderValue.setText(getString(R.string.current_value)+" 0");
         tvSliderValue.setTextSize(18);
         layout.addView(tvSliderValue);
 
@@ -177,19 +177,19 @@ public class ChooseFoodFragment extends Fragment {
 
         // Set a listener to update the TextView as the Slider is moved
         slider.addOnChangeListener((slider1, value, fromUser) -> {
-            tvSliderValue.setText("Current value: " + (int) value);
+            tvSliderValue.setText(getString(R.string.current_value) + (int) value);
         });
 
         // Build and show the AlertDialog
         new AlertDialog.Builder(slider.getContext())
-                .setTitle("Choose a value")
+                .setTitle(getString(R.string.choose_a_value))
                 .setView(layout)
-                .setPositiveButton("OK", (dialog, which) -> {
+                .setPositiveButton(getString(R.string.ok), (dialog, which) -> {
                     // Handle the OK button press
                     int selectedValue = (int) slider.getValue();
                     updateFoodSelection(food, selectedValue);
                 })
-                .setNegativeButton("Cancel", (dialog, which) -> {
+                .setNegativeButton(getString(R.string.cancel), (dialog, which) -> {
                     // Handle the Cancel button press
                 })
                 .show();
@@ -199,7 +199,7 @@ public class ChooseFoodFragment extends Fragment {
 
         final MaterialTextView selectedFoodsTextView = new MaterialTextView(getContext());
         selectedFoodsTextView.setTextSize(18);
-        StringBuilder selectedFoodsText = new StringBuilder("Selected foods so far:\n");
+        StringBuilder selectedFoodsText = new StringBuilder(getString(R.string.selected_foods_so_far));
         for (Food selectedFood : selectedFoods) {
             selectedFoodsText.append(selectedFood.getName())
                     .append(": ")

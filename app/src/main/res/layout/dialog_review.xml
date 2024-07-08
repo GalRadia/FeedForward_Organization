@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="@dimen/default_margin_mid">
 
     <RatingBar
         android:id="@+id/ratingBar"
@@ -18,7 +18,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Your Review">
+        android:hint="@string/your_review">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/reviewText"
