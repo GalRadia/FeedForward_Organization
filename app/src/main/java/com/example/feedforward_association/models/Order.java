@@ -204,7 +204,7 @@ public class Order  {
         objectBoundary.setObjectId(orderID);
         objectBoundary.setType("Order");
         objectBoundary.setAlias(order.getDonatorEmail());
-        objectBoundary.setCreatedBy(new CreatedBy(UserSession.getInstance().getSUPERAPP(), UserSession.getInstance().getUserEmail()));
+        objectBoundary.setCreatedBy(new CreatedBy(UserSession.getInstance().getSUPERAPP(), UserSession.getInstance().getUser().getUserId().getEmail()));
         objectBoundary.setLocation(order.donatorLocation);
         objectBoundary.setActive(true);
         Gson gson = new Gson();

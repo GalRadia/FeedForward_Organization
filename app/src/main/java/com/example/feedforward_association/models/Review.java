@@ -62,14 +62,15 @@ public class Review {
                 ", overview='" + overview + '\'' +
                 ", date='" + date + '\'' + ", rating=" + rating + '}';
     }
-    public ObjectBoundary converToObjectBoundary() {
+    public ObjectBoundary converToObjectBoundary(String email) {
         ObjectBoundary objectBoundary= new ObjectBoundary();
         objectBoundary.setType("Review");
         objectBoundary.setObjectId(new ObjectId(UserSession.getInstance().getSUPERAPP(),this.name));
         objectBoundary.setActive(true);
-        objectBoundary.setCreatedBy(new CreatedBy(UserSession.getInstance().getSUPERAPP(),UserSession.getInstance().getUserEmail()));
+        objectBoundary.setAlias(email);
+        objectBoundary.setCreatedBy(new CreatedBy(UserSession.getInstance().getSUPERAPP(),UserSession.getInstance().getUser().getUserId().getEmail()));
         Gson gson = new Gson();
-        Map<String, Object> orderMap = Map.of("Review",gson.toJson(this, Order.class));
+        Map<String, Object> orderMap = Map.of("Review",gson.toJson(this, Review.class));
         objectBoundary.setObjectDetails(orderMap);
         return objectBoundary;
     }

@@ -33,8 +33,8 @@ public class CurrentOrdersViewModel extends ViewModel {
         repository.getAllOrdersByCommand(callback);
         //repository.getAllOrders(UserSession.getInstance().getSUPERAPP(), UserSession.getInstance().getUserEmail(), 50, 0,callback);
     }
-    public void creatReview(Review review, ApiCallback<ObjectBoundary> callback){
-        ObjectBoundary objectBoundary = review.converToObjectBoundary();
+    public void creatReview(Review review,String email, ApiCallback<ObjectBoundary> callback){
+        ObjectBoundary objectBoundary = review.converToObjectBoundary(email);
         repository.createObject(objectBoundary, callback);
     }
 

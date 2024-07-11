@@ -5,7 +5,9 @@ import androidx.lifecycle.ViewModel;
 import com.example.feedforward_association.interfaces.ApiCallback;
 import com.example.feedforward_association.models.Association;
 import com.example.feedforward_association.models.server.object.ObjectBoundary;
+import com.example.feedforward_association.models.server.user.RoleEnum;
 import com.example.feedforward_association.models.server.user.UserBoundary;
+import com.example.feedforward_association.models.server.user.UserSession;
 import com.example.feedforward_association.utils.Repository;
 
 import java.util.Objects;
@@ -42,17 +44,16 @@ public class SignInViewModel extends ViewModel {
         });
     }
 
-    public void signUp(String email, String username, String avatar, ApiCallback<UserBoundary> callback) {
-        repository.createUser(email, username, avatar, callback);
+    public void signUp(String email, String username, String avatar, RoleEnum role, ApiCallback<UserBoundary> callback) {
+        repository.createUser(email, username, avatar, role,callback);
 
     }
 
-    public void updateProfile(UserBoundary user, String id) {
-        user.setUserName(id);
+    public void updateProfile(UserBoundary user) {
         repository.updateUser(user, new ApiCallback<Void>() {
             @Override
             public void onSuccess(Void result) {
-
+                UserSession.getInstance().setUser(user);
             }
 
             @Override

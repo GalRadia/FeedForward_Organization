@@ -152,8 +152,8 @@ public class CurrentOrdersFragment extends Fragment {
                     String date = now.format(formatter);
                     review.setDate(date);
                     review.setName(order.getAssociationName());
-                    review.setOverview(reviewText.toString());
-                    currentOrdersViewModel.creatReview(review, new ApiCallback<ObjectBoundary>() {
+                    review.setOverview(reviewText.getText().toString());
+                    currentOrdersViewModel.creatReview(review, order.getDonatorEmail(),new ApiCallback<ObjectBoundary>() {
                         @Override
                         public void onSuccess(ObjectBoundary result) {
                             Toast.makeText(getContext(), "Review Submitted", Toast.LENGTH_SHORT).show();

@@ -23,6 +23,7 @@ import com.example.feedforward_association.models.Association;
 import com.example.feedforward_association.models.server.object.Location;
 import com.example.feedforward_association.models.server.object.ObjectBoundary;
 import com.example.feedforward_association.models.server.object.ObjectId;
+import com.example.feedforward_association.models.server.user.RoleEnum;
 import com.example.feedforward_association.models.server.user.UserBoundary;
 import com.example.feedforward_association.models.server.user.UserSession;
 import com.google.android.gms.common.api.Status;
@@ -86,10 +87,11 @@ public class RegisterFragment extends Fragment {
             String email = emailEditText.getText().toString();
             String username = usernameEditText.getText().toString();
             String avatar = "DEFAULT_AVATAR";
-            signInViewModel.signUp(email, username, avatar, new ApiCallback<UserBoundary>() {
+            signInViewModel.signUp(email, username, avatar, RoleEnum.SUPERAPP_USER,new ApiCallback<UserBoundary>() {
                 @Override
                 public void onSuccess(UserBoundary userBoundary) {
                     Toast.makeText(getActivity(), getString(R.string.user_created_successfully), Toast.LENGTH_SHORT).show();
+                    UserSession.getInstance().setUser(userBoundary);
                     Association association = new Association(new ObjectId(UserSession.getInstance().getSUPERAPP(),email), username, AddressEditText.getText().toString(), phoneEditText.getText().toString(), email, new Location(latLng.latitude, latLng.longitude));
                     signInViewModel.createAssociation(association, new ApiCallback<ObjectBoundary>() {
                         @Override
@@ -97,11 +99,12 @@ public class RegisterFragment extends Fragment {
                             Toast.makeText(getActivity(), getString(R.string.association_created_successfully), Toast.LENGTH_SHORT).show();
                             Gson gson = new Gson();
                             Association association = gson.fromJson((String) objectBoundary.getObjectDetails().get("Association"), Association.class);
+                            association.setAssociationId(objectBoundary.getObjectId());
                             UserSession.getInstance().setAssociation(association);
-                            signInViewModel.updateProfile(userBoundary, objectBoundary.getObjectId().getId());
+                            userBoundary.setUserName(objectBoundary.getObjectId().getId());
+                            userBoundary.setRole(RoleEnum.MINIAPP_USER);
+                            signInViewModel.updateProfile(userBoundary);
                             Toast.makeText(getActivity(), getString(R.string.profile_updated_successfully), Toast.LENGTH_SHORT).show();
-                            UserSession.getInstance().setUserEmail(email);
-                            UserSession.getInstance().setBoundaryId(objectBoundary.getObjectId().getId());
                             Toast.makeText(getActivity(), getString(R.string.association_created_successfully), Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(getContext(), MainActivity.class);
                             startActivity(intent);

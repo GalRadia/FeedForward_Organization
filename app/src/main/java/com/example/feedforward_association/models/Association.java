@@ -4,6 +4,7 @@ import com.example.feedforward_association.models.server.object.CreatedBy;
 import com.example.feedforward_association.models.server.object.Location;
 import com.example.feedforward_association.models.server.object.ObjectBoundary;
 import com.example.feedforward_association.models.server.object.ObjectId;
+import com.example.feedforward_association.models.server.user.UserSession;
 import com.google.gson.Gson;
 
 import java.util.Map;
@@ -93,7 +94,7 @@ public class Association {
         objectBoundary.setAlias(this.associationEmail);
         objectBoundary.setActive(true);
         objectBoundary.setLocation(this.associationLocation);
-        objectBoundary.setCreatedBy(new CreatedBy("2024b.gal.said", associationEmail));
+        objectBoundary.setCreatedBy(new CreatedBy(UserSession.getInstance().getSUPERAPP(), associationEmail));
         Map<String, Object> objectDetails = Map.of("Association", gson.toJson(this, Association.class));
         objectBoundary.setObjectDetails(objectDetails);
         return objectBoundary;

@@ -89,8 +89,11 @@ public class ChooseFoodFragment extends Fragment {
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         finishButton.setOnClickListener(v -> {
-            //TODO dialog who carries
-
+            if(selectedFoods.isEmpty())
+            {
+                Toast.makeText(getContext(), getString(R.string.no_selected_foods), Toast.LENGTH_SHORT).show();
+                return;
+            }
             LocalDateTime now = LocalDateTime.now();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             // Format the current date and time

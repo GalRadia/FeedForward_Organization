@@ -134,7 +134,7 @@ public class Restaurant {
         objectBoundary.setObjectId(restaurantId);
         objectBoundary.setType("Restaurant");
         objectBoundary.setAlias(restaurantEmail);
-        objectBoundary.setCreatedBy(new CreatedBy(UserSession.getInstance().getSUPERAPP(), UserSession.getInstance().getUserEmail()));
+        objectBoundary.setCreatedBy(new CreatedBy(UserSession.getInstance().getSUPERAPP(), UserSession.getInstance().getUser().getUserId().getEmail()));
         objectBoundary.setLocation(restaurantLocation);//TODO: get location from device
         objectBoundary.setActive(true);
         Gson gson = new Gson();

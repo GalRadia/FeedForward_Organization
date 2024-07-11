@@ -4,9 +4,8 @@ import com.example.feedforward_association.models.Association;
 
 public class UserSession {
     private static UserSession instance;
-    private String boundaryId;
-    private String userEmail;
-    private final String SUPERAPP= "2024b.gal.said";
+    private UserBoundary user;
+    private final  String SUPERAPP = "2024b.gal.said";
     private Association association;
 
 
@@ -16,6 +15,16 @@ public class UserSession {
 
     public UserSession setAssociation(Association association) {
         this.association = association;
+        return this;
+    }
+
+
+    public UserBoundary getUser() {
+        return user;
+    }
+
+    public UserSession setUser(UserBoundary user) {
+        this.user = user;
         return this;
     }
 
@@ -32,24 +41,7 @@ public class UserSession {
         return instance;
     }
 
-    public void setBoundaryId(String boundaryId) {
-        this.boundaryId = boundaryId;
-    }
 
-    public String getBoundaryId() {
-        return boundaryId;
-    }
 
-    public void setUserEmail(String userEmail) {
-        this.userEmail = userEmail;
-    }
 
-    public String getUserEmail() {
-        return userEmail;
-    }
-
-    public void clearSession() {
-        this.boundaryId = null;
-        this.userEmail = null;
-    }
 }

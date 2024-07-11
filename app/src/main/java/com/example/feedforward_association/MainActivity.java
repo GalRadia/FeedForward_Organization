@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         Repository repository = Repository.getInstance();
         Restaurant restaurant = new Restaurant();
         restaurant.setRestaurantName("mcDonalds");
-        restaurant.setRestaurantEmail(UserSession.getInstance().getUserEmail());
+        restaurant.setRestaurantEmail(UserSession.getInstance().getUser().getUserId().getEmail());
         restaurant.setRestaurantPhone("054-1234567");
         restaurant.setRestaurantAddress("Hertzel 1, Tel Aviv");
         restaurant.setRestaurantLocation(new Location(32.1234, 34.1234));

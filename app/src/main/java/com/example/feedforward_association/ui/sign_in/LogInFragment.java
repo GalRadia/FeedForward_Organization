@@ -60,8 +60,7 @@ public class LogInFragment extends Fragment {
             signInViewModel.logIn(email, new ApiCallback<UserBoundary>() {
                 @Override
                 public void onSuccess(UserBoundary result) {
-                    UserSession.getInstance().setUserEmail(result.getUserId().getEmail());
-                    UserSession.getInstance().setBoundaryId(result.getUserName());
+                    UserSession.getInstance().setUser(result);
                     Toast.makeText(getContext(), getString(R.string.logged_in_successfully), Toast.LENGTH_SHORT).show();
 
                     signInViewModel.fetchAssociation(result.getUserName(), result.getUserId().getEmail(), UserSession.getInstance().getSUPERAPP(), UserSession.getInstance().getSUPERAPP(), new ApiCallback<Association>() {
