@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">FeedForward Association</string>
     <string name="title_home">בית</string>
-    <string name="title_current_orders">הזמנות נוכחיות</string>
+    <string name="title_current_orders">הזמנות שלי</string>
     <string name="title_update">עדכן פרופיל</string>
     <!-- Strings related to login -->
     <string name="prompt_email">אימייל</string>
@@ -27,7 +27,6 @@
     <string name="add_food_button">כפתור הוסף אוכל</string>
     <string name="finish">סיים</string>
     <string name="choose_food">בחר אוכל</string>
-    <string name="ongoing_order">הזמנה נמשכת</string>
     <string name="pending">ממתין</string>
     <string name="ongoing">מתמשך</string>
     <string name="finished">הסתיים</string>

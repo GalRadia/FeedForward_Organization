@@ -10,7 +10,7 @@
         android:id="@+id/TXT_Ongoing_Order"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/ongoing_order"
+        android:text="@string/title_current_orders"
         android:textAlignment="center"
         android:textSize="@dimen/txt_title_size"
         app:layout_constraintEnd_toEndOf="parent"

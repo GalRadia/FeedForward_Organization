@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">FeedForward Association</string>
     <string name="title_home">Home</string>
-    <string name="title_current_orders">Current Orders</string>
+    <string name="title_current_orders">My Orders</string>
     <string name="title_update">Update Profile</string>
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -26,7 +26,6 @@
     <string name="add_food_button">Add Food Button</string>
     <string name="finish">Finish</string>
     <string name="choose_food">Choose Food</string>
-    <string name="ongoing_order">Ongoing Order</string>
     <string name="pending">Pending</string>
     <string name="ongoing">Ongoing</string>
     <string name="finished">Finished</string>
