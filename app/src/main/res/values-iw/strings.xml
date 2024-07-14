@@ -81,4 +81,6 @@
     <string name="name_cannot_be_empty">השם לא יכול להיות ריק</string>
     <string name="address_cannot_be_empty">הכתובת לא יכולה להיות ריקה</string>
     <string name="phone_cannot_be_empty">הטלפון לא יכול להיות ריק</string>
+    <string name="cant_write_a_review">לא ניתן לרשום ביקורת</string>
+    <string name="review_submitted">ביקורת הועלתה</string>
 </resources>

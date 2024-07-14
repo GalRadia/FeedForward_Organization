@@ -23,7 +23,6 @@ public class HomeViewModel extends AndroidViewModel {
 
     public HomeViewModel(Application application) {
         super(application);
-        Log.d("HomeViewModel", "Initializing HomeViewModel...");
 
         repository = Repository.getInstance();
     }

@@ -81,4 +81,6 @@
     <string name="address_cannot_be_empty">Address cannot be empty</string>
     <string name="phone_cannot_be_empty">Phone cannot be empty</string>
     <string name="no_selected_foods">No selected foods</string>
+    <string name="cant_write_a_review">Cant Write a review</string>
+    <string name="review_submitted">Review Submitted</string>
 </resources>

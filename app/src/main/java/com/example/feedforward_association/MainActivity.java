@@ -39,7 +39,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-      //  initData();
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -58,59 +57,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void CheckPremmitions() {
-
-        ActivityResultContracts.RequestMultiplePermissions requestMultiplePermissions = new ActivityResultContracts.RequestMultiplePermissions();
-        requestMultiplePermissions.createIntent(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION});
-
-    }
-
-    private void initData() {
-//        Association association = new Association();
-//        association.setAssociationName("LATET");
-//        association.setAssociationEmail("Gal@mail.com");
-//        association.setAssociationPhone("054-1234567");
-//        association.setAssociationAddress("Hertzel 1, Tel Aviv");
-//        association.setAssociationLocation(new Location(32.1234, 34.1234));
-//        association.setAssociationId(new ObjectId("2024b.gal.said", "123"));
-        Repository repository = Repository.getInstance();
-        Restaurant restaurant = new Restaurant();
-        restaurant.setRestaurantName("mcDonalds");
-        restaurant.setRestaurantEmail(UserSession.getInstance().getUser().getUserId().getEmail());
-        restaurant.setRestaurantPhone("054-1234567");
-        restaurant.setRestaurantAddress("Hertzel 1, Tel Aviv");
-        restaurant.setRestaurantLocation(new Location(32.1234, 34.1234));
-        ArrayList<Food> storage = new ArrayList<>();
-        storage.add(new Food( "Big Mac", "KOSHER", 20,"11/10/2010"));
-        storage.add(new Food( "Fries", "VEGAN", 10,"11/10/2010"));
-        storage.add(new Food( "Coca Cola", "VEGI", 5,"11/10/2010"));
-
-        restaurant.setStorage(storage);
-        restaurant.setRestaurantId(new ObjectId(UserSession.getInstance().getSUPERAPP(), "123"));
-        repository.createObject(restaurant.toObjectBoundary(), new ApiCallback<ObjectBoundary>() {
-            @Override
-            public void onSuccess(ObjectBoundary result) {
-                Toast.makeText(MainActivity.this, "Restaurant created", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onError(String error) {
-                Toast.makeText(MainActivity.this, "Restaurant not created", Toast.LENGTH_SHORT).show();
-            }
-        });
-//        repository.createAssociation(association, new ApiCallback<ObjectBoundary>() {
-//            @Override
-//            public void onSuccess(ObjectBoundary result) {
-//
-//            }
-//
-//            @Override
-//            public void onError(String error) {
-//
-//            }
-//        });
-
-    }
     @Override
     public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);

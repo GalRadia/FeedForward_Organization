@@ -64,7 +64,6 @@ public class HomeFragment extends Fragment {
                     } else if (coarseLocationGranted != null && coarseLocationGranted) {
                         getCurrentLocation();
                     } else {
-                        Log.e("HomeFragment", "Location permission not granted");
                     }
                 }
         );
@@ -105,14 +104,11 @@ public class HomeFragment extends Fragment {
         homeViewModel.getRestaurants(new ApiCallback<List<Restaurant>>() {
             @Override
             public void onSuccess(List<Restaurant> restaurants) {
-                Toast.makeText(getContext(), "Success + " + restaurants.size(), Toast.LENGTH_SHORT).show();
                 adapter.setRestaurants(restaurants);
             }
 
             @Override
             public void onError(String error) {
-                Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
-                Log.d("HomeFragment", "onError: " + error);
             }
         });
 
@@ -144,8 +140,6 @@ public class HomeFragment extends Fragment {
 
                         @Override
                         public void onError(String error) {
-                            Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
-                            Log.d("HomeFragment", "onError: " + error);
                         }
                     });
                 } else {
@@ -169,8 +163,6 @@ public class HomeFragment extends Fragment {
             if (location != null) {
                 currentLocation = location;
                 homeViewModel.setCurrentLocation(location);
-            } else {
-                Log.e("HomeFragment", "Location is null");
             }
         });
     }

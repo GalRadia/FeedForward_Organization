@@ -103,7 +103,7 @@ public class CurrentOrdersFragment extends Fragment {
             switch (order.getOrderStatus()) {
                 case PENDING:
                 case ACTIVE:
-                    Toast.makeText(getContext(), "Cant Write a review", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getString(R.string.cant_write_a_review), Toast.LENGTH_SHORT).show();
                     break;
                 case DELIVERED:
                     showRateReviewDialog(order);
@@ -156,12 +156,11 @@ public class CurrentOrdersFragment extends Fragment {
                     currentOrdersViewModel.creatReview(review, order.getDonatorEmail(),new ApiCallback<ObjectBoundary>() {
                         @Override
                         public void onSuccess(ObjectBoundary result) {
-                            Toast.makeText(getContext(), "Review Submitted", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), getString(R.string.review_submitted), Toast.LENGTH_SHORT).show();
                         }
 
                         @Override
                         public void onError(String error) {
-                            Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }

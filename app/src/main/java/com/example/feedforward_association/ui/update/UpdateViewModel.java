@@ -18,7 +18,6 @@ public class UpdateViewModel extends ViewModel {
 
     public void updateAssociation(Association association, ApiCallback<Void> callback) {
 
-        // repository.updateAssociation(association,callback);
         ObjectBoundary associationBoundary = association.toObjectBoundary();
         repository.updateObject(associationBoundary, callback);
     }

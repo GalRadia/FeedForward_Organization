@@ -53,7 +53,7 @@ public class SignInViewModel extends ViewModel {
         repository.updateUser(user, new ApiCallback<Void>() {
             @Override
             public void onSuccess(Void result) {
-                UserSession.getInstance().setUser(user);
+                UserSession.getInstance().setUser(user); // update user session
             }
 
             @Override

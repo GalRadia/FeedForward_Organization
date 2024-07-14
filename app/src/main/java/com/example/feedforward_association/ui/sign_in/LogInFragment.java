@@ -60,13 +60,13 @@ public class LogInFragment extends Fragment {
             signInViewModel.logIn(email, new ApiCallback<UserBoundary>() {
                 @Override
                 public void onSuccess(UserBoundary result) {
-                    UserSession.getInstance().setUser(result);
+                    UserSession.getInstance().setUser(result);// save user in session
                     Toast.makeText(getContext(), getString(R.string.logged_in_successfully), Toast.LENGTH_SHORT).show();
 
                     signInViewModel.fetchAssociation(result.getUserName(), result.getUserId().getEmail(), UserSession.getInstance().getSUPERAPP(), UserSession.getInstance().getSUPERAPP(), new ApiCallback<Association>() {
                         @Override
                         public void onSuccess(Association result) {
-                            UserSession.getInstance().setAssociation(result);
+                            UserSession.getInstance().setAssociation(result); // save association in session
                             Intent intent = new Intent(getContext(), MainActivity.class);
                             startActivity(intent);
                         }

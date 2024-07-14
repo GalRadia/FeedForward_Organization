@@ -91,7 +91,6 @@ public class RegisterFragment extends Fragment {
                 @Override
                 public void onSuccess(UserBoundary userBoundary) {
                     Toast.makeText(getActivity(), getString(R.string.user_created_successfully), Toast.LENGTH_SHORT).show();
-                    UserSession.getInstance().setUser(userBoundary);
                     Association association = new Association(new ObjectId(UserSession.getInstance().getSUPERAPP(),email), username, AddressEditText.getText().toString(), phoneEditText.getText().toString(), email, new Location(latLng.latitude, latLng.longitude));
                     signInViewModel.createAssociation(association, new ApiCallback<ObjectBoundary>() {
                         @Override
@@ -100,7 +99,7 @@ public class RegisterFragment extends Fragment {
                             Gson gson = new Gson();
                             Association association = gson.fromJson((String) objectBoundary.getObjectDetails().get("Association"), Association.class);
                             association.setAssociationId(objectBoundary.getObjectId());
-                            UserSession.getInstance().setAssociation(association);
+                            UserSession.getInstance().setAssociation(association);//save association in user session
                             userBoundary.setUserName(objectBoundary.getObjectId().getId());
                             userBoundary.setRole(RoleEnum.MINIAPP_USER);
                             signInViewModel.updateProfile(userBoundary);
@@ -122,7 +121,6 @@ public class RegisterFragment extends Fragment {
                 @Override
                 public void onError(String error) {
                     Toast.makeText(getActivity(),getString(R.string.email_allready_exists), Toast.LENGTH_SHORT).show();
-                    Log.e("RegisterFragment", "onError: " + error);
 
                 }
             });
@@ -172,7 +170,6 @@ public class RegisterFragment extends Fragment {
 
             @Override
             public void onError(@NonNull Status status) {
-                Log.e("Places test", "An error occurred: " + status);
             }
         });
 
