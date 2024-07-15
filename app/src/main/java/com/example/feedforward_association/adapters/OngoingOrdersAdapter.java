@@ -61,7 +61,7 @@ public class OngoingOrdersAdapter extends RecyclerView.Adapter<OngoingOrdersAdap
                 holder.statusButton.setIcon(context.getDrawable(R.drawable.ic_pending));
                 break;
             case DELIVERED:
-                holder.statusButton.setTooltipText(context.getString(R.string.finish) +"\n"+
+                holder.statusButton.setTooltipText(context.getString(R.string.finish) + "\n" +
                         context.getString(R.string.write_a_review));
                 holder.statusButton.setIcon(context.getDrawable(R.drawable.ic_done));
                 break;
@@ -73,10 +73,10 @@ public class OngoingOrdersAdapter extends RecyclerView.Adapter<OngoingOrdersAdap
         }
         StringBuilder items = new StringBuilder();
         for (Food food : order.getFoods()) {
-            items.append(food.getName()).append(", ");
+            items.append(food.getName() + " x" + food.getAmount()).append("\n");
         }
-        if (items.charAt(items.length() - 1) == ' ')
-            items.deleteCharAt(items.length() - 2);
+        if (items.charAt(items.length() - 1) == ',')
+            items.deleteCharAt(items.length() - 1);
         holder.foodItems.setText(items);//TODO: Implement a way to show the food items
         holder.statusButton.setOnClickListener(v -> {
             if (ongoingDonationCallback != null) {
@@ -92,12 +92,11 @@ public class OngoingOrdersAdapter extends RecyclerView.Adapter<OngoingOrdersAdap
         this.originalOrders = orders != null ? orders : new ArrayList<>();
         filterDonationsByStatus(this.currentFilterStatuses);
     }
+
     private void setFadeAnimation(View view) {
         Animation scale_up = AnimationUtils.loadAnimation(context, R.anim.scale_up);
         view.startAnimation(scale_up);
     }
-
-
 
 
     public void filterDonationsByStatus(List<OrderStatus> statuses) {

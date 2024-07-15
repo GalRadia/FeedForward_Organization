@@ -85,8 +85,8 @@ public class RegisterFragment extends Fragment {
                 return;
             }
             String email = emailEditText.getText().toString();
-            String username = usernameEditText.getText().toString();
             String avatar = "DEFAULT_AVATAR";
+            String username = usernameEditText.getText().toString();
             signInViewModel.signUp(email, username, avatar, RoleEnum.SUPERAPP_USER,new ApiCallback<UserBoundary>() {
                 @Override
                 public void onSuccess(UserBoundary userBoundary) {
@@ -162,8 +162,9 @@ public class RegisterFragment extends Fragment {
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(@NonNull Place place) {
-                AddressEditText.setText(place.getName());
+                AddressEditText.setText(place.getAddress());
                 latLng = place.getLatLng();
+                usernameEditText.setText(place.getName());
 
 
             }
