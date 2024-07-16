@@ -42,6 +42,11 @@ The FeedForward Association App is an Android application designed to facilitate
 ```
 MAPS_API_KEY=YOUR_API_KEY
 ```
+4.  **Configure Retrofit**:
+    Change the BaseURL to the path of the server with yourIP.
+    for example ```http://10.0.2.2:8084/```
+   
+    ```10.0.2.2``` is the ip for the emulator in android studio.
 ## Application Flow
 
 [](https://github.com/TzachiPinhas/Miniapp_Restaurant#application-flow)
